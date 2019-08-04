@@ -1,0 +1,121 @@
+jQuery.each(["put", "delete", "post"], function (i, method) {
+    jQuery[method] = function (url, data, callback) {
+        if (jQuery.isFunction(data)) {
+            type = type || callback;
+            callback = data;
+            data = undefined;
+        }
+
+        return jQuery.ajax({
+            url: url,
+            type: method,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: data,
+            success: callback,
+            error: function (data) {
+                console.log("error");
+                console.log(data);
+            }
+        });
+    };
+});
+
+function registration() {
+    var username = $(".user_name").val();
+    var password = $(".user_password").val();
+    var password2 = $(".user_password2").val();
+    var email = $(".email").val();
+    var captchaConfirm = grecaptcha.getResponse();
+
+    var newUser = {
+        username: username,
+        password: password,
+        email: email
+    }
+    var jsonUser = JSON.stringify(newUser);
+    $.post("http://localhost:8080/registration?username=" + username + "&g-recaptcha-response=" + captchaConfirm +
+        "&password=" + password + "&password2=" +
+        password2 + "&email=" + email, jsonUser, function (data) {
+
+            if (data[0] === "/login") {
+                relocation(data[0]);
+            } else {
+                showErrors(data);
+
+            }
+
+        }
+    )
+    ;
+}
+
+function relocation(data) {
+    location.href = data;
+}
+
+$(document).ready(function () {
+});
+
+function showErrors(data) {
+    console.log(data[1]);
+    var pasError;
+    var usrNameError;
+    var emailError;
+
+    var usrError = data[2];
+    var pas2Error = data[1];
+    var pas2Empty = data[3];
+    var captchaError = data[4];
+    for (var i = 5; i < data.length; i++) {
+        if (data[i] === null) {
+
+        } else {
+            if (data[i].indexOf("Email") !== -1) {
+                emailError = data[i];
+            }
+            if (data[i].indexOf("Password") !== -1) {
+                pasError = data[i];
+            }
+            if (data[i].indexOf("User") !== -1) {
+                usrNameError = data[i];
+            }
+        }
+    }
+    if (usrNameError != null) {
+        $("#usr").text(usrNameError);
+    } else {
+        $("#usr").text('');
+    }
+    if (usrError != null) {
+        $(".error").text(usrError);
+    } else {
+        $(".error").text('');
+    }
+    if (captchaError != null) {
+        $(".capt").text(captchaError);
+    } else {
+        $(".capt").text('');
+    }
+    if (pasError != null) {
+        $("#pas1").text(pasError);
+    } else {
+        $("#pas1").text('');
+    }
+    if (pas2Empty != null) {
+        $("#pas2").text(pas2Empty);
+    } else {
+        if (pas2Error != null) {
+            $("#pas2").text(pas2Error);
+        } else {
+            $("#pas2").text('');
+        }
+    }
+    if (emailError != null) {
+        $("#email").text(emailError);
+    } else {
+        $("#email").text('');
+    }
+
+
+}
