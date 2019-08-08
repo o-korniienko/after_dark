@@ -1,17 +1,28 @@
 $(document).ready(function () {
-    getActiveuser();
+    isActiveUser();
+    (function () {
+        var date = new Date();
+        var h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        var m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        var s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        var time = h + ":" + m + ":" + s;
+        $("#aT").text(time);
+        window.setTimeout(arguments.callee, 1000);
 
+    })();
 
 });
 
-function getActiveuser() {
+function isActiveUser() {
     $.get("http://localhost:8080/active", function (resp) {
         user = resp;
         if (resp === "") {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
         } else {
-            console.log(user.username);
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");
             $(".registration").css("display", "none");
@@ -26,9 +37,6 @@ function getActiveuser() {
 function addAllCharactersInDB() {
     $("user").text(user);
     $.get("http://localhost:8080/fillCharacters", function (resp) {
-        for (var i = 0; i < resp.length; i++) {
-            console.log(resp[i]);
-        }
     })
 }
 function isAdmin(roles) {

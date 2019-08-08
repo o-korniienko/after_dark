@@ -7,41 +7,44 @@
     <script th:inline="javascript">
         var user = [[${user}]];
     </script>
+    <link rel="stylesheet" href="/static/css/top.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 </head>
 <body>
 <section class="top">
     <p><a th:href="@{/}" class="icon">After Dark</a></p>
-    <p><a th:href="@{/main}" class="cabinet"></a></p>
-    <p><a th:href="@{/users/profile}">Profile</a></p>
     <form th:action="@{/logout}" method="post" class="logout">
         <input type="submit" value="Sign Out"/>
     </form>
+    <p><a th:href="@{/main}" class="cabinet"></a></p>
     <p><a th:href="@{/login}" class="login">Login</a></p>
     <p><a th:href="@{/registration}" class="registration">Registration</a></p>
+    <p><a th:href="@{/users/profile}">Profile</a></p>
 </section>
 
-<section class="filter_characters">
-    <input class="filter_characters" type="text">
-    <button type="button" onclick="filter()">Show</button>
-</section>
 <div class="lab">Your characters</div>
 
 <section class="characters">
     <input type="text" id="new_char">
     <button type="button" id="add_char" onclick="addCharToUser()">Add Character</button>
-    <table>
-        <tbody id="body">
-        <tr id="titles">
-            <th class="head">Name</th>
-            <th class="head">Class</th>
-            <th class="head">Level</th>
-            <th class="head">Rang</th>
-            <th class="head">Links</th>
-        </tr>
+        <table id="myTable">
+            <thead id="titles">
+            <tr>
+                <th class="head">Name</th>
+                <th class="head">Rang</th>
+                <th class="head">Level</th>
+                <th class="head">Class</th>
+                <th class="head">Links</th>
+            </tr>
+            </thead>
+            <tbody id="body">
 
-        </tbody>
-    </table>
+
+            </tbody>
+        </table>
 
 </section>
 <section id="inform">
@@ -49,5 +52,13 @@
 </section>
 
 <script src="/static/js/main.js"></script>
+<footer>
+    <div id="contacts">
+        <div id="vk" onclick="vk()">VK |</div>
+        <div id="dis" onclick="discord()">Discord</div>
+    </div>
+    <div id="aT">
+    </div>
+</footer>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.work.olexii.after_dark.service;
 
-import com.work.olexii.after_dark.domain.Character;
 import com.work.olexii.after_dark.domain.Role;
 import com.work.olexii.after_dark.domain.User;
 import com.work.olexii.after_dark.repos.UserRepo;
@@ -54,7 +53,7 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
-                            "Welcome to Sweater. Please , visit next link: http://localhost:8080/activate/%s",
+                            "Welcome to After Dark. Please , visit next link: http://localhost:8080/activate/%s",
                     user.getUsername(),
                     user.getActivationCode()
             );

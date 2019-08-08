@@ -1,10 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>About After Dark</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/css/inform.css">
+    <link rel="stylesheet" href="/static/css/top.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
 </head>
 <body>
+<div id="main">
+    <header>
+        <section class="top">
+            <a th:href="@{/}" class="icon">After Dark</a>
+            <form th:action="@{/logout}" method="post" class="logout">
+                <input type="submit" value="Sign Out"/>
+            </form>
+            <a th:href="@{/main}" class="cabinet"></a>
+            <a th:href="@{/login}" class="login">Login</a></p>
+            <a th:href="@{/registration}" class="registration">Registration</a>
+        </section>
+    </header>
+    <div id="menu">
+        <button id="menu1" class="vmenu">Guild team</button>
+        <button id="menu2" class="vmenu">Organization chart</button>
+        <button id="menu3" class="vmenu">Задача 3</button>
+        <button id="menu4" class="vmenu">Задача 4</button>
+        <button id="menu5" class="vmenu">Задача 5</button>
+    </div>
+    <div id="content">
+        <div id="team" style="display:none;">
+            <table id="myTable">
+                <thead id="titles">
+                <tr>
+                    <th class="head">Name</th>
+                    <th class="head">Rang</th>
+                    <th class="head">Level</th>
+                    <th class="head">Class</th>
+                    <th class="head">Links</th>
+                </tr>
+                </thead>
+                <tbody id="body">
 
+
+                </tbody>
+            </table>
+        </div>
+
+        <div id="chart" style="display:none;">
+            <p id="chartID" style="display:none;"></p>
+            <pre  id="chartText"></pre>
+            <button type="button" onclick="updateChart()" id="updateC">Update Chart</button>
+
+        </div>
+        <div id="chartEditing" style="display:none;">
+            <textarea id="changedChart"></textarea>
+            <button id="change" onclick="changeChart()">Change</button>
+            <button id="cancel" onclick="goBack()">Cancel</button>
+        </div>
+
+        <div id="registration" style="display:none;">
+
+        </div>
+
+        <div id="game" style="display:none;">
+
+
+        </div>
+
+        <div id="reversStr" style="display:none;">
+
+        </div>
+    </div>
+    <footer>
+        <div id="contacts">
+            <div id="vk" onclick="vk()">VK |</div>
+            <div id="dis" onclick="discord()">Discord</div>
+        </div>
+        <div id="aT">
+        </div>
+    </footer>
+</div>
+<script src="/static/js/inform.js"></script>
 </body>
 </html>

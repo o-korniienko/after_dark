@@ -45,11 +45,8 @@ public class RegistrationController {
 
         String[] models = new String[8];
         String url = String.format(CAPTCHA_URL, secret, captchaResponse);
-        System.out.println(url + " url");
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(),
                 CaptchaResponseDto.class);
-        System.out.println(response + " response");
-        System.out.println(response.isSuccess() + " - here captcha");
         if (!response.isSuccess()){
             models[4] = "Fill captcha";
         }
@@ -63,7 +60,6 @@ public class RegistrationController {
         }
         if (bindingResult.hasErrors() || !response.isSuccess() || isConfirmEmpty) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            System.out.println(errors);
             int mds = 5;
             for (String error : errors.values()) {
                 models[mds] = error;

@@ -92,7 +92,7 @@ public class CharacterService {
             case "Рыцарь смерти":character.setClassEn(ClassEn.DeathKnight);
                 character.setClassRu(ClassRu.Рыцарь_смерти);
                 break;
-            case "":character.setClassEn(ClassEn.DemonHunter);
+            case "Охотник на демонов":character.setClassEn(ClassEn.DemonHunter);
                 character.setClassRu(ClassRu.Охотник_на_демонов);
                 break;
 
@@ -138,4 +138,5 @@ public class CharacterService {
     public void save(Character character) {
         characterRepo.save(character);
     }
+
 }

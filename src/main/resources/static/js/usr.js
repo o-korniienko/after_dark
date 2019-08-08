@@ -2,6 +2,19 @@ var usr = users;
 
 $(document).ready(function () {
     getUsers();
+    (function () {
+        var date = new Date();
+        var h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        var m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        var s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        var time = h + ":" + m + ":" + s;
+        $("#aT").text(time);
+        window.setTimeout(arguments.callee, 1000);
+
+    })();
 });
 
 function getUsers() {

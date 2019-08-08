@@ -1,0 +1,27 @@
+.icon {
+    display: inline-block
+}
+
+.cabinet {
+    display: inline-block;
+    float: right;
+    position: relative;
+    right: 1%;
+}
+
+.logout {
+    display: inline-block;
+    float: right
+}
+
+.login {
+    display: inline-block;
+    float: right
+}
+
+.registration {
+    display: inline-block;
+    float: right;
+    position: relative;
+    right: 1%;
+}

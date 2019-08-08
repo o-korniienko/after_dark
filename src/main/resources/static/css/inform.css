@@ -1,0 +1,255 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+#main {
+    height: 100%;
+}
+
+header {
+    width: 100%;
+    height: 5%;
+    background-color: lightslategray;
+}
+
+#menu {
+   min-height: 10%;
+    width: 100%;
+    float: top;
+    background-color: teal;
+}
+
+#content {
+    width: 100%;
+    float: left;
+    background-color: teal;
+}
+#content{
+    min-height: 80%;
+    padding-bottom: 0px;
+    display: table-cell;
+    height: auto;
+    overflow: hidden;
+}
+
+footer {
+    width: 100%;
+    height: 5%;
+    position: relative;
+    background-color: black;
+    clear: both;
+}
+
+#aT {
+    width: 30%;
+    height: 50%;
+    background-color: black;
+    color: teal;
+    text-align: center;
+    position: relative;
+    left: 35%;
+    top: 30%;
+    display: inline-block
+}
+
+#contacts {
+    width: 30%;
+    height: 50%;
+    background-color: black;
+    color: teal;
+    text-align: center;
+    position: relative;
+    top: 30%;
+    display: inline-block
+}
+
+#vk {
+    display: inline-block
+}
+
+#dis {
+    display: inline-block
+}
+
+
+.vmenu {
+    width: 10%;
+    height: 5%;
+    display: inline-block;
+    overflow: hidden;
+    background-color: orange;
+    text-align: center;
+}
+
+.vmenu:hover {
+    background-color: red;
+    color: white;
+    width: 10%;
+}
+
+
+#chart {
+    width: 100%;
+    height: 30%;
+    position: relative;
+    top: 25%;
+    left: 1%;
+    margin: 0 auto;
+
+}
+#chartText{
+    width: 90%;
+    font-size: 16px;
+}
+
+#changedChart{
+    width: 80%;
+    height: 70%;
+}
+
+.button {
+    background: #201e40;
+    color: #6cacc5;
+    cursor: pointer;
+    float: left;
+    margin: 0.25em;
+    width: 4em;
+    height: 4em;
+    transition: all 0.5s;
+}
+
+#viewer {
+    color: black;
+    float: left;
+    line-height: 4em;
+    text-align: right;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 6.5em;
+    height: 4em;
+    transition: all 0.5s;
+    font-size: 20px;
+}
+
+.button:hover {
+    background: aqua;
+    color: red;
+}
+
+
+#team {
+    width: 45%;
+    height: 10%;
+    position: relative;
+    top: 2%;
+    margin: 0 auto;
+    background-color: teal;
+    color: black;
+    text-align: center;
+    font-size: 14px;
+}
+
+
+#registration {
+    width: 65%;
+    height: 55%;
+    position: relative;
+    top: 20%;
+    margin: 0 auto;
+    background-color: teal;
+}
+
+.b1 {
+    width: 25%;
+    position: relative;
+    left: 25.7%;
+}
+
+.b2 {
+    width: 25%;
+    position: relative;
+    left: 21.1%;
+}
+
+.b3 {
+    width: 25%;
+    position: relative;
+    left: 24.5%;
+}
+
+.b4 {
+    width: 25%;
+    position: relative;
+    left: 22.9%;
+}
+
+.b5 {
+    width: 25%;
+    position: relative;
+    left: 14.9%;
+}
+
+#reqist {
+    width: 15%;
+    height: 15%;
+    position: relative;
+    top: 40%;
+    left: 31%;
+}
+
+
+#reversStr {
+    margin: 0 auto;
+}
+
+.r1 {
+    width: 25%;
+    position: absolute;
+    left: 40%;
+    margin-top: 10%;
+}
+
+.r2 {
+    width: 25%;
+    position: absolute;
+    left: 58%;
+    margin-top: 10%;
+}
+
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+#game {
+    margin: 0 auto;
+}
+
+#tabl {
+    width: 55%;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 3%;
+}
+
+.timer-block {
+    text-align: center;
+    font-size: 24px;
+    color: salmon;
+    font-weight: 600;
+}
+
+#time {
+    color: rgb(103, 13, 61);
+    font-weight: 800;
+}
