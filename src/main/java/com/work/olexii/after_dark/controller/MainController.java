@@ -37,4 +37,10 @@ public class MainController {
         return user;
     }
 
+    @GetMapping("/chat_room")
+    public String chat(@AuthenticationPrincipal User user, Model model){
+        model.addAttribute(user);
+        return "/chat_room";
+    }
+
 }

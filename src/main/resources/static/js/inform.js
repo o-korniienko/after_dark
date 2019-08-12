@@ -40,10 +40,11 @@ $(document).ready(function () {
 
     document.getElementById("menu1").onclick = function () {
         document.getElementById("reversStr").style.display = "none";
-        document.getElementById("registration").style.display = "none";
+        document.getElementById("recruiting").style.display = "none";
         document.getElementById("chart").style.display = "none";
         document.getElementById("game").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
+        document.getElementById("recruitEditing").style.display = "none";
         document.getElementById("team").style.display = "block";
         getAllcharacters();
 
@@ -51,9 +52,10 @@ $(document).ready(function () {
     document.getElementById("menu2").onclick = function () {
         document.getElementById("reversStr").style.display = "none";
         document.getElementById("team").style.display = "none";
-        document.getElementById("registration").style.display = "none";
+        document.getElementById("recruiting").style.display = "none";
         document.getElementById("game").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
+        document.getElementById("recruitEditing").style.display = "none";
         document.getElementById("chart").style.display = "block";
         getChart();
     }
@@ -63,16 +65,19 @@ $(document).ready(function () {
         document.getElementById("chart").style.display = "none";
         document.getElementById("game").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
-        document.getElementById("registration").style.display = "block";
+        document.getElementById("recruitEditing").style.display = "none";
+        document.getElementById("recruiting").style.display = "block";
+        getRecruitingText();
     }
 
 
     document.getElementById("menu4").onclick = function () {
         document.getElementById("reversStr").style.display = "none";
         document.getElementById("team").style.display = "none";
-        document.getElementById("registration").style.display = "none";
+        document.getElementById("recruiting").style.display = "none";
         document.getElementById("chart").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
+        document.getElementById("recruitEditing").style.display = "none";
         document.getElementById("game").style.display = "block";
     }
 
@@ -80,21 +85,15 @@ $(document).ready(function () {
     document.getElementById("menu5").onclick = function () {
         document.getElementById("team").style.display = "none";
         document.getElementById("chart").style.display = "none";
-        document.getElementById("registration").style.display = "none";
+        document.getElementById("recruiting").style.display = "none";
         document.getElementById("game").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
+        document.getElementById("recruitEditing").style.display = "none";
         document.getElementById("reversStr").style.display = "block";
         getChart();
     }
 });
 
-function updateChart() {
-    document.getElementById("chart").style.display = "none";
-    document.getElementById("chartEditing").style.display = "block";
-    var text = $("#chartText").text();
-    console.log(text);
-    $("#changedChart").val(text);
-}
 
 function vk() {
     window.open("http://vk.com/after_dark_wow");
@@ -115,8 +114,9 @@ function isActiveUser() {
             $(".login").css("display", "none");
             $(".registration").css("display", "none");
             var roles = user.roles;
-            if (!isAdmin(roles)){
+            if (!isAdmin(roles)) {
                 $("#updateC").css("display", "none");
+                $("#updateR").css("display", "none");
             }
         }
     });
@@ -221,6 +221,24 @@ function goToWP() {
     window.open("https://www.wowprogress.com/character/eu/борейская-тундра/" + name);
 }
 
+function updateChart() {
+    document.getElementById("chart").style.display = "none";
+    document.getElementById("chartEditing").style.display = "block";
+    var text = $("#chartText").text();
+    console.log(text);
+    $("#changedChart").val(text);
+
+}
+
+function updateRecruiting() {
+    document.getElementById("recruiting").style.display = "none";
+    document.getElementById("recruitEditing").style.display = "block";
+    var text = $("#recruitingText").text();
+    console.log(text);
+    $("#changedRecruitingText").val(text);
+}
+
+
 function getChart() {
     $.get("http://localhost:8080/charter", function (resp) {
         var text = resp.text;
@@ -244,7 +262,7 @@ function changeChart() {
     })
 }
 
-function createChart() {
+function createMessage() {
     var text = $("#changedChart").val();
     var objectText = {
         text: text
@@ -255,9 +273,51 @@ function createChart() {
     })
 }
 
-function goBack() {
+function goBackChart() {
     document.getElementById("chart").style.display = "block";
     document.getElementById("chartEditing").style.display = "none";
+}
+
+function getRecruitingText() {
+    $.get("http://localhost:8080/recruiting", function (resp) {
+        var text = resp.text;
+        var id = resp.id;
+        $("#recruitingText").text(text);
+        $("#recruitingID").text(id);
+    })
+}
+
+function goBackRecruiting() {
+    document.getElementById("recruiting").style.display = "block";
+    document.getElementById("recruitEditing").style.display = "none";
+}
+
+function changeRecruitingText() {
+    var text = $("#changedRecruitingText").val();
+    var id = $("#recruitingID").text();
+    var objectText = {
+        text: text
+    }
+    var jsonText = JSON.stringify(objectText);
+    $.put("http://localhost:8080/recruiting?id=" + id, jsonText).done(function (data) {
+        document.getElementById("recruiting").style.display = "block";
+        document.getElementById("recruitEditing").style.display = "none";
+        getRecruitingText();
+    })
+}
+
+function sendRequest() {
+    var text = $("#requestText").val();
+    var objectText = {
+        text: text
+    }
+    var jsonText = JSON.stringify(objectText);
+    $.post("http://localhost:8080/intro_request", jsonText,function (resp) {
+        //alert("Запрос успешно отправлен.");
+
+        console.log(resp);
+
+    })
 }
 
 

@@ -3,25 +3,40 @@
 <head>
     <title>After Dark</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="/static/css/top.css">
+    <link rel="stylesheet" href="/static/css/general.css">
+    <link rel="stylesheet" href="/static/css/home.css">
 
 </head>
 <body>
-<section class="top">
-    <p><a th:href="@{/}" class="icon">After Dark</a></p>
-    <form th:action="@{/logout}" method="post" class="logout">
-        <input type="submit" value="Sign Out"/>
-    </form>
-    <p><a th:href="@{/main}" class="cabinet"></a></p>
-    <p><a th:href="@{/login}" class="login">Login</a></p>
-    <p><a th:href="@{/registration}" class="registration">Registration</a></p>
-</section>
-<div class="admins">
-<button type="button" id="fill_characters" onclick="addAllCharactersInDB()">Add all characters in DB (use carefully)</button>
-<p><a th:href="@{/users}">Users</a></p>
+<header>
+    <section class="top">
+        <a th:href="@{/}" class="icon">After Dark</a>
+        <form th:action="@{/logout}" method="post" class="logout">
+            <input type="submit" value="Sign Out"/>
+        </form>
+        <a th:href="@{/main}" class="cabinet"></a>
+        <a th:href="@{/chat_room}" class="chat">Chat</a>
+        <a th:href="@{/login}" class="login">Login</a>
+        <a th:href="@{/registration}" class="registration">Registration</a>
+    </section>
+</header>
+<div class="center">
+
+    <div id="welcome">
+        <a>Welcome in the guild After Dark</a>
+    </div>
+
+    <div class="admins">
+        <button type="button" id="fill_characters" onclick="addAllCharactersInDB()">Add all characters in DB (use
+            carefully)
+        </button>
+        <a th:href="@{/users}" id="allUsr">Users</a>
+    </div>
+
+
+
+
 </div>
-<h1>Welcome in the guild After Dark</h1>
-<script src="/static/js/home.js"></script>
 <footer>
     <div id="contacts">
         <div id="vk" onclick="vk()">VK |</div>
@@ -30,5 +45,6 @@
     <div id="aT">
     </div>
 </footer>
+<script src="/static/js/home.js"></script>
 </body>
 </html>

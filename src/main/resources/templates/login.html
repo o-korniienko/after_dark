@@ -7,12 +7,16 @@
     <script th:inline="javascript">
         var message = [[${message}]];
     </script>
+    <link rel="stylesheet" href="/static/css/general.css">
 
 </head>
 <body>
+<header>
 <section class="top">
-    <p><a th:href="@{/}" class="icon">After Dark</a></p>
+    <a th:href="@{/}" class="icon">After Dark</a>
 </section>
+</header>
+<div class="center">
 Login
 <div th:if="${param.error}">
     Invalid username and password.
@@ -30,6 +34,16 @@ Login
     <div onload="mss()"><input type="submit" value="Sign In"/></div>
 </form>
 <button type="button" onclick="goToRegistration()">Registration</button>
+</div>
+
+<footer>
+    <div id="contacts">
+        <div id="vk" onclick="vk()">VK |</div>
+        <div id="dis" onclick="discord()">Discord</div>
+    </div>
+    <div id="aT">
+    </div>
+</footer>
 
 <script>
     function goToRegistration() {
@@ -49,13 +63,5 @@ Login
         }
     }
 </script>
-<footer>
-    <div id="contacts">
-        <div id="vk" onclick="vk()">VK |</div>
-        <div id="dis" onclick="discord()">Discord</div>
-    </div>
-    <div id="aT">
-    </div>
-</footer>
 </body>
 </html>

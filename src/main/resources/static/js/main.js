@@ -23,6 +23,7 @@ function isActiveUser() {
         if (resp === "") {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
+            $(".chat").css("display", "none");
         } else {
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");
@@ -131,4 +132,12 @@ function goToWP() {
     var target = event.target;
     var name = target.classList[0];
     window.open("https://www.wowprogress.com/character/eu/борейская-тундра/" + name);
+}
+
+function vk() {
+    window.open("http://vk.com/after_dark_wow");
+}
+
+function discord() {
+    window.open("https://discord.gg/WTGY8K4");
 }

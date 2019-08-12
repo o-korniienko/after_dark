@@ -8,9 +8,8 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     private String text;
-
+    private String tag;
     @ManyToOne
     private User user;
 
@@ -38,11 +37,20 @@ public class Message {
         this.user = user;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
                 "id=" + id +
                 ", text='" + text + '\'' +
+                ", tag='" + tag + '\'' +
                 ", user=" + user +
                 '}';
     }
