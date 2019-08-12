@@ -7,16 +7,11 @@
     <script th:inline="javascript">
         var users = [[${users}]];
     </script>
-    <link rel="stylesheet" href="/static/css/general.css">
 </head>
 <body>
-<header>
 <section class="top">
-    <a th:href="@{/}" class="icon">After Dark</a>
+    <p><a th:href="@{/}" class="icon">After Dark</a></p>
 </section>
-</header>
-
-<div class="center">
 <div>List of users</div>
 
 <section id="usr">
@@ -30,8 +25,8 @@
     </table>
 </section>
 <button type="button" onclick="back()">Back</button>
-</div>
 
+<script src="../static/js/usr.js"></script>
 <footer>
     <div id="contacts">
         <div id="vk" onclick="vk()">VK |</div>
@@ -40,6 +35,5 @@
     <div id="aT">
     </div>
 </footer>
-<script src="../static/js/usr.js"></script>
 </body>
 </html>

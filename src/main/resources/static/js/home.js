@@ -22,8 +22,6 @@ function isActiveUser() {
         if (resp === "") {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
-            $(".chat").css("display", "none");
-            $(".admins").css("display", "none");
         } else {
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");
@@ -35,7 +33,6 @@ function isActiveUser() {
         }
     });
 }
-
 
 function addAllCharactersInDB() {
     $("user").text(user);
@@ -49,11 +46,4 @@ function isAdmin(roles) {
         }
     }
     return false;
-}
-function vk() {
-    window.open("http://vk.com/after_dark_wow");
-}
-
-function discord() {
-    window.open("https://discord.gg/WTGY8K4");
 }

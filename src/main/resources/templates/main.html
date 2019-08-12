@@ -7,29 +7,24 @@
     <script th:inline="javascript">
         var user = [[${user}]];
     </script>
-    <link rel="stylesheet" href="/static/css/general.css">
+    <link rel="stylesheet" href="/static/css/top.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8"
             src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <link rel="stylesheet" href="/static/css/main.css">
 
 </head>
 <body>
-<header>
 <section class="top">
-    <a th:href="@{/}" class="icon">After Dark</a>
+    <p><a th:href="@{/}" class="icon">After Dark</a></p>
     <form th:action="@{/logout}" method="post" class="logout">
         <input type="submit" value="Sign Out"/>
     </form>
-    <a th:href="@{/main}" class="cabinet"></a>
-    <a th:href="@{/chat_room}" class="chat">Chat</a>
-    <a th:href="@{/login}" class="login">Login</a>
-    <a th:href="@{/registration}" class="registration">Registration</a>
-    <a th:href="@{/users/profile}" class="profile">Profile</a>
+    <p><a th:href="@{/main}" class="cabinet"></a></p>
+    <p><a th:href="@{/login}" class="login">Login</a></p>
+    <p><a th:href="@{/registration}" class="registration">Registration</a></p>
+    <p><a th:href="@{/users/profile}">Profile</a></p>
 </section>
-</header>
 
-<div class="center">
 <div class="lab">Your characters</div>
 
 <section class="characters">
@@ -55,8 +50,8 @@
 <section id="inform">
     <p><a th:href="@{/information}">About After Dark</a></p>
 </section>
-</div>
 
+<script src="/static/js/main.js"></script>
 <footer>
     <div id="contacts">
         <div id="vk" onclick="vk()">VK |</div>
@@ -65,6 +60,5 @@
     <div id="aT">
     </div>
 </footer>
-<script src="/static/js/main.js"></script>
 </body>
 </html>
