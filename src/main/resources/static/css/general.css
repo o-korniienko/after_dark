@@ -1,0 +1,89 @@
+header {
+    width: 100%;
+    height: 5%;
+    background-color: lightslategray;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+footer {
+    width: 100%;
+    height: 5%;
+    position: relative;
+    background-color: black;
+    clear: both;
+}
+
+.center{
+    width: 100%;
+    height: 90%;
+    background-color: teal;
+}
+
+#aT {
+    width: 30%;
+    height: 50%;
+    background-color: black;
+    color: teal;
+    text-align: center;
+    position: relative;
+    left: 35%;
+    top: 30%;
+    display: inline-block
+}
+
+#contacts {
+    width: 30%;
+    height: 50%;
+    background-color: black;
+    color: teal;
+    text-align: center;
+    position: relative;
+    top: 30%;
+    display: inline-block
+}
+
+#vk {
+    display: inline-block
+}
+
+#dis {
+    display: inline-block
+}
+
+.icon {
+    display: inline-block;
+    margin-top: 1%;
+}
+
+.cabinet {
+    display: inline-block;
+    float: right;
+    position: relative;
+    right: 1%;
+    margin-top: 1%;
+}
+
+.logout {
+    display: inline-block;
+    float: right;
+    margin-top: 1%;
+}
+
+.login {
+    display: inline-block;
+    float: right;
+    margin-top: 1%;
+}
+
+.registration {
+    display: inline-block;
+    float: right;
+    position: relative;
+    right: 1%;
+    margin-top: 1%;
+}

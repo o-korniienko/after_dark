@@ -1,17 +1,5 @@
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-}
-
 #main {
     height: 100%;
-}
-
-header {
-    width: 100%;
-    height: 5%;
-    background-color: lightslategray;
 }
 
 #menu {
@@ -34,44 +22,9 @@ header {
     overflow: hidden;
 }
 
-footer {
-    width: 100%;
-    height: 5%;
-    position: relative;
-    background-color: black;
-    clear: both;
-}
 
-#aT {
-    width: 30%;
-    height: 50%;
-    background-color: black;
-    color: teal;
-    text-align: center;
-    position: relative;
-    left: 35%;
-    top: 30%;
-    display: inline-block
-}
 
-#contacts {
-    width: 30%;
-    height: 50%;
-    background-color: black;
-    color: teal;
-    text-align: center;
-    position: relative;
-    top: 30%;
-    display: inline-block
-}
 
-#vk {
-    display: inline-block
-}
-
-#dis {
-    display: inline-block
-}
 
 
 .vmenu {

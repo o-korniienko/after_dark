@@ -8,9 +8,8 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     private String text;
-
+    private String tag;
     @ManyToOne
     private User user;
 
@@ -32,6 +31,14 @@ public class Message {
 
     public User getUser() {
         return user;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public void setUser(User user) {

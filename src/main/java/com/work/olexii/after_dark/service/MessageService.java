@@ -14,7 +14,7 @@ public class MessageService {
     private MessageRepo messageRepo;
 
     public Message getChart() {
-        Message message = messageRepo.findByUser(null);
+        Message message = messageRepo.findByTag("charter");
         return message;
     }
 
@@ -25,7 +25,7 @@ public class MessageService {
     }
 
     public Message createMessage(Message message) {
-        message.setUser(null);
+        message.setTag("recruiting");
         messageRepo.save(message);
         return message;
     }

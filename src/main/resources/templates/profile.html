@@ -8,11 +8,15 @@
         var username = [[${username}]];
         var useremail = [[${useremail}]];
     </script>
+    <link rel="stylesheet" href="/static/css/general.css">
 </head>
 <body>
+<header>
 <section class="top">
-    <p><a th:href="@{/}" class="icon">After Dark</a></p>
+    <a th:href="@{/}" class="icon">After Dark</a>
 </section>
+</header>
+<div class="center">
 <label id="username"></label>
 <section>
     <p/><label> Password<input type="password" id="password"></label>
@@ -20,8 +24,8 @@
     <p/><button type="button" onclick="updateProfile()">Save</button>
     <p/><button type="button" onclick="back()">Back</button>
 </section>
+</div>
 
-<script src="../static/js/profile.js"></script>
 <footer>
     <div id="contacts">
         <div id="vk" onclick="vk()">VK |</div>
@@ -30,5 +34,6 @@
     <div id="aT">
     </div>
 </footer>
+<script src="../static/js/profile.js"></script>
 </body>
 </html>

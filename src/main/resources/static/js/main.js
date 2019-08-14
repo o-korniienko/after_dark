@@ -53,6 +53,7 @@ function showCharacters(resp) {
     var characters = resp;
     if (characters.length <= 0) {
         $("#titles").css("display", "none");
+        return;
     } else {
         var tblBody = document.getElementById("body");
         var rows = tblBody.getElementsByTagName("tr");
