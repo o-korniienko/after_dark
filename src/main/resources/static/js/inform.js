@@ -39,62 +39,33 @@ $(document).ready(function () {
     })();
 
     document.getElementById("menu1").onclick = function () {
-        document.getElementById("reversStr").style.display = "none";
-        document.getElementById("registration").style.display = "none";
+        document.getElementById("recruiting").style.display = "none";
         document.getElementById("chart").style.display = "none";
-        document.getElementById("game").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
+        document.getElementById("recruitingEditing").style.display = "none";
         document.getElementById("team").style.display = "block";
         getAllcharacters();
 
     }
     document.getElementById("menu2").onclick = function () {
-        document.getElementById("reversStr").style.display = "none";
         document.getElementById("team").style.display = "none";
-        document.getElementById("registration").style.display = "none";
-        document.getElementById("game").style.display = "none";
+        document.getElementById("recruiting").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
+        document.getElementById("recruitingEditing").style.display = "none";
         document.getElementById("chart").style.display = "block";
         getChart();
     }
     document.getElementById("menu3").onclick = function () {
-        document.getElementById("reversStr").style.display = "none";
         document.getElementById("team").style.display = "none";
         document.getElementById("chart").style.display = "none";
-        document.getElementById("game").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
-        document.getElementById("registration").style.display = "block";
+        document.getElementById("recruitingEditing").style.display = "none";
+        document.getElementById("recruiting").style.display = "block";
+        getRecruitingText();
     }
 
-
-    document.getElementById("menu4").onclick = function () {
-        document.getElementById("reversStr").style.display = "none";
-        document.getElementById("team").style.display = "none";
-        document.getElementById("registration").style.display = "none";
-        document.getElementById("chart").style.display = "none";
-        document.getElementById("chartEditing").style.display = "none";
-        document.getElementById("game").style.display = "block";
-    }
-
-
-    document.getElementById("menu5").onclick = function () {
-        document.getElementById("team").style.display = "none";
-        document.getElementById("chart").style.display = "none";
-        document.getElementById("registration").style.display = "none";
-        document.getElementById("game").style.display = "none";
-        document.getElementById("chartEditing").style.display = "none";
-        document.getElementById("reversStr").style.display = "block";
-        getChart();
-    }
 });
 
-function updateChart() {
-    document.getElementById("chart").style.display = "none";
-    document.getElementById("chartEditing").style.display = "block";
-    var text = $("#chartText").text();
-    console.log(text);
-    $("#changedChart").val(text);
-}
 
 function vk() {
     window.open("http://vk.com/after_dark_wow");
@@ -244,6 +215,43 @@ function changeChart() {
     })
 }
 
+function updateChart() {
+    document.getElementById("chart").style.display = "none";
+    document.getElementById("chartEditing").style.display = "block";
+    var text = $("#chartText").text();
+    $("#changedChart").val(text);
+}
+
+function getRecruitingText() {
+    $.get("http://localhost:8080/recruiting", function (resp) {
+        var text = resp.text;
+        var id = resp.id;
+        $("#recruitingText").text(text);
+        $("#recruitingID").text(id);
+    })
+}
+
+function updateRecruitingText() {
+    document.getElementById("recruiting").style.display = "none";
+    document.getElementById("recruitingEditing").style.display = "block";
+    var text = $("#recruitingText").text();
+    $("#changedRecruitingText").val(text);
+}
+
+function changeRecruitingText() {
+    var text = $("#changedRecruitingText").val();
+    var id = $("#recruitingID").text();
+    var objectText = {
+        text: text
+    }
+    var jsonText = JSON.stringify(objectText);
+    $.put("http://localhost:8080/recruiting?id=" + id, jsonText).done(function (data) {
+        document.getElementById("recruiting").style.display = "block";
+        document.getElementById("recruitingEditing").style.display = "none";
+        getRecruitingText();
+    })
+}
+
 function createChart() {
     var text = $("#changedChart").val();
     var objectText = {
@@ -251,13 +259,29 @@ function createChart() {
     }
     var jsonText = JSON.stringify(objectText);
     $.post("http://localhost:8080/msg", jsonText).done(function (data) {
-        console.log(data);
+
     })
 }
 
-function goBack() {
+function goBackToCharter() {
     document.getElementById("chart").style.display = "block";
     document.getElementById("chartEditing").style.display = "none";
+}
+
+function goBackToRecruiting() {
+    document.getElementById("recruiting").style.display = "block";
+    document.getElementById("recruitingEditing").style.display = "none";
+}
+
+function sendRequest() {
+    var text = $("#requestText").val();
+    var objectText = {
+        text: text
+    }
+    var jsonText = JSON.stringify(objectText);
+    $.post("http://localhost:8080/send_request", jsonText, function (resp) {
+        console.log(resp);
+    })
 }
 
 

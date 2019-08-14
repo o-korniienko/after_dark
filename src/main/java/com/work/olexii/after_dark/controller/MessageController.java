@@ -26,4 +26,19 @@ public class MessageController {
     public Message updateChart(@RequestParam(value = "id") long id, @RequestBody Message message) {
         return messageService.updateChart(message, id);
     }
+
+    @GetMapping("/recruiting")
+    public Message getRecruitingText(){
+        return messageService.getRecruitingText();
+    }
+
+    @PutMapping("/recruiting")
+    public Message updateRecruitingText(@RequestParam(value = "id") long id, @RequestBody Message message){
+        return messageService.updateRecruitingText(message, id);
+    }
+
+    @PostMapping("/send_request")
+    public Message sendRequest(@RequestBody Message message){
+        return messageService.sendRequest(message);
+    }
 }

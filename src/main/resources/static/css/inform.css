@@ -22,11 +22,6 @@
     overflow: hidden;
 }
 
-
-
-
-
-
 .vmenu {
     width: 10%;
     height: 5%;
@@ -60,6 +55,34 @@
 #changedChart{
     width: 80%;
     height: 70%;
+}
+
+#recruiting{
+    width: 100%;
+    height: 30%;
+    position: relative;
+    top: 25%;
+    left: 1%;
+    margin: 0 auto;
+}
+
+#recruitingText{
+    width: 90%;
+    font-size: 16px;
+}
+
+#changedRecruitingText{
+    width: 80%;
+    height: 70%;
+}
+
+#call{
+    width: 100%;
+    position: relative;
+    left: 1%;
+}
+#requestText{
+    width: 40%;
 }
 
 .button {
@@ -102,16 +125,6 @@
     color: black;
     text-align: center;
     font-size: 14px;
-}
-
-
-#registration {
-    width: 65%;
-    height: 55%;
-    position: relative;
-    top: 20%;
-    margin: 0 auto;
-    background-color: teal;
 }
 
 .b1 {
