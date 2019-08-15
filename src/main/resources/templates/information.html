@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>About After Dark</title>
@@ -12,19 +12,19 @@
 
 </head>
 <body>
-<div id="main">
-    <header>
-        <section class="top">
-            <a th:href="@{/}" class="icon">After Dark</a>
-            <form th:action="@{/logout}" method="post" class="logout">
-                <input type="submit" value="Sign Out"/>
-            </form>
-            <a th:href="@{/main}" class="cabinet"></a>
-            <a th:href="@{/login}" class="login">Login</a></p>
-            <a th:href="@{/registration}" class="registration">Registration</a>
-        </section>
-    </header>
-    <div class="center">
+<header>
+    <section class="top">
+        <a th:href="@{/}" class="icon">After Dark</a>
+        <form th:action="@{/logout}" method="post" class="logout">
+            <input type="submit" value="Sign Out"/>
+        </form>
+        <a th:href="@{/main}" class="cabinet"></a>
+        <a th:href="@{/login}" class="login">Login</a>
+        <a th:href="@{/registration}" class="registration">Registration</a>
+        <a th:href="@{/chat_room}" class="chat_room">Chat</a>
+    </section>
+</header>
+<div class="center">
     <div id="menu">
         <button id="menu1" class="vmenu">Guild team</button>
         <button id="menu2" class="vmenu">Organization chart</button>
@@ -51,7 +51,7 @@
 
         <div id="chart" style="display:none;">
             <p id="chartID" style="display:none;"></p>
-            <pre  id="chartText"></pre>
+            <pre id="chartText"></pre>
             <button type="button" onclick="updateChart()" id="updateC">Update Chart</button>
 
         </div>
@@ -63,13 +63,13 @@
 
         <div id="recruiting" style="display:none;">
             <p id="recruitingID" style="display:none;"></p>
-            <pre  id="recruitingText"></pre>
+            <pre id="recruitingText"></pre>
             <button type="button" onclick="updateRecruitingText()" id="updateR">Update Chart</button>
 
             <div id="call">
                 <pre>Отправить запрос на вступление в гильдию</pre>
                 <p></p>
-            <textarea rows="7" id="requestText" placeholder="Свяжитесь с нами"></textarea>
+                <textarea rows="7" id="requestText" placeholder="Свяжитесь с нами"></textarea>
                 <p></p>
                 <button type="button" onclick="sendRequest()">Отправить</button>
             </div>
@@ -81,16 +81,15 @@
         </div>
 
     </div>
-    </div>
-    <footer>
-        <div id="contacts">
-            <div id="vk" onclick="vk()">VK |</div>
-            <div id="dis" onclick="discord()">Discord</div>
-        </div>
-        <div id="aT">
-        </div>
-    </footer>
 </div>
+<footer>
+    <div id="contacts">
+        <div id="vk" onclick="vk()">VK |</div>
+        <div id="dis" onclick="discord()">Discord</div>
+    </div>
+    <div id="aT">
+    </div>
+</footer>
 <script src="/static/js/inform.js"></script>
 </body>
 </html>

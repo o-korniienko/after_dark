@@ -23,6 +23,7 @@ function isActiveUser() {
         if (resp === "") {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
+            $(".chat_room").css("display", "none");
         } else {
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");

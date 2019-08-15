@@ -68,6 +68,14 @@ footer {
     margin-top: 1%;
 }
 
+.chat_room{
+    display: inline-block;
+    float: right;
+    position: relative;
+    right: 2%;
+    margin-top: 1%;
+}
+
 .logout {
     display: inline-block;
     float: right;

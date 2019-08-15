@@ -1,10 +1,14 @@
 package com.work.olexii.after_dark.service;
 
 import com.work.olexii.after_dark.domain.Message;
+import com.work.olexii.after_dark.domain.User;
 import com.work.olexii.after_dark.repos.MessageRepo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -27,8 +31,9 @@ public class MessageService {
         return message;
     }
 
-    public Message createMessage(Message message) {
-        message.setTag("charter");
+    public Message createMessage(User user, Message message) {
+        message.setUser(user);
+        message.setTag("chat_message");
         messageRepo.save(message);
         return message;
     }
@@ -45,7 +50,18 @@ public class MessageService {
     }
 
     public Message sendRequest(Message message) {
-        mailSender.send("alyosha21@ukr.net","Запрос на вступление в гильдию",message.getText());
+        mailSender.send("alyosha21@ukr.net", "Запрос на вступление в гильдию", message.getText());
         return message;
+    }
+
+    public List<Message> getChatMessages() {
+        Iterable<Message> messageIterable = messageRepo.findAll();
+        List<Message> messages = new ArrayList<>();
+        for (Message message : messageIterable) {
+            if (message.getTag().equals("chat_message")) {
+                messages.add(message);
+            }
+        }
+        return messages;
     }
 }
