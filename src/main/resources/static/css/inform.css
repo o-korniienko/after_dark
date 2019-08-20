@@ -5,18 +5,7 @@
     background-color: teal;
 }
 
-#content {
-    width: 100%;
-    float: left;
-    background-color: teal;
-}
-#content{
-    min-height: 80%;
-    padding-bottom: 0px;
-    display: table-cell;
-    height: auto;
-    overflow: hidden;
-}
+
 
 .vmenu {
     width: 10%;

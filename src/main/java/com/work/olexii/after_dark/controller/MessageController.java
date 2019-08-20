@@ -21,9 +21,25 @@ public class MessageController {
         return messageService.getChatMessages();
     }
 
+    @PutMapping("/messages")
+    public List<Message> isChatChanged(@RequestBody List<Message> messages){
+        return messageService.isChatChanged(messages);
+    }
+
     @PostMapping("/msg")
     public Message createMessage(@AuthenticationPrincipal User user, @RequestBody Message message) {
         return messageService.createMessage(user, message);
+    }
+
+    @PutMapping("/msg")
+    public Message changeMessage(@AuthenticationPrincipal User user, @RequestParam(value = "id")long id,
+                                 @RequestBody Message message){
+      return   messageService.changeMessage(message,id, user);
+    }
+
+    @DeleteMapping("/msg")
+    public List<Message> deleteMessage(@RequestParam(value = "id") long id){
+        return messageService.deleteMessage(id);
     }
 
     @GetMapping("/charter")

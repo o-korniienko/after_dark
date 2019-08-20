@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -18,6 +20,17 @@ public class MessageService {
     private MessageRepo messageRepo;
     @Autowired
     private MailSender mailSender;
+
+    public static Comparator<Message> BY_ID;
+
+    static {
+        BY_ID = new Comparator<Message>() {
+            @Override
+            public int compare(Message o1, Message o2) {
+                return (int) (o1.getId() - o2.getId());
+            }
+        };
+    }
 
     public Message getChart() {
         Message message = messageRepo.findByTag("charter");
@@ -62,6 +75,62 @@ public class MessageService {
                 messages.add(message);
             }
         }
+        Collections.sort(messages, BY_ID);
         return messages;
+    }
+
+
+    public Message changeMessage(Message message, long id, User user) {
+        Message messageFromDB = messageRepo.getOne(id);
+        message.setTag("chat_message");
+        message.setUser(user);
+        BeanUtils.copyProperties(message, messageFromDB, "id");
+        return message;
+
+    }
+
+    public List<Message> deleteMessage(long id) {
+        Message message = messageRepo.getOne(id);
+        messageRepo.delete(message);
+
+        return messageRepo.findAll();
+    }
+
+    public List<Message> isChatChanged(List<Message> messages) {
+        List<Message> messagesFromDB = messageRepo.findAll();
+        List<Message> allChatMessages = new ArrayList<>();
+        for (Message message : messagesFromDB) {
+            if (message.getTag().equals("chat_message")) {
+                allChatMessages.add(message);
+            }
+        }
+        Collections.sort(allChatMessages, BY_ID);
+        boolean isChanged = true;
+        for (Message message : allChatMessages) {
+            for (Message msg : messages) {
+                if (msg.equals(message)) {
+                    isChanged = false;
+                }
+            }
+            if (isChanged) {
+                return allChatMessages;
+            } else {
+                isChanged = true;
+            }
+        }
+        isChanged = true;
+        for (Message message : messages) {
+            for (Message msg : allChatMessages) {
+                if (msg.equals(message)) {
+                    isChanged = false;
+                }
+            }
+            if (isChanged) {
+                return allChatMessages;
+            } else {
+                isChanged = true;
+            }
+        }
+        return Collections.EMPTY_LIST;
     }
 }

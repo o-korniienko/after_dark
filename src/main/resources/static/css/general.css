@@ -76,6 +76,19 @@ footer {
     margin-top: 1%;
 }
 
+#content {
+    width: 100%;
+    float: left;
+    background-color: teal;
+}
+#content{
+    min-height: 80%;
+    padding-bottom: 0px;
+    display: table-cell;
+    height: auto;
+    overflow: hidden;
+}
+
 .logout {
     display: inline-block;
     float: right;
