@@ -17,44 +17,46 @@
 </head>
 <body>
 <header>
-<section class="top">
-    <a th:href="@{/}" class="icon">After Dark</a>
-    <form th:action="@{/logout}" method="post" class="logout">
-        <input type="submit" value="Sign Out"/>
-    </form>
-    <a th:href="@{/main}" class="cabinet"></a>
-    <a th:href="@{/login}" class="login">Login</a>
-    <a th:href="@{/registration}" class="registration">Registration</a>
-    <a th:href="@{/chat_room}" class="chat_room">Chat</a>
-    <a th:href="@{/users/profile}" class="profile">Profile</a>
-</section>
+    <section class="top">
+        <a th:href="@{/}" class="icon">After Dark</a>
+        <form th:action="@{/logout}" method="post" class="logout">
+            <input type="submit" value="Sign Out"/>
+        </form>
+        <a th:href="@{/main}" class="cabinet"></a>
+        <a th:href="@{/login}" class="login">Login</a>
+        <a th:href="@{/registration}" class="registration">Registration</a>
+        <a th:href="@{/chat_room}" class="chat_room">Chat</a>
+        <a th:href="@{/users/profile}" class="profile">Profile</a>
+    </section>
 </header>
 <div class="center">
-<div class="lab">Your characters</div>
+    <div class="lab">Your characters</div>
 
-<section class="characters">
-    <input type="text" id="new_char">
-    <button type="button" id="add_char" onclick="addCharToUser()">Add Character</button>
-        <table id="myTable">
-            <thead id="titles">
-            <tr>
-                <th class="head">Name</th>
-                <th class="head">Rang</th>
-                <th class="head">Level</th>
-                <th class="head">Class</th>
-                <th class="head">Links</th>
-            </tr>
-            </thead>
-            <tbody id="body">
+    <section class="characters">
+        <input type="text" id="new_char">
+        <button type="button" id="add_char" onclick="addCharToUser()">Add Character</button>
+        <div id="usr_characters_list">
+            <table id="myTable">
+                <thead id="titles">
+                <tr>
+                    <th class="head">Name</th>
+                    <th class="head">Rang</th>
+                    <th class="head">Level</th>
+                    <th class="head">Class</th>
+                    <th class="head">Links</th>
+                </tr>
+                </thead>
+                <tbody id="body">
 
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
 
-</section>
-<section id="inform">
-    <p><a th:href="@{/information}">About After Dark</a></p>
-</section>
+    </section>
+    <section id="inform">
+        <p><a th:href="@{/information}">About After Dark</a></p>
+    </section>
 </div>
 
 <footer>

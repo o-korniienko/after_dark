@@ -18,11 +18,12 @@ footer {
     clear: both;
 }
 
-.center{
+.center {
     width: 100%;
     height: 90%;
     background-color: teal;
 }
+
 
 #aT {
     width: 30%;
@@ -57,6 +58,8 @@ footer {
 
 .icon {
     display: inline-block;
+    position: relative;
+    left: 1%;
     margin-top: 1%;
 }
 
@@ -64,15 +67,15 @@ footer {
     display: inline-block;
     float: right;
     position: relative;
-    right: 1%;
+    right: 2%;
     margin-top: 1%;
 }
 
-.chat_room{
+.chat_room {
     display: inline-block;
     float: right;
     position: relative;
-    right: 2%;
+    right: 3%;
     margin-top: 1%;
 }
 
@@ -81,7 +84,8 @@ footer {
     float: left;
     background-color: teal;
 }
-#content{
+
+#content {
     min-height: 80%;
     padding-bottom: 0px;
     display: table-cell;
@@ -92,12 +96,16 @@ footer {
 .logout {
     display: inline-block;
     float: right;
+    position: relative;
+    right: 1%;
     margin-top: 1%;
 }
 
 .login {
     display: inline-block;
     float: right;
+    position: relative;
+    right: 1%;
     margin-top: 1%;
 }
 
@@ -105,6 +113,74 @@ footer {
     display: inline-block;
     float: right;
     position: relative;
-    right: 1%;
+    right: 2%;
     margin-top: 1%;
+}
+
+.log_form {
+    width: 270px;
+    height: 240px;
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    float: left;
+}
+
+.reg_form {
+    width: 270px;
+    height: 900px;
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    float: left;
+}
+
+#sign_in {
+    position: relative;
+    left: 20%;
+    display: inline;
+}
+
+#go_registration_btn {
+    position: relative;
+    left: 25%;
+    display: inline;
+}
+
+#registration_btn {
+    position: relative;
+    top: 10px;
+    left: 20%;
+    display: inline;
+}
+
+#go_login_btn {
+    position: relative;
+    left: 25%;
+    top: 10px;
+    display: inline;
+}
+
+.field {
+    clear: both;
+    text-align: right;
+    line-height: 25px;
+}
+
+.field2 {
+    float: left;
+    padding-right: 10px;
+}
+
+.field3 {
+    margin-left: 15px;
+}
+
+input{
+    background-color: #6cacc5;
+}
+
+button{
+    background-color: chocolate;
+    color: black;
 }

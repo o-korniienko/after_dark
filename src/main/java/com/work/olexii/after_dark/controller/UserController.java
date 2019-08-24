@@ -1,6 +1,5 @@
 package com.work.olexii.after_dark.controller;
 
-import com.work.olexii.after_dark.domain.Character;
 import com.work.olexii.after_dark.domain.Role;
 import com.work.olexii.after_dark.domain.User;
 import com.work.olexii.after_dark.service.CharacterService;
@@ -55,10 +54,10 @@ public class UserController {
         return "profile";
     }
 
-    @PostMapping("/profile")
+    @PutMapping("/profile")
     public String updateProfile(@AuthenticationPrincipal User user, @RequestParam String password,
                                 @RequestParam String email) {
-        System.out.println(user);
+
         userService.updateProfile(user, password, email);
 
 

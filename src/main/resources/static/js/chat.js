@@ -157,9 +157,10 @@ function fillMessages(messages) {
         var usrname = name + ":  ";
         var id = messages[i].id;
         var text = messages[i].text;
-        $(".messages").append(`<section  class="msg">${usrname} &nbsp;<a id="${id}">${text}</a>
+        $(".messages").append(`<section  class="msg" style="color: indigo; line-height: 25px;">${usrname} &nbsp;
+                            <a style="color: orangered; font-family: 'Comic Sans MS'" id="${id}">${text}</a>
                             <button onclick="deleteMsg(${id})" class="controllersD">delete</button>
-                            <button onclick="editMsg(${id})" class="${name}" style="display: none">edit</button>
+                            <button onclick="editMsg(${id})" class="${name}" style="display: none;float: right;">edit</button>
                             </section>`)
         showEdit(name);
         showDelete();

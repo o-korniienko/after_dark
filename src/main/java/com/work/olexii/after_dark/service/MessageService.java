@@ -105,31 +105,8 @@ public class MessageService {
             }
         }
         Collections.sort(allChatMessages, BY_ID);
-        boolean isChanged = true;
-        for (Message message : allChatMessages) {
-            for (Message msg : messages) {
-                if (msg.equals(message)) {
-                    isChanged = false;
-                }
-            }
-            if (isChanged) {
-                return allChatMessages;
-            } else {
-                isChanged = true;
-            }
-        }
-        isChanged = true;
-        for (Message message : messages) {
-            for (Message msg : allChatMessages) {
-                if (msg.equals(message)) {
-                    isChanged = false;
-                }
-            }
-            if (isChanged) {
-                return allChatMessages;
-            } else {
-                isChanged = true;
-            }
+        if (!messages.equals(allChatMessages)){
+            return allChatMessages;
         }
         return Collections.EMPTY_LIST;
     }

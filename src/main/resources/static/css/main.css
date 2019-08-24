@@ -2,6 +2,24 @@
     display: inline-block;
     float: right;
     position: relative;
-    right: 3%;
+    right: 4%;
     margin-top: 1%;
+}
+
+#usr_characters_list{
+    width: 45%;
+    height: 10%;
+    position: relative;
+    top: 2%;
+    margin: 0 auto;
+    background-color: teal;
+    color: black;
+    text-align: center;
+    font-size: 14px;
+}
+
+#inform{
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
 }

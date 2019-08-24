@@ -1,27 +1,23 @@
 .messages{
     width: 80%;
     position: relative;
-    top: 2%;
-    left: 1%;
+    margin-top: 25px;
+    left: 10%;
+    background-color: khaki;
 }
 .sending{
     width: 80%;
     position: relative;
-    top: 5%;
-    left: 1%;
+    margin-top: 5px;
+    left: 10%;
 }
 #newMessage{
     width: 50%;
-}
-
-.msg{
-
+    background-color: #6cacc5;
 }
 
 .controllersD {
     display: none;
+    float: right;
 }
 
-.controllersE {
-    display: none;
-}

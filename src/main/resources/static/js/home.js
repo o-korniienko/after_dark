@@ -23,13 +23,14 @@ function isActiveUser() {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
             $(".chat_room").css("display", "none");
+            $("#admins").css("display", "none");
         } else {
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");
             $(".registration").css("display", "none");
             var roles = user.roles;
             if (!isAdmin(roles)) {
-                $(".admins").css("display", "none");
+                $("#admins").css("display", "none");
             }
         }
     });
@@ -47,4 +48,8 @@ function isAdmin(roles) {
         }
     }
     return false;
+}
+
+function goToUsersOption() {
+    location = "/users";
 }

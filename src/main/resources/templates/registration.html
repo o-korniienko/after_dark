@@ -11,30 +11,40 @@
 </head>
 <body>
 <header>
-<section class="top">
-    <a th:href="@{/}" class="icon" >After Dark</a>
-</section>
+    <section class="top">
+        <a th:href="@{/}" class="icon">After Dark</a>
+    </section>
 </header>
 
 <div class="center">
-Registration
+    <div class="reg_form">
+        <a style="position: relative; left: 40%">Registration</a>
+        </p><label class="error"></label>
+        <label id="usr" class="field3"></label>
+        <div class="field"><label class="field2">User Name</label><input type="text" class="user_name"
+                                                                         placeholder="Username"/>
+        </div>
+        <label id="email" class="field3"></label>
+        <div class="field"><label class="field2">Email</label><input type="email" name="email" class="email"
+                                                                     placeholder="Email"/>
 
-<section>
-    <label class="error"></label>
-    <p/><label> User Name<input type="text" class="user_name" placeholder="Username"><label id="usr"></label> </label>
-    <p/><label> Email<input type="email" name="email" class="email" placeholder="Email"><label
-        id="email"></label></label>
-    <p/><label> Password<input type="password" class="user_password" placeholder="Password"><label
-        id="pas1"></label></label>
-    <p/><label> Password<input type="password" class="user_password2" placeholder="Retype password"><label
-        id="pas2"></label></label>
-    <p/>
-    <section>
-        <label class="capt"></label>
-        <div class="g-recaptcha" data-sitekey="6Le53KkUAAAAANUvm29VY1Fv8pSmEzJuGKFPhorK"></div>
-    </section>
-    <button type="button" onclick="registration()">Registration</button>
-</section>
+        </div>
+        <label id="pas1" class="field3"></label>
+        <div class="field"><label class="field2">Password</label><input type="password" class="user_password"
+                                                                        placeholder="Password"/>
+        </div>
+        <label id="pas2" class="field3"></label>
+        <div class="field"><label class="field2">Password confirm</label><input type="password" class="user_password2"
+                                                                                placeholder="Retype password"/>
+        </div>
+
+        <section>
+            <label id="capt" class="field3"></label>
+            <div class="g-recaptcha" data-sitekey="6Le53KkUAAAAANUvm29VY1Fv8pSmEzJuGKFPhorK"></div>
+        </section>
+        <button type="button" id="registration_btn" onclick="registration()">Registration</button>
+        <button type="button" id="go_login_btn" onclick="goToLoginPage()">Login</button>
+    </div>
 </div>
 
 <footer>

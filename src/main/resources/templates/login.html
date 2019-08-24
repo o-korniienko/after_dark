@@ -8,32 +8,35 @@
         var message = [[${message}]];
     </script>
     <link rel="stylesheet" href="/static/css/general.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 
 </head>
 <body>
 <header>
-<section class="top">
-    <a th:href="@{/}" class="icon">After Dark</a>
-</section>
+    <section class="top">
+        <a th:href="@{/}" class="icon">After Dark</a>
+    </section>
 </header>
 <div class="center">
-Login
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<div id="mss"></div>
-<form th:action="@{/login}" method="post">
-    <p/>
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <p/>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <p/>
-    <div onload="mss()"><input type="submit" value="Sign In"/></div>
-</form>
-<button type="button" onclick="goToRegistration()">Registration</button>
+    <div class="log_form">
+       <a style="position: relative; left: 40%">Login</a>
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <div id="mss"></div>
+        <form th:action="@{/login}" method="post">
+            <p/>
+            <div class="field"><label class="field2"> User Name : </label><input type="text"  name="username"/> </div>
+            <p/>
+            <div class="field"><label class="field2"> Password: </label><input type="password"  name="password"/></div>
+            <p/>
+            <div onload="mss()" id="sign_in"><button type="submit" value="Sign In"/>Sign In</div>
+            <button type="button" onclick="goToRegistration()" id="go_registration_btn">Registration</button>
+        </form>
+    </div>
 </div>
 
 <footer>
@@ -52,6 +55,7 @@ Login
     $(document).ready(function () {
         mss();
     });
+
     function mss() {
         var mess = document.getElementById("mss");
         if (message === null) {

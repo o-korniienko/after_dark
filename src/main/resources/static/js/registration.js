@@ -106,9 +106,9 @@ function showErrors(data) {
         $(".error").text('');
     }
     if (captchaError != null) {
-        $(".capt").text(captchaError);
+        $("#capt").text(captchaError);
     } else {
-        $(".capt").text('');
+        $("#capt").text('');
     }
     if (pasError != null) {
         $("#pas1").text(pasError);
@@ -131,4 +131,8 @@ function showErrors(data) {
     }
 
 
+}
+
+function goToLoginPage() {
+    document.location = "/login";
 }

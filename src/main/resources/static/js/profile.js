@@ -1,3 +1,24 @@
+jQuery.each(["put", "delete", "post"], function (i, method) {
+    jQuery[method] = function (url, data, callback) {
+        if (jQuery.isFunction(data)) {
+            callback = data;
+            data = undefined;
+        }
+
+        return jQuery.ajax({
+            url: url,
+            type: method,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: data,
+            success: callback,
+            error: function (data) {
+                alert("Некоректный пароль или email");
+            }
+        });
+    };
+});
+
 $(document).ready(function () {
     document.getElementById("username").innerText = username;
     if (useremail != null) {
@@ -22,8 +43,8 @@ function updateProfile() {
     var password = $("#password").val();
     var email = $("#email").val();
     var url = "http://localhost:8080/users/profile?password=" + password + "&email=" + email;
-    $.post(url).done(function () {
-        console.log("updated");
+    $.put(url, function (resp) {
+        console.log(resp)
     });
 }
 

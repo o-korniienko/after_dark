@@ -1,31 +1,41 @@
 <!DOCTYPE html>
-<html  xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>After Dark</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link rel="stylesheet" href="/static/css/general.css">
-    <link rel="stylesheet" href="/static/css/general.css">
+    <link rel="stylesheet" href="/static/css/home.css">
+
 
 </head>
 <body>
 <header>
-<section class="top">
-    <a th:href="@{/}" class="icon">After Dark</a>
-    <form th:action="@{/logout}" method="post" class="logout">
-        <input type="submit" value="Sign Out"/>
-    </form>
-    <a th:href="@{/main}" class="cabinet"></a>
-    <a th:href="@{/login}" class="login">Login</a>
-    <a th:href="@{/chat_room}" class="chat_room">Chat</a>
-    <a th:href="@{/registration}" class="registration">Registration</a>
-</section>
+    <section class="top">
+        <a th:href="@{/}" class="icon">After Dark</a>
+        <form th:action="@{/logout}" method="post" class="logout">
+            <input type="submit" value="Sign Out"/>
+        </form>
+        <a th:href="@{/main}" class="cabinet"></a>
+        <a th:href="@{/login}" class="login">Login</a>
+        <a th:href="@{/chat_room}" class="chat_room">Chat</a>
+        <a th:href="@{/registration}" class="registration">Registration</a>
+    </section>
 </header>
 <div class="center">
-    <a>Welcome in the guild After Dark</a>
-<div class="admins">
-<button type="button" id="fill_characters" onclick="addAllCharactersInDB()">Add all characters in DB (use carefully)</button>
-<p><a th:href="@{/users}">Users</a></p>
-</div>
+    <div style="position: absolute; left: 25%; top: 80px; ">
+        <a style="font-size: 300%">Welcome in the guild After Dark</a>
+        <section id="inform">
+            <p><a th:href="@{/information}" style="font-size: 200%; position: absolute;left: 30%">Про нашу гильдию</a></p>
+        </section>
+    </div>
+    <section id="admins">
+        <button type="button" id="fill_characters" onclick="addAllCharactersInDB()">Add all characters in DB (use
+            carefully)
+        </button>
+        <p>
+            <button onclick="goToUsersOption()">Users</button>
+        </p>
+    </section>
 
 
 </div>

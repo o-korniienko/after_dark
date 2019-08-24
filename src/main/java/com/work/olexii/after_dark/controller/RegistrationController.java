@@ -61,6 +61,10 @@ public class RegistrationController {
         if (bindingResult.hasErrors() || !response.isSuccess() || isConfirmEmpty) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             int mds = 5;
+
+            for (Map.Entry<String, String> stringStringEntry : errors.entrySet()) {
+                System.out.println(stringStringEntry);
+            }
             for (String error : errors.values()) {
                 models[mds] = error;
                 mds++;
