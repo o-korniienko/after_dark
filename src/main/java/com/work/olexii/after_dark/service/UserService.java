@@ -106,7 +106,7 @@ public class UserService implements UserDetailsService {
             }
         }
         if (!StringUtils.isEmpty(password)) {
-            System.out.println("password: "+user.getPassword());
+            System.out.println("password: " + user.getPassword());
             user.setPassword(passwordEncoder.encode(password));
         }
         userRepo.save(user);
@@ -114,5 +114,47 @@ public class UserService implements UserDetailsService {
             sendMessage(user);
         }
 
+    }
+
+    public String[] checkUser(String identification) {
+        String[] errors = new String[1];
+        User user = userRepo.findByEmail(identification);
+
+        if (user == null) {
+            user = userRepo.findByUsername(identification);
+            if (user == null) {
+                errors[0] = "Пользователь не найден!!!";
+                return errors;
+            }
+        }
+        String message =
+                "Для восстановления пароля перейдите по ссылке: http://localhost:8080/recover/" + user.getId();
+        String subject = "Восстановление пароля";
+        mailSender.send(user.getEmail(), subject, message);
+
+        errors[0] = "Вам на почту было отправлено письмо. " +
+                "Для восстановления доступа к учетной записи перейдите по ссылке в нем.";
+
+        user.setActive(false);
+        userRepo.save(user);
+        return errors;
+    }
+
+    public User getUser(long id) {
+        return userRepo.getOne(id);
+    }
+
+    public boolean isPasswordChanged(String password, String password2, long id) {
+        boolean isPasswordEmpty = StringUtils.isEmpty(password);
+        boolean isConfirmEmpty = StringUtils.isEmpty(password2);
+        User user = userRepo.getOne(id);
+        if (user==null || isConfirmEmpty || isPasswordEmpty || user.isActive() || !password.equals(password2)){
+            return false;
+        }
+
+        user.setPassword(passwordEncoder.encode(password));
+        user.setActive(true);
+        userRepo.save(user);
+        return true;
     }
 }

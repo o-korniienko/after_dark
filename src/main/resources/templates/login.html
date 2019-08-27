@@ -8,13 +8,14 @@
         var message = [[${message}]];
     </script>
     <link rel="stylesheet" href="/static/css/general.css">
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/login.css">
 
 </head>
 <body>
 <header>
     <section class="top">
         <a th:href="@{/}" class="icon">After Dark</a>
+        <button type="button" onclick="goToRegistration()" id="go_registration_btn">Registration</button>
     </section>
 </header>
 <div class="center">
@@ -34,7 +35,7 @@
             <div class="field"><label class="field2"> Password: </label><input type="password"  name="password"/></div>
             <p/>
             <div onload="mss()" id="sign_in"><button type="submit" value="Sign In"/>Sign In</div>
-            <button type="button" onclick="goToRegistration()" id="go_registration_btn">Registration</button>
+            <a th:href="@{/recovery}" id="go_to_recovery">Забыли пароль?</a>
         </form>
     </div>
 </div>
@@ -54,6 +55,19 @@
 
     $(document).ready(function () {
         mss();
+        (function () {
+            var date = new Date();
+            var h = date.getHours();
+            h = h < 10 ? "0" + h : h;
+            var m = date.getMinutes();
+            m = m < 10 ? "0" + m : m;
+            var s = date.getSeconds();
+            s = s < 10 ? "0" + s : s;
+            var time = h + ":" + m + ":" + s;
+            $("#aT").text(time);
+            window.setTimeout(arguments.callee, 1000);
+
+        })();
     });
 
     function mss() {

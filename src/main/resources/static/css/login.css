@@ -1,0 +1,77 @@
+.log_form {
+    width: 270px;
+    height: 240px;
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    float: left;
+}
+
+.reg_form {
+    width: 290px;
+    height: 900px;
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    float: left;
+}
+
+#sign_in {
+    position: relative;
+    left: 25%;
+    display: inline;
+}
+
+#go_to_recovery{
+    position: relative;
+    left: 35%;
+    display: inline;
+}
+
+#go_registration_btn {
+    display: inline-block;
+    float: right;
+    position: relative;
+    right: 2%;
+    margin-top: 1%;
+}
+
+#registration_btn {
+    position: relative;
+    top: 10px;
+    left: 40%;
+    display: inline;
+}
+
+#go_login_btn {
+    display: inline-block;
+    float: right;
+    position: relative;
+    right: 2%;
+    margin-top: 1%;
+}
+
+#recovery_form{
+    width: 270px;
+    height: 240px;
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    float: left;
+}
+
+#check_usr{
+    position: relative;
+    left: 40%;
+    top: 4%;
+    display: inline;
+}
+
+#recovery_pass_form{
+    width: 290px;
+    height: 240px;
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    float: left;
+}

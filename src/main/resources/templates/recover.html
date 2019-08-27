@@ -2,16 +2,14 @@
 <html class="html" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <title>Password recovery</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="../static/js/registration.js"></script>
-    <link rel="stylesheet" href="/static/css/general.css">
-    <link rel="stylesheet" href="/static/css/login.css">
     <script th:inline="javascript">
+        var id = [[${user_id}]];
         var errors = [[${errors}]];
     </script>
-
+    <link rel="stylesheet" href="/static/css/general.css">
+    <link rel="stylesheet" href="/static/css/login.css">
 </head>
 <body>
 <header>
@@ -20,20 +18,8 @@
         <button type="button" id="go_login_btn" onclick="goToLoginPage()">Login</button>
     </section>
 </header>
-
 <div class="center">
-    <div class="reg_form">
-        <a style="position: relative; left: 40%">Registration</a>
-        </p><label class="error"></label>
-        <label id="usr" class="field3"></label>
-        <div class="field"><label class="field2">User Name</label><input type="text" class="user_name"
-                                                                         placeholder="Username"/>
-        </div>
-        <label id="email" class="field3"></label>
-        <div class="field"><label class="field2">Email</label><input type="email" name="email" class="email"
-                                                                     placeholder="Email"/>
-
-        </div>
+    <div id="recovery_pass_form">
         <label id="pas1" class="field3"></label>
         <div class="field"><label class="field2">Password</label><input type="password" class="user_password"
                                                                         placeholder="Password"/>
@@ -42,13 +28,10 @@
         <div class="field"><label class="field2">Password confirm</label><input type="password" class="user_password2"
                                                                                 placeholder="Retype password"/>
         </div>
+        <button id="check_usr" onclick="changePassword()">Отправить</button>
 
-        <section>
-            <label id="capt" class="field3"></label>
-            <div class="g-recaptcha" data-sitekey="6Le53KkUAAAAANUvm29VY1Fv8pSmEzJuGKFPhorK"></div>
-        </section>
-        <button type="button" id="registration_btn" onclick="registration()">Registration</button>
     </div>
+
 </div>
 
 <footer>
@@ -59,6 +42,6 @@
     <div id="aT">
     </div>
 </footer>
-<script src="/static/js/registration.js"></script>
+<script src="../static/js/recovery_pass.js"></script>
 </body>
 </html>

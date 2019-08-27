@@ -34,51 +34,50 @@ public class RegistrationController {
         return "/registration";
     }
 
-    @PostMapping("/registration")
-    @ResponseBody
-    public String[] reg(
+    @GetMapping("/registration/request")
+    public String reg(
             @RequestParam("password2") String passwordConfirm,
             @RequestParam("g-recaptcha-response") String captchaResponse,
             @Valid User user,
-            BindingResult bindingResult) {
+            BindingResult bindingResult, Model model) {
 
 
-        String[] models = new String[8];
+        String[] allErrors = new String[8];
         String url = String.format(CAPTCHA_URL, secret, captchaResponse);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(),
                 CaptchaResponseDto.class);
-        if (!response.isSuccess()){
-            models[4] = "Fill captcha";
+        if (!response.isSuccess()) {
+            allErrors[4] = "Fill captcha";
         }
 
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
         if (isConfirmEmpty) {
-            models[3] = "Password confirmation cannot be empty";
+            allErrors[3] = "Password confirmation cannot be empty";
         }
         if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
-            models[1] = "Passwords are different";
+            allErrors[1] = "Passwords are different";
         }
         if (bindingResult.hasErrors() || !response.isSuccess() || isConfirmEmpty) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             int mds = 5;
 
-            for (Map.Entry<String, String> stringStringEntry : errors.entrySet()) {
-                System.out.println(stringStringEntry);
-            }
             for (String error : errors.values()) {
-                models[mds] = error;
+                allErrors[mds] = error;
                 mds++;
             }
-            models[0] = "/registration";
-            return models;
+            allErrors[0] = "/registration";
+            model.addAttribute("errors", allErrors);
+            return "/registration";
         }
         if (!userService.addUser(user)) {
-            models[2] = "User already Exists!";
-            models[0] = "/registration";
-            return models;
+            allErrors[2] = "User already Exists!";
+            allErrors[0] = "/registration";
+            model.addAttribute("errors", allErrors);
+            return "/registration";
         }
-        models[0] = "/login";
-        return models;
+        allErrors[0] = "/login";
+        model.addAttribute("errors", allErrors);
+        return "/login";
     }
 
     @GetMapping("/activate/{code}")

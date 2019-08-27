@@ -34,20 +34,10 @@ function registration() {
         email: email
     }
     var jsonUser = JSON.stringify(newUser);
-    $.post("http://localhost:8080/registration?username=" + username + "&g-recaptcha-response=" + captchaConfirm +
-        "&password=" + password + "&password2=" +
-        password2 + "&email=" + email, jsonUser, function (data) {
+    var url = "http://localhost:8080/registration/request?username=" + username + "&g-recaptcha-response=" +
+        captchaConfirm + "&password=" + password + "&password2=" + password2 + "&email=" + email;
+    location = url;
 
-            if (data[0] === "/login") {
-                relocation(data[0]);
-            } else {
-                showErrors(data);
-
-            }
-
-        }
-    )
-    ;
 }
 
 function relocation(data) {
@@ -55,6 +45,12 @@ function relocation(data) {
 }
 
 $(document).ready(function () {
+    if (errors != null) {
+        console.log(errors);
+        showErrors(errors)
+        errors = null;
+    }
+
     (function () {
         var date = new Date();
         var h = date.getHours();

@@ -24,7 +24,7 @@ public class MainController {
     }
 
     @GetMapping("/information")
-    public String aboutAD(){
+    public String aboutAD() {
         return "/information";
     }
 
@@ -38,8 +38,10 @@ public class MainController {
     }
 
     @GetMapping("/chat_room")
-    public String chat(@AuthenticationPrincipal User user, Model model){
+    public String chat(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute(user);
         return "/chat_room";
     }
+
+
 }

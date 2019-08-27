@@ -117,49 +117,7 @@ footer {
     margin-top: 1%;
 }
 
-.log_form {
-    width: 270px;
-    height: 240px;
-    position: absolute;
-    top: 25%;
-    left: 40%;
-    float: left;
-}
 
-.reg_form {
-    width: 270px;
-    height: 900px;
-    position: absolute;
-    top: 25%;
-    left: 40%;
-    float: left;
-}
-
-#sign_in {
-    position: relative;
-    left: 20%;
-    display: inline;
-}
-
-#go_registration_btn {
-    position: relative;
-    left: 25%;
-    display: inline;
-}
-
-#registration_btn {
-    position: relative;
-    top: 10px;
-    left: 20%;
-    display: inline;
-}
-
-#go_login_btn {
-    position: relative;
-    left: 25%;
-    top: 10px;
-    display: inline;
-}
 
 .field {
     clear: both;
@@ -174,6 +132,7 @@ footer {
 
 .field3 {
     margin-left: 15px;
+    color: darkorange;
 }
 
 input{
