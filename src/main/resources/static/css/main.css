@@ -23,3 +23,7 @@
     left: 5%;
     bottom: 5%;
 }
+
+.characters_links:hover{
+    cursor: pointer;
+}

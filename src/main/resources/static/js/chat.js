@@ -44,7 +44,7 @@ $(document).ready(function () {
 
 function isAdmin(roles) {
     for (var i = 0; i < roles.length; i++) {
-        if (roles[i] === "SUPER_ADMIN") {
+        if (roles[i] === "SUPER_ADMIN" || roles[i] === "ADMIN") {
             return true;
         }
     }
@@ -53,7 +53,6 @@ function isAdmin(roles) {
 
 function isActiveUser() {
     $.get("http://localhost:8080/active", function (resp) {
-        //user = resp;
         if (resp === "") {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
@@ -62,10 +61,6 @@ function isActiveUser() {
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");
             $(".registration").css("display", "none");
-            var roles = user.roles;
-            if (!isAdmin(roles)) {
-                $("#updateC").css("display", "none");
-            }
         }
     });
 }
@@ -82,7 +77,6 @@ function getAllMessages() {
 function isChatChanged() {
     var messagesJson = JSON.stringify(global_messages);
     var size = global_messages.length;
-    //console.log(global_messages);
     $.put("http://localhost:8080/messages", messagesJson).done(function (resp) {
         if (resp.length > 0) {
             normalizationMessages(resp);
@@ -126,6 +120,9 @@ function changeMessage() {
 
     $.put("http://localhost:8080/msg?id=" + global_id, msgJson).done(function (resp) {
         getAllMessages();
+        $("#newMessage").val("");
+        $("#sendMessage").css("display", "block");
+        $("#changeMessage").css("display", "none")
     })
 
 }
@@ -157,8 +154,10 @@ function fillMessages(messages) {
         var usrname = name + ":  ";
         var id = messages[i].id;
         var text = messages[i].text;
+        var time = messages[i].createTime;
         $(".messages").append(`<section  class="msg" style="color: indigo; line-height: 25px;">${usrname} &nbsp;
                             <a style="color: orangered; font-family: 'Comic Sans MS'" id="${id}">${text}</a>
+                            <a class="message_time">${time}</a> 
                             <button onclick="deleteMsg(${id})" class="controllersD">delete</button>
                             <button onclick="editMsg(${id})" class="${name}" style="display: none;float: right;">edit</button>
                             </section>`)
@@ -179,6 +178,7 @@ function normalizationMessages(messages) {
         var email = messages[i].user.email;
         var activationCode = messages[i].user.activationCode;
         var roles = messages[i].user.roles;
+        var time = messages[i].createTime;
         var user = {
             id: user_id,
             username: username,
@@ -186,7 +186,8 @@ function normalizationMessages(messages) {
             active: active,
             email: email,
             activationCode: activationCode,
-            roles: roles
+            roles: roles,
+            createTime: time
         }
         var normMessage = {
             id: id,

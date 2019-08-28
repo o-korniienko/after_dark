@@ -16,7 +16,17 @@ import java.util.*;
 public class CharacterService {
 
     @Autowired
-    CharacterRepo characterRepo;
+    private CharacterRepo characterRepo;
+    public static Comparator<Character> BY_LEVEL;
+
+    static {
+        BY_LEVEL = new Comparator<Character>() {
+            @Override
+            public int compare(Character o1, Character o2) {
+                return (o2.getLevel() - o1.getLevel());
+            }
+        };
+    }
 
     public List<Character> addAllCharactersInDB() {
         Map<Integer, List<String>> characters = loadFromFile("after_dark-_ist.txt");
@@ -27,7 +37,7 @@ public class CharacterService {
             Character character1 = new Character();
             character1.setName(character.get(0));
             character1.setLevel(Integer.parseInt(character.get(2)));
-            setClassAndRang(character1,character);
+            setClassAndRang(character1, character);
             charactersList.add(character1);
             characterRepo.save(character1);
         }
@@ -62,72 +72,100 @@ public class CharacterService {
                 character.setClassEn(ClassEn.Paladin);
                 character.setClassRu(ClassRu.Паладин);
                 break;
-            case "Монах" : character.setClassEn(ClassEn.Monk);
+            case "Монах":
+                character.setClassEn(ClassEn.Monk);
                 character.setClassRu(ClassRu.Монах);
                 break;
-            case "Жрец" : character.setClassEn(ClassEn.Priest);
+            case "Жрец":
+                character.setClassEn(ClassEn.Priest);
                 character.setClassRu(ClassRu.Жрец);
                 break;
-            case "Разбойник":character.setClassEn(ClassEn.Rogue);
+            case "Разбойник":
+                character.setClassEn(ClassEn.Rogue);
                 character.setClassRu(ClassRu.Разбойник);
                 break;
-            case "Охотник":character.setClassEn(ClassEn.Hunter);
+            case "Охотник":
+                character.setClassEn(ClassEn.Hunter);
                 character.setClassRu(ClassRu.Охотник);
                 break;
-            case "Шаман":character.setClassEn(ClassEn.Shaman);
+            case "Шаман":
+                character.setClassEn(ClassEn.Shaman);
                 character.setClassRu(ClassRu.Шаман);
                 break;
-            case "Друид":character.setClassEn(ClassEn.Druid);
+            case "Друид":
+                character.setClassEn(ClassEn.Druid);
                 character.setClassRu(ClassRu.Друид);
                 break;
-            case "Чернокнижник":character.setClassEn(ClassEn.Warlock);
+            case "Чернокнижник":
+                character.setClassEn(ClassEn.Warlock);
                 character.setClassRu(ClassRu.Чернокнижник);
                 break;
-            case "Маг":character.setClassEn(ClassEn.Mage);
+            case "Маг":
+                character.setClassEn(ClassEn.Mage);
                 character.setClassRu(ClassRu.Маг);
                 break;
-            case "Воин":character.setClassEn(ClassEn.Warrior);
+            case "Воин":
+                character.setClassEn(ClassEn.Warrior);
                 character.setClassRu(ClassRu.Воин);
                 break;
-            case "Рыцарь смерти":character.setClassEn(ClassEn.DeathKnight);
+            case "Рыцарь смерти":
+                character.setClassEn(ClassEn.DeathKnight);
                 character.setClassRu(ClassRu.Рыцарь_смерти);
                 break;
-            case "Охотник на демонов":character.setClassEn(ClassEn.DemonHunter);
+            case "Охотник на демонов":
+                character.setClassEn(ClassEn.DemonHunter);
                 character.setClassRu(ClassRu.Охотник_на_демонов);
                 break;
 
         }
-        switch (list.get(3)){
-            case "0" : character.setRank(Rank.Гильд_Мастер);
-            break;
-            case "1" : character.setRank(Rank.Зам);
+        switch (list.get(3)) {
+            case "0":
+                character.setRank(Rank.Гильд_Мастер);
                 break;
-            case "2" : character.setRank(Rank.Хранитель);
+            case "1":
+                character.setRank(Rank.Зам);
                 break;
-            case "3" : character.setRank(Rank.Офицер);
+            case "2":
+                character.setRank(Rank.Хранитель);
                 break;
-            case "4" : character.setRank(Rank.Рейдер);
+            case "3":
+                character.setRank(Rank.Офицер);
                 break;
-            case "5" : character.setRank(Rank.Ветеран);
+            case "4":
+                character.setRank(Rank.Рейдер);
                 break;
-            case "6" : character.setRank(Rank.Мастер);
+            case "5":
+                character.setRank(Rank.Ветеран);
                 break;
-            case "7" : character.setRank(Rank.Защитник);
+            case "6":
+                character.setRank(Rank.Мастер);
                 break;
-            case "8" : character.setRank(Rank.Игрок);
+            case "7":
+                character.setRank(Rank.Защитник);
                 break;
-            case "9" : character.setRank(Rank.Рекрут);
+            case "8":
+                character.setRank(Rank.Игрок);
+                break;
+            case "9":
+                character.setRank(Rank.Рекрут);
                 break;
         }
     }
 
 
     public Iterable<Character> findAll() {
-        return characterRepo.findAll();
+        List<Character> characters = characterRepo.findAll();
+        Collections.sort(characters, BY_LEVEL);
+        return characters;
     }
 
     public Iterable<Character> getYourCharacters(User user) {
-        return characterRepo.findByUser(user);
+        List<Character> characters = characterRepo.findByUser(user);
+        Collections.sort(characters, BY_LEVEL);
+        for (Character character : characters) {
+            System.out.println(character);
+        }
+        return characters;
     }
 
 

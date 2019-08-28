@@ -57,7 +57,7 @@ function showCharacters(resp) {
         return;
     } else {
         var tblBody = document.getElementById("body");
-        var rows = tblBody.getElementsByTagName("tr");
+        var rows = document.getElementsByTagName("tr");
         var rowCount = rows.length;
         for (var i = rowCount - 1; i > 0; i--) {
             tblBody.removeChild(rows[i]);
@@ -65,6 +65,7 @@ function showCharacters(resp) {
         var cellText;
         var text;
         for (var i = 0; i < characters.length; i++) {
+            console.log(characters[i]);
             var row = document.createElement("tr");
             for (var j = 0; j < 5; j++) {
                 if (j === 0) {
@@ -88,15 +89,18 @@ function showCharacters(resp) {
                     var sect = document.createElement("section");
                     sect.className = name;
                     var bt = document.createElement("section");
-                    bt.className = name;
+                    bt.className = "characters_links";
+                    bt.id = name;
                     bt.innerText = "battle.net";
                     bt.addEventListener("click", goToBT);
                     var wl = document.createElement("section");
-                    wl.className = name;
+                    wl.className = "characters_links";
+                    wl.id = name;
                     wl.innerText = "wow.logs";
                     wl.addEventListener("click", goToWL);
                     var wp = document.createElement("section");
-                    wp.className = name;
+                    wp.className = "characters_links";
+                    wp.id = name;
                     wp.innerText = "wow.progress";
                     wp.addEventListener("click", goToWP);
                     sect.appendChild(bt);
@@ -119,18 +123,18 @@ function showCharacters(resp) {
 
 function goToBT() {
     var target = event.target;
-    var name = target.classList[0];
+    var name = target.id;
     window.open("https://worldofwarcraft.com/ru-ru/character/eu/borean-tundra/" + name);
 }
 
 function goToWL() {
     var target = event.target;
-    var name = target.classList[0];
+    var name = target.id;
     window.open("https://ru.warcraftlogs.com/character/eu/бореиская-тундра/" + name);
 }
 
 function goToWP() {
     var target = event.target;
-    var name = target.classList[0];
+    var name = target.id;
     window.open("https://www.wowprogress.com/character/eu/борейская-тундра/" + name);
 }

@@ -79,3 +79,38 @@
     text-align: center;
     font-size: 14px;
 }
+
+.messages{
+    width: 80%;
+    position: relative;
+    margin-top: 25px;
+    left: 10%;
+    background-color: khaki;
+}
+.sending{
+    width: 80%;
+    position: relative;
+    margin-top: 5px;
+    left: 10%;
+}
+#new_announcement{
+    width: 50%;
+    background-color: #6cacc5;
+}
+
+.controllersD {
+    display: none;
+    float: right;
+}
+
+.message_time{
+    position: absolute;
+    right: 10%;
+    color: orangered;
+    font-family: 'Comic Sans MS';
+    font-size: small;
+}
+
+.characters:hover{
+    cursor: pointer;
+}

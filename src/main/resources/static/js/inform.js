@@ -1,7 +1,6 @@
 jQuery.each(["put", "delete", "post"], function (i, method) {
     jQuery[method] = function (url, data, callback) {
         if (jQuery.isFunction(data)) {
-            type = type || callback;
             callback = data;
             data = undefined;
         }
@@ -21,7 +20,8 @@ jQuery.each(["put", "delete", "post"], function (i, method) {
     };
 });
 
-
+var global_id;
+var user;
 $(document).ready(function () {
     isActiveUser();
     (function () {
@@ -43,8 +43,9 @@ $(document).ready(function () {
         document.getElementById("chart").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
         document.getElementById("recruitingEditing").style.display = "none";
+        document.getElementById("announcements").style.display = "none";
         document.getElementById("team").style.display = "block";
-        getAllcharacters();
+        getAllCharacters();
 
     }
     document.getElementById("menu2").onclick = function () {
@@ -52,6 +53,7 @@ $(document).ready(function () {
         document.getElementById("recruiting").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
         document.getElementById("recruitingEditing").style.display = "none";
+        document.getElementById("announcements").style.display = "none";
         document.getElementById("chart").style.display = "block";
         getChart();
     }
@@ -60,8 +62,22 @@ $(document).ready(function () {
         document.getElementById("chart").style.display = "none";
         document.getElementById("chartEditing").style.display = "none";
         document.getElementById("recruitingEditing").style.display = "none";
+        document.getElementById("announcements").style.display = "none";
         document.getElementById("recruiting").style.display = "block";
         getRecruitingText();
+    }
+
+    document.getElementById("menu4").onclick = function () {
+        document.getElementById("team").style.display = "none";
+        document.getElementById("chart").style.display = "none";
+        document.getElementById("chartEditing").style.display = "none";
+        document.getElementById("recruitingEditing").style.display = "none";
+        document.getElementById("recruiting").style.display = "none";
+        document.getElementById("announcements").style.display = "block";
+        if (!isAdmin(user.roles)) {
+            $(".sending").css("display", "none");
+        }
+        getAllAnnouncements();
     }
 
 });
@@ -78,7 +94,7 @@ function discord() {
 function isActiveUser() {
     $.get("http://localhost:8080/active", function (resp) {
         user = resp;
-        if (resp === "") {
+        if (user === "") {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
             $(".chat_room").css("display", "none");
@@ -86,9 +102,11 @@ function isActiveUser() {
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");
             $(".registration").css("display", "none");
+            $("#menu4").css("display", "inline");
             var roles = user.roles;
-            if (!isAdmin(roles)){
+            if (!isAdmin(roles)) {
                 $("#updateC").css("display", "none");
+                $("#updateR").css("display", "none");
             }
         }
     });
@@ -103,7 +121,7 @@ function isAdmin(roles) {
     return false;
 }
 
-function getAllcharacters() {
+function getAllCharacters() {
     $.get("http://localhost:8080/characters", function (resp) {
         showCharacters(resp);
     });
@@ -146,15 +164,18 @@ function showCharacters(resp) {
                     var sect = document.createElement("section");
                     sect.className = name;
                     var bt = document.createElement("section");
-                    bt.className = name;
+                    bt.className = "characters";
+                    bt.id = name;
                     bt.innerText = "battle.net";
                     bt.addEventListener("click", goToBT);
                     var wl = document.createElement("section");
-                    wl.className = name;
+                    wl.className = "characters";
+                    wl.id = name;
                     wl.innerText = "wow.logs";
                     wl.addEventListener("click", goToWL);
                     var wp = document.createElement("section");
-                    wp.className = name;
+                    wp.className = "characters";
+                    wp.id = name;
                     wp.innerText = "wow.progress";
                     wp.addEventListener("click", goToWP);
                     sect.appendChild(bt);
@@ -177,19 +198,19 @@ function showCharacters(resp) {
 
 function goToBT() {
     var target = event.target;
-    var name = target.classList[0];
+    var name = target.id;
     window.open("https://worldofwarcraft.com/ru-ru/character/eu/borean-tundra/" + name);
 }
 
 function goToWL() {
     var target = event.target;
-    var name = target.classList[0];
+    var name = target.id;
     window.open("https://ru.warcraftlogs.com/character/eu/бореиская-тундра/" + name);
 }
 
 function goToWP() {
     var target = event.target;
-    var name = target.classList[0];
+    var name = target.id;
     window.open("https://www.wowprogress.com/character/eu/борейская-тундра/" + name);
 }
 
@@ -253,17 +274,6 @@ function changeRecruitingText() {
     })
 }
 
-function createChart() {
-    var text = $("#changedChart").val();
-    var objectText = {
-        text: text
-    }
-    var jsonText = JSON.stringify(objectText);
-    $.post("http://localhost:8080/msg", jsonText).done(function (data) {
-
-    })
-}
-
 function goBackToCharter() {
     document.getElementById("chart").style.display = "block";
     document.getElementById("chartEditing").style.display = "none";
@@ -285,4 +295,87 @@ function sendRequest() {
     })
 }
 
+function createAnnouncement() {
+    var text = $("#new_announcement").val();
+    var objectText = {
+        text: text
+    }
+    var jsonText = JSON.stringify(objectText);
+    $.post("http://localhost:8080/announcements", jsonText).done(function (data) {
+        console.log(data);
+        getAllAnnouncements();
+    })
+}
+
+function getAllAnnouncements() {
+    $.get("http://localhost:8080/announcements", function (resp) {
+        $(".messages").empty();
+        fillAnnouncements(resp);
+    });
+
+}
+
+function fillAnnouncements(messages) {
+    for (var i = 0; i < messages.length; i++) {
+        var name = messages[i].user.username;
+        var usrname = name + ":  ";
+        var id = messages[i].id;
+        var text = messages[i].text;
+        var time = messages[i].createTime;
+        $(".messages").append(`<section  class="msg" style="color: indigo; line-height: 25px;">${usrname} &nbsp;
+                            <a style="color: orangered; font-family: 'Comic Sans MS'" id="${id}">${text}</a>
+                            <a class="message_time">${time}</a> 
+                            <button onclick="deleteAnnouncement(${id})" class="controllersD">delete</button>
+                            <button onclick="editAnnouncement(${id})" class="${name}" style="display: none;float: right;">edit</button>
+                            </section>`)
+        showEdit(name);
+        showDelete();
+    }
+}
+
+function showEdit(name) {
+    var usrname = user.username;
+    if (usrname == name) {
+        $("." + name).css("display", "inline");
+
+    }
+
+}
+
+function showDelete() {
+    var roles = user.roles;
+    if (isAdmin(roles)) {
+        $(".controllersD").css("display", "inline");
+    }
+}
+
+function editAnnouncement(id) {
+    var text = document.getElementById(id).innerText;
+    $("#new_announcement").val(text);
+    $("#sendAnnouncement").css("display", "none");
+    $("#changeAnnouncement").css("display", "block")
+    global_id = id;
+}
+
+function deleteAnnouncement(id) {
+    $.delete("http://localhost:8080/msg?id=" + id, function (resp) {
+        getAllAnnouncements();
+    })
+}
+
+function changeAnnouncement() {
+    var text = $("#new_announcement").val();
+    var msgObject = {
+        text: text
+    }
+    var msgJson = JSON.stringify(msgObject);
+
+    $.put("http://localhost:8080/announcements?id=" + global_id, msgJson).done(function (resp) {
+        getAllAnnouncements();
+        $("#new_announcement").val("");
+        $("#sendAnnouncement").css("display", "block");
+        $("#changeAnnouncement").css("display", "none")
+    })
+
+}
 

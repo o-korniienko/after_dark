@@ -1,6 +1,9 @@
 package com.work.olexii.after_dark.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +16,8 @@ public class Message {
     private String tag;
     @ManyToOne
     private User user;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yy HH:mm")
+    private LocalDateTime createTime;
 
     public long getId() {
         return id;
@@ -46,6 +51,14 @@ public class Message {
         this.user = user;
     }
 
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,6 +79,7 @@ public class Message {
                 "id=" + id +
                 ", text='" + text + '\'' +
                 ", user=" + user +
+                ", createTime=" + createTime +
                 '}';
     }
 }

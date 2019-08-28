@@ -21,3 +21,11 @@
     float: right;
 }
 
+.message_time{
+    position: absolute;
+    right: 10%;
+    color: orangered;
+    font-family: 'Comic Sans MS';
+    font-size: small;
+}
+

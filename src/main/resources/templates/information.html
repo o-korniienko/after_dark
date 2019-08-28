@@ -29,6 +29,7 @@
         <button id="menu1" class="vmenu">Состав</button>
         <button id="menu2" class="vmenu">Устав</button>
         <button id="menu3" class="vmenu">Рекрутинг</button>
+        <button id="menu4" class="vmenu" style="display: none">Анонсы</button>
     </div>
     <div id="content">
         <div id="team" style="display:none;">
@@ -78,6 +79,19 @@
             <textarea rows="40" id="changedRecruitingText"></textarea>
             <button id="changeR" onclick="changeRecruitingText()">Change</button>
             <button id="cancelR" onclick="goBackToRecruiting()">Cancel</button>
+        </div>
+
+        <div id="announcements" style="display: none">
+            <section class="messages">
+
+            </section>
+
+            <div class="sending">
+                <textarea rows="1" id="new_announcement"></textarea>
+                <p></p>
+                <button id="sendAnnouncement" type="button" onclick="createAnnouncement()">Send</button>
+                <button id="changeAnnouncement" type="button" onclick="changeAnnouncement()" style="display: none">Change</button>
+            </div>
         </div>
 
     </div>
