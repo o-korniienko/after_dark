@@ -25,13 +25,15 @@
     <div style="position: absolute; left: 25%; top: 80px; ">
         <a style="font-size: 300%">Welcome in the guild After Dark</a>
         <section id="inform">
-            <p><a th:href="@{/information}" style="font-size: 200%; position: absolute;left: 30%">Про нашу гильдию</a></p>
+            <p><a th:href="@{/information}" style="font-size: 200%; position: absolute;left: 30%">
+                О нас и нашей гильдии</a></p>
         </section>
     </div>
     <section id="admins">
         <button type="button" id="fill_characters" onclick="addAllCharactersInDB()">Add all characters in DB (use
             carefully)
         </button>
+        <button onclick="goToTestPage()">Test Page</button>
         <p>
             <button onclick="goToUsersOption()">Users</button>
         </p>

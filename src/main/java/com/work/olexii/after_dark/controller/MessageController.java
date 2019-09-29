@@ -3,6 +3,7 @@ package com.work.olexii.after_dark.controller;
 import com.work.olexii.after_dark.domain.Message;
 import com.work.olexii.after_dark.domain.User;
 import com.work.olexii.after_dark.service.MessageService;
+import com.work.olexii.after_dark.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,9 +18,17 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    @Autowired
+    UserService  userService;
+
     @GetMapping("/messages")
     public List<Message> getMessages() {
         return messageService.getChatMessages();
+    }
+
+    @GetMapping("/usertest")
+    public User getOneUser(@RequestParam(value = "id") long id){
+        return userService.getOneUser(id);
     }
 
     @PutMapping("/messages")

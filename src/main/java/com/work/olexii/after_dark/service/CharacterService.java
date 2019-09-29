@@ -1,23 +1,40 @@
 package com.work.olexii.after_dark.service;
 
-import com.work.olexii.after_dark.domain.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.work.olexii.after_dark.domain.Character;
+import com.work.olexii.after_dark.domain.Token;
+import com.work.olexii.after_dark.domain.User;
+import com.work.olexii.after_dark.domain.models.TokenResponse;
 import com.work.olexii.after_dark.repos.CharacterRepo;
+import com.work.olexii.after_dark.repos.TokenRepo;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import sun.net.www.protocol.http.Handler;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
 public class CharacterService {
 
+    private URLStreamHandler urlStreamHandler = new Handler();
     @Autowired
     private CharacterRepo characterRepo;
+    @Autowired
+    private TokenRepo tokenRepo;
     public static Comparator<Character> BY_LEVEL;
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final String BNET_ID = "9125eaa751bf43f5aee173f0d8d50efd";
+    private static final String BNET_SECRET = "AHfMwyqoBADo244amT1jRfTg1Ll0JrMw";
 
     static {
         BY_LEVEL = new Comparator<Character>() {
@@ -28,130 +45,14 @@ public class CharacterService {
         };
     }
 
-    public List<Character> addAllCharactersInDB() {
-        Map<Integer, List<String>> characters = loadFromFile("after_dark-_ist.txt");
-        List<Character> charactersList = new ArrayList<>();
+    public List<Character> addAllCharactersToDB() {
+        List<Character> characters = new ArrayList<>();
 
-        for (List<String> character : characters.values()) {
-            System.out.println(character);
-            Character character1 = new Character();
-            character1.setName(character.get(0));
-            character1.setLevel(Integer.parseInt(character.get(2)));
-            setClassAndRang(character1, character);
-            charactersList.add(character1);
-            characterRepo.save(character1);
-        }
+        characters = getGuildDataFromBlizzardApi();
 
-        return charactersList;
+
+        return characters;
     }
-
-    public Map<Integer, List<String>> loadFromFile(String fileName) {
-        Map<Integer, List<String>> map = new HashMap<>();
-        int size = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] words = line.split("/");
-                List<String> characters = new ArrayList<>(Arrays.asList(words));
-                map.put(size, characters);
-                size++;
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return map;
-    }
-
-    private void setClassAndRang(Character character, List<String> list) {
-        switch (list.get(1)) {
-            case "Паладин":
-                character.setClassEn(ClassEn.Paladin);
-                character.setClassRu(ClassRu.Паладин);
-                break;
-            case "Монах":
-                character.setClassEn(ClassEn.Monk);
-                character.setClassRu(ClassRu.Монах);
-                break;
-            case "Жрец":
-                character.setClassEn(ClassEn.Priest);
-                character.setClassRu(ClassRu.Жрец);
-                break;
-            case "Разбойник":
-                character.setClassEn(ClassEn.Rogue);
-                character.setClassRu(ClassRu.Разбойник);
-                break;
-            case "Охотник":
-                character.setClassEn(ClassEn.Hunter);
-                character.setClassRu(ClassRu.Охотник);
-                break;
-            case "Шаман":
-                character.setClassEn(ClassEn.Shaman);
-                character.setClassRu(ClassRu.Шаман);
-                break;
-            case "Друид":
-                character.setClassEn(ClassEn.Druid);
-                character.setClassRu(ClassRu.Друид);
-                break;
-            case "Чернокнижник":
-                character.setClassEn(ClassEn.Warlock);
-                character.setClassRu(ClassRu.Чернокнижник);
-                break;
-            case "Маг":
-                character.setClassEn(ClassEn.Mage);
-                character.setClassRu(ClassRu.Маг);
-                break;
-            case "Воин":
-                character.setClassEn(ClassEn.Warrior);
-                character.setClassRu(ClassRu.Воин);
-                break;
-            case "Рыцарь смерти":
-                character.setClassEn(ClassEn.DeathKnight);
-                character.setClassRu(ClassRu.Рыцарь_смерти);
-                break;
-            case "Охотник на демонов":
-                character.setClassEn(ClassEn.DemonHunter);
-                character.setClassRu(ClassRu.Охотник_на_демонов);
-                break;
-
-        }
-        switch (list.get(3)) {
-            case "0":
-                character.setRank(Rank.Гильд_Мастер);
-                break;
-            case "1":
-                character.setRank(Rank.Зам);
-                break;
-            case "2":
-                character.setRank(Rank.Хранитель);
-                break;
-            case "3":
-                character.setRank(Rank.Офицер);
-                break;
-            case "4":
-                character.setRank(Rank.Рейдер);
-                break;
-            case "5":
-                character.setRank(Rank.Ветеран);
-                break;
-            case "6":
-                character.setRank(Rank.Мастер);
-                break;
-            case "7":
-                character.setRank(Rank.Защитник);
-                break;
-            case "8":
-                character.setRank(Rank.Игрок);
-                break;
-            case "9":
-                character.setRank(Rank.Рекрут);
-                break;
-        }
-    }
-
 
     public Iterable<Character> findAll() {
         List<Character> characters = characterRepo.findAll();
@@ -162,9 +63,6 @@ public class CharacterService {
     public Iterable<Character> getYourCharacters(User user) {
         List<Character> characters = characterRepo.findByUser(user);
         Collections.sort(characters, BY_LEVEL);
-        for (Character character : characters) {
-            System.out.println(character);
-        }
         return characters;
     }
 
@@ -177,4 +75,109 @@ public class CharacterService {
         characterRepo.save(character);
     }
 
+    public void deleteAllCharacters() {
+        characterRepo.deleteAll();
+    }
+
+    private List<Character> getGuildDataFromBlizzardApi() {
+        List<Character> characterList = new ArrayList<>();
+        RestTemplate restTemplate = new RestTemplate();
+        String token = getToken(BNET_ID, BNET_SECRET);
+        if (token != null) {
+            String url = "https://eu.api.blizzard.com/wow/guild/borean-tundra/" +
+                    "После Тьмы?fields=members&locale=ru_RU&access_token=" + token;
+
+            String stringPosts = restTemplate.getForObject(url, String.class);
+            String[] charactersStrings = stringPosts.split("character");
+            for (int r = 1; r < charactersStrings.length; r++) {
+                String characterStr = charactersStrings[r];
+                if (r == charactersStrings.length - 1) {
+                    characterStr = characterStr.split("\"emblem\":")[0];
+                    characterStr = characterStr.substring(3, characterStr.length() - 3);
+                } else {
+                    characterStr = characterStr.substring(3, characterStr.length() - 4);
+                }
+                Character character = new Character();
+                String[] characterFields = characterStr.split(",");
+                for (int i = 0; i < characterFields.length; i++) {
+                    String[] characterFields2 = characterFields[i].split(":");
+                    characterFields2[0] = characterFields2[0].substring(1, characterFields2[0].length() - 1);
+                    if (characterFields2[0].equals("name")) {
+                        character.setName(characterFields2[1].substring(1, characterFields2[1].length() - 1));
+                    }
+                    if (characterFields2[0].equals("level")) {
+                        character.setLevel(Integer.parseInt(characterFields2[1]));
+                    }
+                    if (characterFields2[0].equals("class")) {
+                        character.setClassEnByInt(Integer.parseInt(characterFields2[1]));
+                        character.setClassRuByInt(Integer.parseInt(characterFields2[1]));
+                    }
+                    if (characterFields2[0].equals("rank")) {
+                        character.setRankByInt(Integer.parseInt(characterFields2[1]));
+                    }
+                }
+                characterList.add(character);
+            }
+        }
+        return characterList;
+    }
+
+    private String getToken(String id, String secret) {
+        Token tokenFromDB = tokenRepo.findAll().get(0);
+        String token = null;
+        if (!isTokenExpired(tokenFromDB)) {
+            token = tokenFromDB.getAccess_token();
+            return token;
+        } else {
+            HttpURLConnection con;
+            try {
+                String encodedCredentials = Base64.getEncoder().encodeToString(String.format("%s:%s", id,
+                        secret).getBytes("UTF-8"));
+
+                URL url1 = new URL("https://us.battle.net/oauth/token");
+                con = (HttpURLConnection) url1.openConnection();
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Authorization", String.format("Basic %s", encodedCredentials));
+                con.setDoOutput(true);
+                con.getOutputStream().write("grant_type=client_credentials".getBytes("UTF-8"));
+                int responseCode = con.getResponseCode();
+                if (responseCode == 200) {
+                    String response = IOUtils.toString(con.getInputStream(), "UTF-8");
+                    TokenResponse tokenResponse = gson.fromJson(response, TokenResponse.class);
+                    token = tokenResponse.getAccess_token();
+                    Token tokenToSave = new Token();
+                    tokenToSave.setAccess_token(tokenResponse.getAccess_token());
+                    tokenToSave.setExpires_in(tokenResponse.getExpires_in());
+                    tokenToSave.setCreateTime(LocalDateTime.now());
+                    BeanUtils.copyProperties(tokenToSave, tokenFromDB, "id");
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return token;
+    }
+
+    private boolean isTokenExpired(Token token) {
+        long expiresIn = token.getExpires_in();
+        LocalDateTime createTime = token.getCreateTime();
+        ZonedDateTime zoneDateTime1 = createTime.atZone(ZoneId.of("Europe/Kiev"));
+        long createTimeInSeconds = zoneDateTime1.toInstant().toEpochMilli() / 1000;
+        LocalDateTime nowTime = LocalDateTime.now();
+        ZonedDateTime zoneDateTime2 = nowTime.atZone(ZoneId.of("Europe/Kiev"));
+        long nowTimeInSeconds = zoneDateTime2.toInstant().toEpochMilli() / 1000;
+        long difference = nowTimeInSeconds - createTimeInSeconds;
+
+        if (difference > expiresIn) {
+            return true;
+        }
+
+        return false;
+    }
 }

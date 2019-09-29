@@ -157,4 +157,9 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
         return true;
     }
+
+    public User getOneUser(long id) {
+
+        return userRepo.getById(id);
+    }
 }

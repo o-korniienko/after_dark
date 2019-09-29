@@ -51,13 +51,16 @@ public class RegistrationController {
         }
 
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
+        boolean isPasswordsDifferent = false;
+        System.out.println(isConfirmEmpty);
         if (isConfirmEmpty) {
             allErrors[3] = "Password confirmation cannot be empty";
         }
         if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
             allErrors[1] = "Passwords are different";
+            isPasswordsDifferent = true;
         }
-        if (bindingResult.hasErrors() || !response.isSuccess() || isConfirmEmpty) {
+        if (bindingResult.hasErrors() || !response.isSuccess() || isConfirmEmpty || isPasswordsDifferent) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             int mds = 5;
 

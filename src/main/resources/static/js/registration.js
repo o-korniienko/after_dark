@@ -67,7 +67,7 @@ $(document).ready(function () {
 });
 
 function showErrors(data) {
-    console.log(data[1]);
+    console.log(data[2]);
     var pasError;
     var usrNameError;
     var emailError;
@@ -97,9 +97,9 @@ function showErrors(data) {
         $("#usr").text('');
     }
     if (usrError != null) {
-        $(".error").text(usrError);
+        $("#error").text(usrError);
     } else {
-        $(".error").text('');
+        $("#error").text('');
     }
     if (captchaError != null) {
         $("#capt").text(captchaError);
@@ -131,4 +131,12 @@ function showErrors(data) {
 
 function goToLoginPage() {
     document.location = "/login";
+}
+
+function vk() {
+    window.open("http://vk.com/after_dark_wow");
+}
+
+function discord() {
+    window.open("https://discord.gg/WTGY8K4");
 }

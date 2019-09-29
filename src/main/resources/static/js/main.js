@@ -138,3 +138,11 @@ function goToWP() {
     var name = target.id;
     window.open("https://www.wowprogress.com/character/eu/борейская-тундра/" + name);
 }
+
+function vk() {
+    window.open("http://vk.com/after_dark_wow");
+}
+
+function discord() {
+    window.open("https://discord.gg/WTGY8K4");
+}

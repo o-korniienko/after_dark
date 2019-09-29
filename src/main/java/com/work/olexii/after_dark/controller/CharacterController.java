@@ -15,9 +15,9 @@ public class CharacterController {
     @Autowired
     CharacterService characterService;
 
-    @GetMapping("/fillCharacters")
-    public List<Character> addAllCharactersInDB(){
-        return characterService.addAllCharactersInDB();
+    @PostMapping("/characters")
+    public List<Character> addAllCharactersToDB( ){
+        return characterService.addAllCharactersToDB();
     }
 
     @GetMapping("/characters")
@@ -30,6 +30,7 @@ public class CharacterController {
         System.out.println(user);
         return characterService.getYourCharacters(user);
     }
+
     @PostMapping("/chartouser")
     public String[] characterToUser(@AuthenticationPrincipal User user,
                                     @RequestParam("charName") String charName){
@@ -49,5 +50,9 @@ public class CharacterController {
         return models;
     }
 
+    @DeleteMapping("/chars")
+    public void deleteAllCharacters(){
+     characterService.deleteAllCharacters();
+    }
 
 }

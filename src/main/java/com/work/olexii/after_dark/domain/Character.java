@@ -1,9 +1,12 @@
 package com.work.olexii.after_dark.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = false)
 public class Character {
 
     @Id
@@ -74,6 +77,88 @@ public class Character {
         this.user = user;
     }
 
+    public void setClassEnByInt(int classInt) {
+        switch (classInt) {
+            case 1:
+                this.classEn = ClassEn.Warrior;
+                break;
+            case 2:
+                this.classEn = ClassEn.Paladin;
+                break;
+            case 3:
+                this.classEn = ClassEn.Hunter;
+                break;
+            case 4:
+                this.classEn = ClassEn.Rogue;
+                break;
+            case 5:
+                this.classEn = ClassEn.Priest;
+                break;
+            case 6:
+                this.classEn = ClassEn.DeathKnight;
+                break;
+            case 7:
+                this.classEn = ClassEn.Shaman;
+                break;
+            case 8:
+                this.classEn = ClassEn.Mage;
+                break;
+            case 9:
+                this.classEn = ClassEn.Warlock;
+                break;
+            case 10:
+                this.classEn = ClassEn.Monk;
+                break;
+            case 11:
+                this.classEn = ClassEn.Druid;
+                break;
+            case 12:
+                this.classEn = ClassEn.DemonHunter;
+                break;
+        }
+    }
+
+    public void setClassRuByInt(int classInt) {
+        switch (classInt) {
+            case 1:
+                this.classRu = ClassRu.Воин;
+                break;
+            case 2:
+                this.classRu = ClassRu.Паладин;
+                break;
+            case 3:
+                this.classRu = ClassRu.Охотник;
+                break;
+            case 4:
+                this.classRu = ClassRu.Разбойник;
+                break;
+            case 5:
+                this.classRu = ClassRu.Жрец;
+                break;
+            case 6:
+                this.classRu = ClassRu.Рыцарь_смерти;
+                break;
+            case 7:
+                this.classRu = ClassRu.Шаман;
+                break;
+            case 8:
+                this.classRu = ClassRu.Маг;
+                break;
+            case 9:
+                this.classRu = ClassRu.Чернокнижник;
+                break;
+            case 10:
+                this.classRu = ClassRu.Монах;
+                break;
+            case 11:
+                this.classRu = ClassRu.Друид;
+                break;
+            case 12:
+                this.classRu = ClassRu.Охотник_на_демонов;
+                break;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -103,5 +188,42 @@ public class Character {
                 ", rank=" + rank +
                 ", user=" + user +
                 '}';
+    }
+
+    public void setRankByInt(int parseInt) {
+        switch (parseInt) {
+            case 0:
+                this.rank = Rank.Гильд_Мастер;
+                break;
+            case 1:
+                this.rank = Rank.Зам;
+                break;
+
+            case 2:
+                this.rank = Rank.Хранитель;
+                break;
+            case 3:
+                this.rank = Rank.Офицер;
+                break;
+            case 4:
+                this.rank = Rank.Рейдер;
+                break;
+            case 5:
+                this.rank = Rank.Ветеран;
+                break;
+            case 6:
+                this.rank = Rank.Мастер;
+                break;
+            case 7:
+                this.rank = Rank.Защитник;
+                break;
+            case 8:
+                this.rank = Rank.Игрок;
+                break;
+            case 9:
+                this.rank = Rank.Рекрут;
+                break;
+        }
+
     }
 }

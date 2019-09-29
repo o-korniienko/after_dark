@@ -98,6 +98,9 @@ function isActiveUser() {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
             $(".chat_room").css("display", "none");
+            $("#updateC").css("display", "none");
+            $("#updateR").css("display", "none");
+
         } else {
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");
