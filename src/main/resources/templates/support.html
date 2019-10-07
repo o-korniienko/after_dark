@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Чат гильдии После Тьмы</title>
+    <title>Support</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script th:inline="javascript">
-        var user = [[${user}]];
-    </script>
     <link rel="stylesheet" href="/static/css/general.css">
-    <link rel="stylesheet" href="/static/css/chat.css">
-
+    <script src="/static/js/support.js"></script>
+    <link rel="stylesheet" href="/static/css/support.css">
 </head>
 <body>
 <header>
@@ -20,25 +17,15 @@
         </form>
         <a th:href="@{/main}" class="cabinet"></a>
         <a th:href="@{/login}" class="login">Login</a>
-        <a th:href="@{/registration}" class="registration">Registration</a>
         <a th:href="@{/chat_room}" class="chat_room">Chat</a>
+        <a th:href="@{/registration}" class="registration">Registration</a>
     </section>
 </header>
 <div class="center">
-    <section id="content">
-        <section class="messages">
-
-        </section>
-
-        <div class="sending">
-            <textarea rows="1" id="newMessage"></textarea>
-            <p></p>
-            <button id="sendMessage" type="button" onclick="sendMessage()">Send</button>
-            <button id="changeMessage" type="button" onclick="changeMessage()" style="display: none">Change</button>
-        </div>
-    </section>
+    <textarea rows="7" id="requestText" placeholder="Свяжитесь с нами"></textarea>
+    <p></p>
+    <button type="button" id="send_request" onclick="sendRequestToSupport()">Отправить</button>
 </div>
-
 <footer>
     <div id="contacts">
         <div id="vk" onclick="vk()">VK |</div>
@@ -46,9 +33,6 @@
     </div>
     <div id="aT">
     </div>
-    <div id="support" onclick="goToSupport()">Support</div>
 </footer>
-<script src="/static/js/chat.js"></script>
-
 </body>
 </html>

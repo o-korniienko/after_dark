@@ -80,6 +80,11 @@ public class MessageController {
         return messageService.sendRequest(message);
     }
 
+    @PostMapping("/send_request_to_support")
+    public Message sendRequestToSupport(@RequestBody Message message){
+        return messageService.sendRequestToSupport(message);
+    }
+
     @GetMapping("/announcements")
     public List<Message> getAllAnnouncements(){
         return messageService.getAllAnnouncements();

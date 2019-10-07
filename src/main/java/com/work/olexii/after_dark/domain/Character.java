@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = false)
 public class Character {
 
     @Id
@@ -18,7 +17,7 @@ public class Character {
     private int level;
     private Rank rank;
     @ManyToOne
-    @JoinColumn(name = "user_name")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public long getId() {

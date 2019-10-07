@@ -9,8 +9,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -34,7 +39,7 @@ public class UserController {
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
-        return "userEdit";
+        return "usersEdit";
     }
 
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
@@ -54,14 +59,25 @@ public class UserController {
         return "profile";
     }
 
-    @PutMapping("/profile")
+    @GetMapping("/profile_update")
+    @ResponseBody
     public String updateProfile(@AuthenticationPrincipal User user, @RequestParam String password,
-                                @RequestParam String email) {
+                                @RequestParam String email, @Valid User validUser,
+                                BindingResult bindingResult, Model model) {
+        System.out.println(user);
+        String error = null;
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            for (String value : errors.values()) {
+                if (value.equals("Email is not correct")){
+                    error = value;
+                    return error;
+                }
+            }
 
+        }
         userService.updateProfile(user, password, email);
-
-
-        return "/profile";
+        return error;
     }
 
 

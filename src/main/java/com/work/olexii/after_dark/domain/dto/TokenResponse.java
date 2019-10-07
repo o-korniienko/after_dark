@@ -1,4 +1,4 @@
-package com.work.olexii.after_dark.domain.models;
+package com.work.olexii.after_dark.domain.dto;
 
 public class TokenResponse {
 

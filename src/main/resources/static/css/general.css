@@ -49,11 +49,24 @@ footer {
 }
 
 #vk {
-    display: inline-block
+    display: inline-block;
+    cursor: pointer;
 }
 
 #dis {
-    display: inline-block
+    display: inline-block;
+    cursor: pointer;
+}
+
+#support{
+    background-color: black;
+    color: teal;
+    text-align: center;
+    position: relative;
+    right: 5%;
+    top: 30%;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .icon {

@@ -44,9 +44,14 @@ public class MainController {
     }
 
 
-    @GetMapping("/test")
+    @GetMapping("/add_update_characters")
     public String test(){
-        return "/test";
+        return "/add_update_characters";
+    }
+
+    @GetMapping("/support")
+    public String goToSupport(){
+        return "/support";
     }
 
 }

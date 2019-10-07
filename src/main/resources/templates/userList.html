@@ -11,25 +11,25 @@
 </head>
 <body>
 <header>
-<section class="top">
-    <a th:href="@{/}" class="icon">After Dark</a>
-</section>
+    <section class="top">
+        <a th:href="@{/}" class="icon">After Dark</a>
+    </section>
 </header>
 
 <div class="center">
-<div>List of users</div>
+    <div>List of users</div>
 
-<section id="usr">
-    <table id="tb">
-        <tbody id="tb_body">
-        <tr>
-            <th>User</th>
-            <th>Role</th>
-        </tr>
-        </tbody>
-    </table>
-</section>
-<button type="button" onclick="back()">Back</button>
+    <section id="usr">
+        <table id="tb">
+            <tbody id="tb_body">
+            <tr>
+                <th>User</th>
+                <th>Role</th>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <button type="button" onclick="back()">Back</button>
 </div>
 
 <footer>
@@ -39,7 +39,8 @@
     </div>
     <div id="aT">
     </div>
+    <div id="support" onclick="goToSupport()">Support</div>
 </footer>
-<script src="../static/js/usr.js"></script>
+<script src="/static/js/usr_list.js"></script>
 </body>
 </html>

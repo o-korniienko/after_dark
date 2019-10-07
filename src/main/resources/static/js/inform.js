@@ -382,3 +382,7 @@ function changeAnnouncement() {
 
 }
 
+function goToSupport() {
+    location = "/support";
+}
+

@@ -5,19 +5,24 @@ import com.google.gson.GsonBuilder;
 import com.work.olexii.after_dark.domain.Character;
 import com.work.olexii.after_dark.domain.Token;
 import com.work.olexii.after_dark.domain.User;
-import com.work.olexii.after_dark.domain.models.TokenResponse;
+import com.work.olexii.after_dark.domain.dto.TokenResponse;
 import com.work.olexii.after_dark.repos.CharacterRepo;
 import com.work.olexii.after_dark.repos.TokenRepo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import sun.net.www.protocol.http.Handler;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -26,7 +31,6 @@ import java.util.*;
 @Service
 public class CharacterService {
 
-    private URLStreamHandler urlStreamHandler = new Handler();
     @Autowired
     private CharacterRepo characterRepo;
     @Autowired
@@ -46,10 +50,11 @@ public class CharacterService {
     }
 
     public List<Character> addAllCharactersToDB() {
-        List<Character> characters = new ArrayList<>();
-
-        characters = getGuildDataFromBlizzardApi();
-
+        List<Character> characters;
+        characters = getGuildDataFromBlizzardDB();
+        for (Character character : characters) {
+            characterRepo.save(character);
+        }
 
         return characters;
     }
@@ -79,7 +84,7 @@ public class CharacterService {
         characterRepo.deleteAll();
     }
 
-    private List<Character> getGuildDataFromBlizzardApi() {
+    private List<Character> getGuildDataFromBlizzardDB() {
         List<Character> characterList = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
         String token = getToken(BNET_ID, BNET_SECRET);
@@ -88,6 +93,7 @@ public class CharacterService {
                     "После Тьмы?fields=members&locale=ru_RU&access_token=" + token;
 
             String stringPosts = restTemplate.getForObject(url, String.class);
+
             String[] charactersStrings = stringPosts.split("character");
             for (int r = 1; r < charactersStrings.length; r++) {
                 String characterStr = charactersStrings[r];
@@ -179,5 +185,54 @@ public class CharacterService {
         }
 
         return false;
+    }
+
+    public List<Character> updateCharacters() {
+        List<Character> charactersFromBlizzardDB = getGuildDataFromBlizzardDB();
+        List<Character> charactersFromOurDB = characterRepo.findAll();
+        for (Character character : charactersFromOurDB) {
+            if (!isCharacterInThisDB(character, charactersFromBlizzardDB)) {
+                characterRepo.delete(character);
+            }
+        }
+
+        for (Character character : charactersFromBlizzardDB) {
+            if (!isCharacterInThisDB(character, charactersFromOurDB)) {
+                characterRepo.save(character);
+            }
+        }
+
+        for (Character our_character : charactersFromOurDB) {
+            for (Character blizzard_character : charactersFromBlizzardDB) {
+                if (our_character.getName().equals(blizzard_character.getName())) {
+                    if (our_character.getRank() != blizzard_character.getRank() ||
+                            our_character.getLevel() != blizzard_character.getLevel()) {
+                        blizzard_character.setUser(our_character.getUser());
+                        System.out.println("they are not the same");
+                        System.out.println(our_character.getName());
+                        System.out.println(
+                                "levels - our:" + our_character.getLevel() + ", blizzard`s:" + blizzard_character.getLevel());
+                        System.out.println(
+                                "rank - our:" + our_character.getRank() + ", blizzard`s:" + blizzard_character.getRank());
+                        BeanUtils.copyProperties(blizzard_character, our_character, "id");
+                    }
+                }
+            }
+        }
+
+        return charactersFromOurDB;
+    }
+
+    private boolean isCharacterInThisDB(Character character, List<Character> characters) {
+        boolean check = false;
+        for (Character character_db : characters) {
+            if (character.getName().equals(character_db.getName())) {
+                check = true;
+                break;
+            }
+        }
+
+
+        return check;
     }
 }

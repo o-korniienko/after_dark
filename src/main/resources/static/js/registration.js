@@ -140,3 +140,6 @@ function vk() {
 function discord() {
     window.open("https://discord.gg/WTGY8K4");
 }
+function goToSupport() {
+    location = "/support";
+}

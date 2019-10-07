@@ -12,9 +12,6 @@ jQuery.each(["put", "delete", "post"], function (i, method) {
             dataType: "json",
             data: data,
             success: callback,
-            error: function (data) {
-                alert("Некоректный пароль или email");
-            }
         });
     };
 });
@@ -22,7 +19,8 @@ jQuery.each(["put", "delete", "post"], function (i, method) {
 $(document).ready(function () {
     document.getElementById("username").innerText = username;
     if (useremail != null) {
-        document.getElementById("useremail").placeholder = useremail;
+        document.getElementById("email").placeholder = useremail;
+
     }
     (function () {
         var date = new Date();
@@ -42,9 +40,10 @@ $(document).ready(function () {
 function updateProfile() {
     var password = $("#password").val();
     var email = $("#email").val();
-    var url = "http://localhost:8080/users/profile?password=" + password + "&email=" + email;
-    $.put(url, function (resp) {
-        console.log(resp)
+    var url = "http://localhost:8080/users/profile_update?password=" + password + "&email=" + email;
+    $.get(url, function (resp) {
+            $("#email_msg").text(resp);
+
     });
 }
 
@@ -58,4 +57,8 @@ function vk() {
 
 function discord() {
     window.open("https://discord.gg/WTGY8K4");
+}
+
+function goToSupport() {
+    location = "/support";
 }

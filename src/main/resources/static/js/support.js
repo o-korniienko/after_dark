@@ -1,3 +1,24 @@
+jQuery.each(["put", "delete", "post"], function (i, method) {
+    jQuery[method] = function (url, data, callback) {
+        if (jQuery.isFunction(data)) {
+            callback = data;
+            data = undefined;
+        }
+
+        return jQuery.ajax({
+            url: url,
+            type: method,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: data,
+            success: callback,
+            error: function (data) {
+                console.log("error");
+                console.log(data);
+            }
+        });
+    };
+});
 $(document).ready(function () {
     isActiveUser();
     (function () {
@@ -35,10 +56,6 @@ function isActiveUser() {
         }
     });
 }
-
-function goToUpdateAddCharactersPage() {
-    location = "/add_update_characters";
-}
 function isAdmin(roles) {
     for (var i = 0; i < roles.length; i++) {
         if (roles[i] === "SUPER_ADMIN") {
@@ -46,10 +63,6 @@ function isAdmin(roles) {
         }
     }
     return false;
-}
-
-function goToUsersOption() {
-    location = "/users";
 }
 
 function vk() {
@@ -60,6 +73,13 @@ function discord() {
     window.open("https://discord.gg/WTGY8K4");
 }
 
-function goToSupport() {
-    location = "/support";
+function sendRequestToSupport() {
+    var text = $("#requestText").val();
+    var objectText = {
+        text: text
+    }
+    var jsonText = JSON.stringify(objectText);
+    $.post("http://localhost:8080/send_request_to_support", jsonText, function (resp) {
+        console.log(resp);
+    })
 }

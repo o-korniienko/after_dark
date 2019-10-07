@@ -21,12 +21,12 @@ public class CharacterController {
     }
 
     @GetMapping("/characters")
-    public Iterable<Character> getAllCharacter(){
+    public Iterable<Character> getAllCharacters(){
         return characterService.findAll();
     }
 
     @GetMapping("/chars")
-    public Iterable<Character> getYourCharacters(@AuthenticationPrincipal User user){
+    public Iterable<Character> getUserCharacters(@AuthenticationPrincipal User user){
         System.out.println(user);
         return characterService.getYourCharacters(user);
     }
@@ -53,6 +53,11 @@ public class CharacterController {
     @DeleteMapping("/chars")
     public void deleteAllCharacters(){
      characterService.deleteAllCharacters();
+    }
+
+    @PutMapping("/characters")
+    public List<Character> updateCharacters(){
+        return characterService.updateCharacters();
     }
 
 }

@@ -71,6 +71,11 @@ public class MessageService {
         return message;
     }
 
+    public Message sendRequestToSupport(Message message) {
+        mailSender.send("alyosha21@ukr.net", "Support request",message.getText());
+        return message;
+    }
+
     public List<Message> getChatMessages() {
         Iterable<Message> messageIterable = messageRepo.findAll();
         List<Message> messages = new ArrayList<>();
@@ -146,4 +151,5 @@ public class MessageService {
         BeanUtils.copyProperties(message, messageFromDB, "id");
         return message;
     }
+
 }

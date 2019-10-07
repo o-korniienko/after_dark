@@ -20,24 +20,45 @@ jQuery.each(["put", "delete", "post"], function (i, method) {
     };
 });
 
-var BNET_ID = "9125eaa751bf43f5aee173f0d8d50efd";
-var BNET_SECRET = "AHfMwyqoBADo244amT1jRfTg1Ll0JrMw";
+$(document).ready(function () {
+    (function () {
+        var date = new Date();
+        var h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        var m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        var s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        var time = h + ":" + m + ":" + s;
+        $("#aT").text(time);
+        window.setTimeout(arguments.callee, 1000);
 
-function fillCharacters() {
-    /*var url = "https://eu.api.blizzard.com/wow/guild/borean-tundra/" +
-        "После Тьмы?fields=members&locale=ru_RU&access_token=USZqsm0klEPQ5f3GEvl5Vte77p9r28Sl5R";
+    })();
+});
 
-    $.get(url, function (resp) {
-        console.log(resp);
-    });
-    */
+
+function addCharactersInDB() {
     $.post("http://localhost:8080/characters", function (resp) {
         console.log(resp);
     })
 }
 
-function delAll() {
+function delAllCharactersFromDB() {
     $.delete("http://localhost:8080/chars", function () {
         console.log("done");
     })
+}
+
+function updateCharactersInDB() {
+    $.put("http://localhost:8080/characters",function (resp) {
+        console.log(resp);
+    })
+}
+
+function vk() {
+    window.open("http://vk.com/after_dark_wow");
+}
+
+function discord() {
+    window.open("https://discord.gg/WTGY8K4");
 }
