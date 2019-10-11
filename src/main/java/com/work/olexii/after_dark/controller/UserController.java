@@ -63,20 +63,20 @@ public class UserController {
     @ResponseBody
     public String updateProfile(@AuthenticationPrincipal User user, @RequestParam String password,
                                 @RequestParam String email, @Valid User validUser,
-                                BindingResult bindingResult, Model model) {
-        System.out.println(user);
+                                BindingResult bindingResult) {
+
         String error = null;
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             for (String value : errors.values()) {
-                if (value.equals("Email is not correct")){
+                if (value.equals("Email is not correct")) {
                     error = value;
                     return error;
                 }
             }
-
         }
-        userService.updateProfile(user, password, email);
+        error = userService.updateProfile(user, password, email);
+
         return error;
     }
 

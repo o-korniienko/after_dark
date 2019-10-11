@@ -11,7 +11,9 @@
 <body>
 <header>
     <section class="top">
-        <a th:href="@{/}" class="icon">After Dark</a>
+        <a th:href="@{/}" class="icon">
+            <img src="../static/img/alliance.png" height="55" width="55"/>
+        </a>
         <form th:action="@{/logout}" method="post" class="logout">
             <input type="submit" value="Sign Out"/>
         </form>
@@ -30,7 +32,8 @@
         </section>
     </div>
     <section id="admins">
-        <button type="button" id="fill_characters" onclick="goToUpdateAddCharactersPage()">Add or update characters in DB
+        <button type="button" id="fill_characters" onclick="goToUpdateAddCharactersPage()">Add or update characters in
+            DB
         </button>
         <p>
             <button onclick="goToUsersOption()">Users</button>

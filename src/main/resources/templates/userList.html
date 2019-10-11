@@ -12,7 +12,12 @@
 <body>
 <header>
     <section class="top">
-        <a th:href="@{/}" class="icon">After Dark</a>
+        <a th:href="@{/}" class="icon">
+            <img src="../static/img/alliance.png" height="55" width="55"/>
+        </a>
+        <form th:action="@{/logout}" method="post" class="logout">
+            <input type="submit" value="Sign Out"/>
+        </form>
     </section>
 </header>
 

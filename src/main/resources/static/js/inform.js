@@ -38,6 +38,8 @@ $(document).ready(function () {
 
     })();
 
+
+
     document.getElementById("menu1").onclick = function () {
         document.getElementById("recruiting").style.display = "none";
         document.getElementById("chart").style.display = "none";
@@ -45,8 +47,15 @@ $(document).ready(function () {
         document.getElementById("recruitingEditing").style.display = "none";
         document.getElementById("announcements").style.display = "none";
         document.getElementById("team").style.display = "block";
+        $("#menu1").removeClass('vmenu');
+        $("#menu1").addClass('cmenu');
+        $("#menu2").removeClass('cmenu');
+        $("#menu2").addClass('vmenu');
+        $("#menu3").removeClass('cmenu');
+        $("#menu3").addClass('vmenu');
+        $("#menu4").removeClass('cmenu');
+        $("#menu4").addClass('vmenu');
         getAllCharacters();
-
     }
     document.getElementById("menu2").onclick = function () {
         document.getElementById("team").style.display = "none";
@@ -55,6 +64,14 @@ $(document).ready(function () {
         document.getElementById("recruitingEditing").style.display = "none";
         document.getElementById("announcements").style.display = "none";
         document.getElementById("chart").style.display = "block";
+        $("#menu2").removeClass('vmenu');
+        $("#menu2").addClass('cmenu');
+        $("#menu1").removeClass('cmenu');
+        $("#menu1").addClass('vmenu');
+        $("#menu3").removeClass('cmenu');
+        $("#menu3").addClass('vmenu');
+        $("#menu4").removeClass('cmenu');
+        $("#menu4").addClass('vmenu');
         getChart();
     }
     document.getElementById("menu3").onclick = function () {
@@ -64,6 +81,14 @@ $(document).ready(function () {
         document.getElementById("recruitingEditing").style.display = "none";
         document.getElementById("announcements").style.display = "none";
         document.getElementById("recruiting").style.display = "block";
+        $("#menu3").removeClass('vmenu');
+        $("#menu3").addClass('cmenu');
+        $("#menu2").removeClass('cmenu');
+        $("#menu2").addClass('vmenu');
+        $("#menu1").removeClass('cmenu');
+        $("#menu1").addClass('vmenu');
+        $("#menu4").removeClass('cmenu');
+        $("#menu4").addClass('vmenu');
         getRecruitingText();
     }
 
@@ -74,6 +99,14 @@ $(document).ready(function () {
         document.getElementById("recruitingEditing").style.display = "none";
         document.getElementById("recruiting").style.display = "none";
         document.getElementById("announcements").style.display = "block";
+        $("#menu4").removeClass('vmenu');
+        $("#menu4").addClass('cmenu');
+        $("#menu2").removeClass('cmenu');
+        $("#menu2").addClass('vmenu');
+        $("#menu3").removeClass('cmenu');
+        $("#menu3").addClass('vmenu');
+        $("#menu1").removeClass('cmenu');
+        $("#menu1").addClass('vmenu');
         if (!isAdmin(user.roles)) {
             $(".sending").css("display", "none");
         }

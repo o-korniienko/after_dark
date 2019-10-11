@@ -28,12 +28,7 @@ function registration() {
     var email = $(".email").val();
     var captchaConfirm = grecaptcha.getResponse();
 
-    var newUser = {
-        username: username,
-        password: password,
-        email: email
-    }
-    var jsonUser = JSON.stringify(newUser);
+
     var url = "http://localhost:8080/registration/request?username=" + username + "&g-recaptcha-response=" +
         captchaConfirm + "&password=" + password + "&password2=" + password2 + "&email=" + email;
     location = url;

@@ -93,12 +93,11 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public void updateProfile(User user, String password, String email) {
+    public String updateProfile(User user, String password, String email) {
         String userEmail = user.getEmail();
         boolean isEmailChanged = (!StringUtils.isEmpty(email) && email != null && !email.equals(userEmail) &&
                 userEmail != null);
 
-        System.out.println(isEmailChanged);
         if (isEmailChanged) {
             user.setEmail(email);
             if (!StringUtils.isEmpty(email)) {
@@ -113,6 +112,15 @@ public class UserService implements UserDetailsService {
             sendMessage(user);
         }
 
+        if (isEmailChanged && StringUtils.isEmpty(password)) {
+            return "Email is changed";
+        }
+        if (!StringUtils.isEmpty(password) && !isEmailChanged) {
+            return "password is changed";
+        }
+        if (isEmailChanged && !StringUtils.isEmpty(password)){
+            return "Email and password are changed";}
+        return "";
     }
 
     public String[] checkUser(String identification) {
@@ -147,7 +155,7 @@ public class UserService implements UserDetailsService {
         boolean isPasswordEmpty = StringUtils.isEmpty(password);
         boolean isConfirmEmpty = StringUtils.isEmpty(password2);
         User user = userRepo.getOne(id);
-        if (user==null || isConfirmEmpty || isPasswordEmpty || user.isActive() || !password.equals(password2)){
+        if (user == null || isConfirmEmpty || isPasswordEmpty || user.isActive() || !password.equals(password2)) {
             return false;
         }
 

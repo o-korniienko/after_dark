@@ -21,6 +21,17 @@
     display: inline-block;
     overflow: hidden;
     background-color: orange;
+    color: black;
+    text-align: center;
+}
+
+.cmenu{
+    width: 10%;
+    height: 5%;
+    display: inline-block;
+    overflow: hidden;
+    background-color: red;
+    color: white;
     text-align: center;
 }
 
