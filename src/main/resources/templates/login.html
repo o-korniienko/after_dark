@@ -24,7 +24,7 @@
     <div class="log_form">
        <a style="position: relative; left: 40%">Login</a>
         <div th:if="${param.error}">
-            Invalid username and password.
+            Invalid username or password. Or email is not activated.
         </div>
         <div th:if="${param.logout}">
             You have been logged out.

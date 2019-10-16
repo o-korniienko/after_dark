@@ -26,7 +26,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepo.findByUsername(s);
+        User user = userRepo.findByUsername(s);
+        if (user != null && user.getActivationCode() != null) {
+           user = null;
+        }
+        return user;
     }
 
     public boolean addUser(User user) {
@@ -118,8 +122,9 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(password) && !isEmailChanged) {
             return "password is changed";
         }
-        if (isEmailChanged && !StringUtils.isEmpty(password)){
-            return "Email and password are changed";}
+        if (isEmailChanged && !StringUtils.isEmpty(password)) {
+            return "Email and password are changed";
+        }
         return "";
     }
 
