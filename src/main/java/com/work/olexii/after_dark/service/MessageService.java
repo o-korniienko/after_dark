@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,15 +35,26 @@ public class MessageService {
     }
 
     public Message getChart() {
-        Message message = messageRepo.findByTag("charter");
-        return message;
+        List<Message> messages = messageRepo.findByTag("charter");
+        if (messages.size() != 0) {
+            Message message = messages.get(0);
+            return message;
+        }
+        return null;
     }
 
-    public Message updateChart(Message message, long id) {
-        Message messageFromDB = messageRepo.getOne(id);
+    public Message updateChart(Message message) {
+        List<Message> messages = messageRepo.findByTag("charter");
+        Message messageFromDB = null;
         message.setTag("charter");
         message.setCreateTime(LocalDateTime.now());
-        BeanUtils.copyProperties(message, messageFromDB, "id");
+        message.setEpochSecond(LocalDateTime.now(ZoneOffset.UTC).toEpochSecond(ZoneOffset.UTC));
+        if (messages.size() != 0) {
+            messageFromDB = messages.get(0);
+            BeanUtils.copyProperties(message, messageFromDB, "id");
+            return message;
+        }
+        messageRepo.save(message);
         return message;
     }
 
@@ -50,19 +62,34 @@ public class MessageService {
         message.setUser(user);
         message.setTag("chat_message");
         message.setCreateTime(LocalDateTime.now());
+        LocalDateTime dateTimeUTC = LocalDateTime.now(ZoneOffset.UTC);
+        long seconds = dateTimeUTC.toEpochSecond(ZoneOffset.UTC);
+        message.setEpochSecond(seconds);
         messageRepo.save(message);
         return message;
     }
 
     public Message getRecruitingText() {
-        return messageRepo.findByTag("recruiting");
+        List<Message> messages = messageRepo.findByTag("recruiting");
+        if (messages.size() != 0) {
+            Message message = messages.get(0);
+            return message;
+        }
+        return null;
     }
 
-    public Message updateRecruitingText(Message message, long id) {
-        Message messageFromDB = messageRepo.getOne(id);
+    public Message updateRecruitingText(Message message) {
+        List<Message> messages = messageRepo.findByTag("recruiting");
+        Message messageFromDB = null;
         message.setTag("recruiting");
         message.setCreateTime(LocalDateTime.now());
-        BeanUtils.copyProperties(message, messageFromDB, "id");
+        message.setEpochSecond(LocalDateTime.now(ZoneOffset.UTC).toEpochSecond(ZoneOffset.UTC));
+        if (messages.size() != 0) {
+            messageFromDB = messages.get(0);
+            BeanUtils.copyProperties(message, messageFromDB, "id");
+            return message;
+        }
+        messageRepo.save(message);
         return message;
     }
 
@@ -72,18 +99,12 @@ public class MessageService {
     }
 
     public Message sendRequestToSupport(Message message) {
-        mailSender.send("alyosha21@ukr.net", "Support request",message.getText());
+        mailSender.send("alyosha21@ukr.net", "Support request", message.getText());
         return message;
     }
 
     public List<Message> getChatMessages() {
-        Iterable<Message> messageIterable = messageRepo.findAll();
-        List<Message> messages = new ArrayList<>();
-        for (Message message : messageIterable) {
-            if (message.getTag().equals("chat_message")) {
-                messages.add(message);
-            }
-        }
+        List<Message> messages = messageRepo.findByTag("chat_message");
         Collections.sort(messages, BY_ID);
         return messages;
     }
@@ -115,29 +136,23 @@ public class MessageService {
             }
         }
         Collections.sort(allChatMessages, BY_ID);
-        if (!messages.equals(allChatMessages)){
+        if (!messages.equals(allChatMessages)) {
             return allChatMessages;
         }
         return Collections.EMPTY_LIST;
     }
 
     public List<Message> getAllAnnouncements() {
-        List<Message> messages = messageRepo.findAll();
-        List<Message> announcements = new ArrayList<>();
-
-        for (Message message : messages) {
-            if (message.getTag().equals("announcement")){
-                announcements.add(message);
-            }
-        }
-        Collections.sort(announcements, BY_ID);
-        return announcements;
+        List<Message> messages = messageRepo.findByTag("announcement");
+        Collections.sort(messages, BY_ID);
+        return messages;
     }
 
     public Message createAnnouncement(User user, Message message) {
         message.setUser(user);
         message.setTag("announcement");
         message.setCreateTime(LocalDateTime.now());
+        message.setEpochSecond(LocalDateTime.now(ZoneOffset.UTC).toEpochSecond(ZoneOffset.UTC));
         messageRepo.save(message);
 
         return message;

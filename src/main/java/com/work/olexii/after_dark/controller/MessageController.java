@@ -60,8 +60,8 @@ public class MessageController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/charter")
-    public Message updateChart(@RequestParam(value = "id") long id, @RequestBody Message message) {
-        return messageService.updateChart(message, id);
+    public Message updateChart(@RequestBody Message message) {
+        return messageService.updateChart(message);
     }
 
     @GetMapping("/recruiting")
@@ -71,8 +71,8 @@ public class MessageController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/recruiting")
-    public Message updateRecruitingText(@RequestParam(value = "id") long id, @RequestBody Message message) {
-        return messageService.updateRecruitingText(message, id);
+    public Message updateRecruitingText(@RequestBody Message message) {
+        return messageService.updateRecruitingText(message);
     }
 
     @PostMapping("/send_request")

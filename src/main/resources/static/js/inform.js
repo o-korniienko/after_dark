@@ -115,15 +115,6 @@ $(document).ready(function () {
 
 });
 
-
-function vk() {
-    window.open("http://vk.com/after_dark_wow");
-}
-
-function discord() {
-    window.open("https://discord.gg/WTGY8K4");
-}
-
 function isActiveUser() {
     $.get("http://localhost:8080/active", function (resp) {
         user = resp;
@@ -261,12 +252,11 @@ function getChart() {
 
 function changeChart() {
     var text = $("#changedChart").val();
-    var id = $("#chartID").text();
     var objectText = {
         text: text
     }
     var jsonText = JSON.stringify(objectText);
-    $.put("http://localhost:8080/charter?id=" + id, jsonText).done(function (data) {
+    $.put("http://localhost:8080/charter", jsonText).done(function (data) {
         document.getElementById("chart").style.display = "block";
         document.getElementById("chartEditing").style.display = "none";
         getChart();
@@ -298,12 +288,11 @@ function updateRecruitingText() {
 
 function changeRecruitingText() {
     var text = $("#changedRecruitingText").val();
-    var id = $("#recruitingID").text();
     var objectText = {
         text: text
     }
     var jsonText = JSON.stringify(objectText);
-    $.put("http://localhost:8080/recruiting?id=" + id, jsonText).done(function (data) {
+    $.put("http://localhost:8080/recruiting", jsonText).done(function (data) {
         document.getElementById("recruiting").style.display = "block";
         document.getElementById("recruitingEditing").style.display = "none";
         getRecruitingText();
@@ -338,8 +327,8 @@ function createAnnouncement() {
     }
     var jsonText = JSON.stringify(objectText);
     $.post("http://localhost:8080/announcements", jsonText).done(function (data) {
-        console.log(data);
         getAllAnnouncements();
+        $("#new_announcement").text("");
     })
 }
 
@@ -357,10 +346,21 @@ function fillAnnouncements(messages) {
         var usrname = name + ":  ";
         var id = messages[i].id;
         var text = messages[i].text;
-        var time = messages[i].createTime;
+        var timeInSeconds = messages[i].epochSecond;
+        var date = new Date(timeInSeconds * 1000);
+        var day = date.getDate();
+        day = day < 10 ? "0" + day : day;
+        var month = date.getMonth() + 1;
+        month = month < 10 ? "0" + month : month;
+        var year = date.getFullYear();
+        var hours = date.getHours();
+        hours = hours < 10 ? "0" + hours : hours;
+        var minutes = date.getMinutes();
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        var correctDate = day + "." + month + "." + year + " " + hours + ":" + minutes;;
         $(".messages").append(`<section  class="msg" style="color: indigo; line-height: 25px;">${usrname} &nbsp;
                             <a style="color: orangered; font-family: 'Comic Sans MS'" id="${id}">${text}</a>
-                            <a class="message_time">${time}</a> 
+                            <a class="message_time">${correctDate}</a> 
                             <button onclick="deleteAnnouncement(${id})" class="controllersD">delete</button>
                             <button onclick="editAnnouncement(${id})" class="${name}" style="display: none;float: right;">edit</button>
                             </section>`)
@@ -415,7 +415,4 @@ function changeAnnouncement() {
 
 }
 
-function goToSupport() {
-    location = "/support";
-}
 

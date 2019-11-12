@@ -22,7 +22,6 @@ jQuery.each(["put", "delete", "post"], function (i, method) {
 
 var global_id;
 var global_messages = [];
-
 $(document).ready(function () {
     isActiveUser();
     getAllMessages();
@@ -39,7 +38,7 @@ $(document).ready(function () {
         window.setTimeout(arguments.callee, 1000);
 
     })();
-    setInterval("isChatChanged()", 1000);
+    //setInterval("isChatChanged()", 1000);
 });
 
 function isAdmin(roles) {
@@ -67,7 +66,6 @@ function isActiveUser() {
 
 function getAllMessages() {
     $.get("http://localhost:8080/messages", function (resp) {
-        normalizationMessages(resp);
         $(".messages").empty();
         fillMessages(resp);
     });
@@ -76,7 +74,6 @@ function getAllMessages() {
 
 function isChatChanged() {
     var messagesJson = JSON.stringify(global_messages);
-    var size = global_messages.length;
     $.put("http://localhost:8080/messages", messagesJson).done(function (resp) {
         if (resp.length > 0) {
             normalizationMessages(resp);
@@ -134,16 +131,16 @@ function deleteMsg(id) {
 }
 
 function sendMessage() {
-    var text = $("#newMessage").val();
-    var objectText = {
-        text: text
-    }
+     var text = $("#newMessage").val();
+     var objectText = {
+         text: text
+     }
 
-    var jsonText = JSON.stringify(objectText);
-    $.post("http://localhost:8080/msg", jsonText).done(function (data) {
-        $("#newMessage").val("");
-        getAllMessages();
-    })
+     var jsonText = JSON.stringify(objectText);
+     $.post("http://localhost:8080/msg", jsonText).done(function (data) {
+         $("#newMessage").val("");
+         getAllMessages();
+     })
 
 
 }
@@ -154,10 +151,21 @@ function fillMessages(messages) {
         var usrname = name + ":  ";
         var id = messages[i].id;
         var text = messages[i].text;
-        var time = messages[i].createTime;
+        var timeInSeconds = messages[i].epochSecond;
+        var date = new Date(timeInSeconds * 1000);
+        var day = date.getDate();
+        day = day < 10 ? "0" + day : day;
+        var month = date.getMonth() + 1;
+        month = month < 10 ? "0" + month : month;
+        var year = date.getFullYear();
+        var hours = date.getHours();
+        hours = hours < 10 ? "0" + hours : hours;
+        var minutes = date.getMinutes();
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        var correctDate = day + "." + month + "." + year + " " + hours + ":" + minutes;
         $(".messages").append(`<section  class="msg" style="color: indigo; line-height: 25px;">${usrname} &nbsp;
                             <a style="color: orangered; font-family: 'Comic Sans MS'" id="${id}">${text}</a>
-                            <a class="message_time">${time}</a> 
+                            <a class="message_time">${correctDate}</a> 
                             <button onclick="deleteMsg(${id})" class="controllersD">delete</button>
                             <button onclick="editMsg(${id})" class="${name}" style="display: none;float: right;">edit</button>
                             </section>`)
@@ -179,6 +187,7 @@ function normalizationMessages(messages) {
         var activationCode = messages[i].user.activationCode;
         var roles = messages[i].user.roles;
         var time = messages[i].createTime;
+        var seconds = messages[i].epochSecond;
         var user = {
             id: user_id,
             username: username,
@@ -187,26 +196,16 @@ function normalizationMessages(messages) {
             email: email,
             activationCode: activationCode,
             roles: roles,
-            createTime: time
         }
         var normMessage = {
             id: id,
             text: text,
             tag: tag,
-            user: user
+            user: user,
+            createTime: time,
+            epochSecond: seconds
         }
         global_messages[i] = normMessage;
     }
 }
 
-function vk() {
-    window.open("http://vk.com/after_dark_wow");
-}
-
-function discord() {
-    window.open("https://discord.gg/WTGY8K4");
-}
-
-function goToSupport() {
-    location = "/support";
-}

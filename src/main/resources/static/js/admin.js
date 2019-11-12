@@ -1,24 +1,3 @@
-jQuery.each(["put", "delete", "post"], function (i, method) {
-    jQuery[method] = function (url, data, callback) {
-        if (jQuery.isFunction(data)) {
-            callback = data;
-            data = undefined;
-        }
-
-        return jQuery.ajax({
-            url: url,
-            type: method,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: data,
-            success: callback,
-            error: function (data) {
-                console.log("error");
-                console.log(data);
-            }
-        });
-    };
-});
 $(document).ready(function () {
     isActiveUser();
     (function () {
@@ -50,13 +29,14 @@ function isActiveUser() {
             $(".login").css("display", "none");
             $(".registration").css("display", "none");
             var roles = user.roles;
-            if (!isAdmin(roles)) {
-                $("#admins").css("display", "none");
+            if (!isSuperAdmin(roles)) {
+                $("#usr_admin").css("display", "none");
             }
         }
     });
 }
-function isAdmin(roles) {
+
+function isSuperAdmin(roles) {
     for (var i = 0; i < roles.length; i++) {
         if (roles[i] === "SUPER_ADMIN") {
             return true;
@@ -65,13 +45,10 @@ function isAdmin(roles) {
     return false;
 }
 
-function sendRequestToSupport() {
-    var text = $("#requestText").val();
-    var objectText = {
-        text: text
-    }
-    var jsonText = JSON.stringify(objectText);
-    $.post("http://localhost:8080/send_request_to_support", jsonText, function (resp) {
-        console.log(resp);
-    })
+function goToUsersOption() {
+    location = "/users";
+}
+
+function goToUpdateAddCharactersPage() {
+    location = "/add_update_characters";
 }

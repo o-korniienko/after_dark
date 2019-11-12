@@ -50,15 +50,7 @@ function delAllCharactersFromDB() {
 }
 
 function updateCharactersInDB() {
-    $.put("http://localhost:8080/characters",function (resp) {
+    $.put("http://localhost:8080/characters", function (resp) {
         console.log(resp);
     })
-}
-
-function vk() {
-    window.open("http://vk.com/after_dark_wow");
-}
-
-function discord() {
-    window.open("https://discord.gg/WTGY8K4");
 }

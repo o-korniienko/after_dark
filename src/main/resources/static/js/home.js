@@ -36,30 +36,15 @@ function isActiveUser() {
     });
 }
 
-function goToUpdateAddCharactersPage() {
-    location = "/add_update_characters";
-}
 function isAdmin(roles) {
     for (var i = 0; i < roles.length; i++) {
-        if (roles[i] === "SUPER_ADMIN") {
+        if (roles[i] === "ADMIN") {
             return true;
         }
     }
     return false;
 }
 
-function goToUsersOption() {
-    location = "/users";
-}
-
-function vk() {
-    window.open("http://vk.com/after_dark_wow");
-}
-
-function discord() {
-    window.open("https://discord.gg/WTGY8K4");
-}
-
-function goToSupport() {
-    location = "/support";
+function goToAdminPage() {
+    location = "/admin";
 }

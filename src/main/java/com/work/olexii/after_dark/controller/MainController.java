@@ -1,6 +1,7 @@
 package com.work.olexii.after_dark.controller;
 
 import com.work.olexii.after_dark.domain.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +53,12 @@ public class MainController {
     @GetMapping("/support")
     public String goToSupport(){
         return "/support";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin")
+    public String goToAdminPage(){
+        return "/admin_page";
     }
 
 }

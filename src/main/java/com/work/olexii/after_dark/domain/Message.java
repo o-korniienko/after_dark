@@ -18,6 +18,7 @@ public class Message {
     private User user;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yy HH:mm")
     private LocalDateTime createTime;
+    private long epochSecond;
 
     public long getId() {
         return id;
@@ -59,6 +60,14 @@ public class Message {
         this.createTime = createTime;
     }
 
+    public long getEpochSecond() {
+        return epochSecond;
+    }
+
+    public void setEpochSecond(long epochSecond) {
+        this.epochSecond = epochSecond;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,8 +87,10 @@ public class Message {
         return "Message{" +
                 "id=" + id +
                 ", text='" + text + '\'' +
+                ", tag='" + tag + '\'' +
                 ", user=" + user +
                 ", createTime=" + createTime +
+                ", epochSecond=" + epochSecond +
                 '}';
     }
 }

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>After Dark</title>
+    <meta charset="UTF-8">
+    <title>Admin</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link rel="stylesheet" href="/static/css/general.css">
-    <link rel="stylesheet" href="/static/css/home.css">
+    <script src="../static/js/admin.js"></script>
+    <link rel="stylesheet" href="../static/css/admin.css">
     <script src="../static/js/general.js"></script>
-
 </head>
 <body>
 <header>
@@ -23,21 +24,18 @@
         <a th:href="@{/registration}" class="registration">Registration</a>
     </section>
 </header>
+
 <div class="center">
-    <div style="position: absolute; left: 25%; top: 80px; ">
-        <a style="font-size: 300%">Welcome in the guild After Dark</a>
-        <section id="inform">
-            <p><a th:href="@{/information}" style="font-size: 200%; position: absolute;left: 30%">
-                О нас и нашей гильдии</a></p>
-        </section>
-    </div>
     <section id="admins">
-        <button type="button" id="fill_characters" onclick="goToAdminPage()">Admin</button>
+        <button type="button" id="fill_characters" onclick="goToUpdateAddCharactersPage()">Add or update characters in
+            DB
+        </button>
+        <p></p>
+            <button id="usr_admin" onclick="goToUsersOption()">Users</button>
 
     </section>
-
-
 </div>
+
 <footer>
     <div id="contacts">
         <div id="vk" onclick="vk()">VK |</div>
@@ -45,8 +43,6 @@
     </div>
     <div id="aT">
     </div>
-    <div id="support" onclick="goToSupport()">Support</div>
 </footer>
-<script src="/static/js/home.js"></script>
 </body>
 </html>

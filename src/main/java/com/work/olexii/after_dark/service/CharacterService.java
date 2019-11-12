@@ -11,9 +11,6 @@ import com.work.olexii.after_dark.repos.TokenRepo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,8 +21,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
@@ -129,58 +124,70 @@ public class CharacterService {
     }
 
     private String getToken(String id, String secret) {
-        Token tokenFromDB = tokenRepo.findAll().get(0);
+        List<Token> tokens = tokenRepo.findAll();
+        Token tokenFromDB = null;
         String token = null;
-        if (!isTokenExpired(tokenFromDB)) {
-            token = tokenFromDB.getAccess_token();
-            return token;
-        } else {
-            HttpURLConnection con;
-            try {
-                String encodedCredentials = Base64.getEncoder().encodeToString(String.format("%s:%s", id,
-                        secret).getBytes("UTF-8"));
-
-                URL url1 = new URL("https://us.battle.net/oauth/token");
-                con = (HttpURLConnection) url1.openConnection();
-                con.setRequestMethod("POST");
-                con.setRequestProperty("Authorization", String.format("Basic %s", encodedCredentials));
-                con.setDoOutput(true);
-                con.getOutputStream().write("grant_type=client_credentials".getBytes("UTF-8"));
-                int responseCode = con.getResponseCode();
-                if (responseCode == 200) {
-                    String response = IOUtils.toString(con.getInputStream(), "UTF-8");
-                    TokenResponse tokenResponse = gson.fromJson(response, TokenResponse.class);
-                    token = tokenResponse.getAccess_token();
-                    Token tokenToSave = new Token();
-                    tokenToSave.setAccess_token(tokenResponse.getAccess_token());
-                    tokenToSave.setExpires_in(tokenResponse.getExpires_in());
-                    tokenToSave.setCreateTime(LocalDateTime.now());
-                    BeanUtils.copyProperties(tokenToSave, tokenFromDB, "id");
-                }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (tokens.size() != 0) {
+            tokenFromDB = tokens.get(0);
+            if (!isTokenExpired(tokenFromDB)) {
+                token = tokenFromDB.getAccess_token();
+                return token;
+            }else{
+                Token newToken = getTokenFromBlizzard(id,secret);
+                token = newToken.getAccess_token();
+                BeanUtils.copyProperties(newToken, tokenFromDB, "id");
+                return token;
             }
+        }else {
+            Token newToken = getTokenFromBlizzard(id,secret);
+            token = newToken.getAccess_token();
+            tokenRepo.save(newToken);
         }
         return token;
     }
 
+    private Token getTokenFromBlizzard(String id, String secret ){
+        HttpURLConnection con;
+        Token tokenToSave = new Token();
+        try {
+            String encodedCredentials = Base64.getEncoder().encodeToString(String.format("%s:%s", id,
+                    secret).getBytes("UTF-8"));
+
+            URL url1 = new URL("https://us.battle.net/oauth/token");
+            con = (HttpURLConnection) url1.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Authorization", String.format("Basic %s", encodedCredentials));
+            con.setDoOutput(true);
+            con.getOutputStream().write("grant_type=client_credentials".getBytes("UTF-8"));
+            int responseCode = con.getResponseCode();
+            if (responseCode == 200) {
+                String response = IOUtils.toString(con.getInputStream(), "UTF-8");
+                TokenResponse tokenResponse = gson.fromJson(response, TokenResponse.class);
+
+                tokenToSave.setAccess_token(tokenResponse.getAccess_token());
+                tokenToSave.setExpires_in(tokenResponse.getExpires_in());
+                tokenToSave.setCreateTime(LocalDateTime.now());
+                return tokenToSave;
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     private boolean isTokenExpired(Token token) {
         long expiresIn = token.getExpires_in();
-        LocalDateTime createTime = token.getCreateTime();
-        ZonedDateTime zoneDateTime1 = createTime.atZone(ZoneId.of("Europe/Kiev"));
-        long createTimeInSeconds = zoneDateTime1.toInstant().toEpochMilli() / 1000;
-        LocalDateTime nowTime = LocalDateTime.now();
-        ZonedDateTime zoneDateTime2 = nowTime.atZone(ZoneId.of("Europe/Kiev"));
-        long nowTimeInSeconds = zoneDateTime2.toInstant().toEpochMilli() / 1000;
-        long difference = nowTimeInSeconds - createTimeInSeconds;
-
-        if (difference > expiresIn) {
+        LocalDateTime createTokenDate = token.getCreateTime();
+        LocalDateTime dateTokenWorkUntil = createTokenDate.plusSeconds(expiresIn);
+        LocalDateTime nowDate = LocalDateTime.now();
+        if (nowDate.isAfter(dateTokenWorkUntil)) {
             return true;
         }
 
