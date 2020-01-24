@@ -1,0 +1,11 @@
+#add_recipient{
+    position: relative;
+    top: 5%;
+    left: 60%;
+}
+
+#recipients{
+    position: relative;
+    top: 10%;
+    left: 30%;
+}

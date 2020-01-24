@@ -52,3 +52,7 @@ function goToUsersOption() {
 function goToUpdateAddCharactersPage() {
     location = "/add_update_characters";
 }
+
+function goToListOfRecipients() {
+    location = "list_of_recipients";
+}

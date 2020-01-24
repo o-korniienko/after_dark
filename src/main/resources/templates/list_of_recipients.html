@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipients</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="../static/js/general.js"></script>
+    <link rel="stylesheet" href="../static/css/general.css">
+    <script src="../static/js/recipients.js"></script>
+    <script th:inline="javascript">
+        var tags = [[${tags}]];
+    </script>
+    <link rel="stylesheet" href="../static/css/recipients.css">
+</head>
+<body>
+<header>
+    <section class="top">
+        <a th:href="@{/}" class="icon">
+            <img src="../static/img/alliance.png" height="55" width="55"/>
+        </a>
+        <form th:action="@{/logout}" method="post" class="logout">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </section>
+</header>
+
+<div class="center">
+    <section id="add_recipient"> Новый получатель
+        <input id="new_recipient" placeholder=".....">
+        <button id="recipient_add" onclick="addRecipient()">Добавить получателя</button>
+    </section>
+    <section id="recipients">
+        <table id="tbl">
+            <tbody id="tbl_body">
+            <tr>
+                <th id="email_column">email</th>
+                <th id="recruiting_column">recruiting</th>
+                <th id="support_column">support</th>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
+<footer>
+    <div id="contacts">
+        <div id="vk" onclick="vk()">VK |</div>
+        <div id="dis" onclick="discord()">Discord</div>
+    </div>
+    <div id="aT">
+    </div>
+</footer>
+</body>
+</html>

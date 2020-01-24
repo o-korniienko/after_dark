@@ -1,8 +1,11 @@
 package com.work.olexii.after_dark.service;
 
 import com.work.olexii.after_dark.domain.Message;
+import com.work.olexii.after_dark.domain.Recipient;
+import com.work.olexii.after_dark.domain.RecipientTag;
 import com.work.olexii.after_dark.domain.User;
 import com.work.olexii.after_dark.repos.MessageRepo;
+import com.work.olexii.after_dark.repos.RecipientRepo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,8 @@ public class MessageService {
     private MessageRepo messageRepo;
     @Autowired
     private MailSender mailSender;
+    @Autowired
+    private RecipientRepo recipientRepo;
 
     public static Comparator<Message> BY_ID;
 
@@ -93,13 +98,25 @@ public class MessageService {
         return message;
     }
 
-    public Message sendRequest(Message message) {
-        mailSender.send("alyosha21@ukr.net", "Запрос на вступление в гильдию", message.getText());
+    public Message sendRequestToRecruiting(Message message) {
+        List<Recipient> recipients = recipientRepo.findAll();
+
+        for (Recipient recipient : recipients) {
+            if (recipient.getTags().contains(RecipientTag.RECRUITING)) {
+                mailSender.send(recipient.getEmailAddress(), "Запрос на вступление в гильдию", message.getText());
+        }
+        }
         return message;
     }
 
     public Message sendRequestToSupport(Message message) {
-        mailSender.send("alyosha21@ukr.net", "Support request", message.getText());
+        List<Recipient> recipients = recipientRepo.findAll();
+
+        for (Recipient recipient : recipients) {
+            if (recipient.getTags().contains(RecipientTag.SUPPORT)) {
+                mailSender.send(recipient.getEmailAddress(), "Support request", message.getText());
+            }
+        }
         return message;
     }
 
@@ -115,6 +132,7 @@ public class MessageService {
         message.setTag("chat_message");
         message.setUser(user);
         message.setCreateTime(LocalDateTime.now());
+        message.setEpochSecond(LocalDateTime.now(ZoneOffset.UTC).toEpochSecond(ZoneOffset.UTC));
         BeanUtils.copyProperties(message, messageFromDB, "id");
         return message;
 
@@ -163,6 +181,7 @@ public class MessageService {
         message.setTag("announcement");
         message.setUser(user);
         message.setCreateTime(LocalDateTime.now());
+        message.setEpochSecond(LocalDateTime.now(ZoneOffset.UTC).toEpochSecond(ZoneOffset.UTC));
         BeanUtils.copyProperties(message, messageFromDB, "id");
         return message;
     }

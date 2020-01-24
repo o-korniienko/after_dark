@@ -36,12 +36,7 @@ public class CharacterService {
     private static final String BNET_SECRET = "AHfMwyqoBADo244amT1jRfTg1Ll0JrMw";
 
     static {
-        BY_LEVEL = new Comparator<Character>() {
-            @Override
-            public int compare(Character o1, Character o2) {
-                return (o2.getLevel() - o1.getLevel());
-            }
-        };
+        BY_LEVEL = (o1, o2) -> (o2.getLevel() - o1.getLevel());
     }
 
     public List<Character> addAllCharactersToDB() {
@@ -60,7 +55,7 @@ public class CharacterService {
         return characters;
     }
 
-    public Iterable<Character> getYourCharacters(User user) {
+    public Iterable<Character> getUserCharacters(User user) {
         List<Character> characters = characterRepo.findByUser(user);
         Collections.sort(characters, BY_LEVEL);
         return characters;
@@ -83,12 +78,11 @@ public class CharacterService {
         List<Character> characterList = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
         String token = getToken(BNET_ID, BNET_SECRET);
+        System.out.println(token);
         if (token != null) {
             String url = "https://eu.api.blizzard.com/wow/guild/borean-tundra/" +
                     "После Тьмы?fields=members&locale=ru_RU&access_token=" + token;
-
             String stringPosts = restTemplate.getForObject(url, String.class);
-
             String[] charactersStrings = stringPosts.split("character");
             for (int r = 1; r < charactersStrings.length; r++) {
                 String characterStr = charactersStrings[r];
@@ -153,7 +147,7 @@ public class CharacterService {
             String encodedCredentials = Base64.getEncoder().encodeToString(String.format("%s:%s", id,
                     secret).getBytes("UTF-8"));
 
-            URL url1 = new URL("https://us.battle.net/oauth/token");
+            URL url1 = new URL("https://eu.battle.net/oauth/token");
             con = (HttpURLConnection) url1.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("Authorization", String.format("Basic %s", encodedCredentials));

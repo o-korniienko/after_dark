@@ -1,5 +1,6 @@
 package com.work.olexii.after_dark.controller;
 
+import com.work.olexii.after_dark.domain.RecipientTag;
 import com.work.olexii.after_dark.domain.User;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,10 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+;
+
 
 @Controller
 public class MainController {
-
 
     @GetMapping("/")
     public String greeting() {
@@ -46,19 +48,26 @@ public class MainController {
 
 
     @GetMapping("/add_update_characters")
-    public String test(){
+    public String test() {
         return "/add_update_characters";
     }
 
     @GetMapping("/support")
-    public String goToSupport(){
+    public String goToSupport() {
         return "/support";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin")
-    public String goToAdminPage(){
+    public String goToAdminPage() {
         return "/admin_page";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/list_of_recipients")
+    public String goToListOfRecipients(Model model) {
+        model.addAttribute("tags", RecipientTag.values());
+        return "/list_of_recipients";
     }
 
 }

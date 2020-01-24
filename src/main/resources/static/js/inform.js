@@ -328,7 +328,7 @@ function createAnnouncement() {
     var jsonText = JSON.stringify(objectText);
     $.post("http://localhost:8080/announcements", jsonText).done(function (data) {
         getAllAnnouncements();
-        $("#new_announcement").text("");
+        $("#new_announcement").val("");
     })
 }
 
@@ -361,8 +361,8 @@ function fillAnnouncements(messages) {
         $(".messages").append(`<section  class="msg" style="color: indigo; line-height: 25px;">${usrname} &nbsp;
                             <a style="color: orangered; font-family: 'Comic Sans MS'" id="${id}">${text}</a>
                             <a class="message_time">${correctDate}</a> 
-                            <button onclick="deleteAnnouncement(${id})" class="controllersD">delete</button>
-                            <button onclick="editAnnouncement(${id})" class="${name}" style="display: none;float: right;">edit</button>
+                            <button onclick="deleteAnnouncement(${id})" class="controllersD">&#10008</button>
+                            <button onclick="editAnnouncement(${id})" class="${name}" style="display: none;float: right;">&#9998</button>
                             </section>`)
         showEdit(name);
         showDelete();

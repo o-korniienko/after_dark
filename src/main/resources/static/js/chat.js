@@ -38,7 +38,7 @@ $(document).ready(function () {
         window.setTimeout(arguments.callee, 1000);
 
     })();
-    //setInterval("isChatChanged()", 1000);
+    setInterval("isChatChanged()", 1000);
 });
 
 function isAdmin(roles) {
@@ -166,8 +166,8 @@ function fillMessages(messages) {
         $(".messages").append(`<section  class="msg" style="color: indigo; line-height: 25px;">${usrname} &nbsp;
                             <a style="color: orangered; font-family: 'Comic Sans MS'" id="${id}">${text}</a>
                             <a class="message_time">${correctDate}</a> 
-                            <button onclick="deleteMsg(${id})" class="controllersD">delete</button>
-                            <button onclick="editMsg(${id})" class="${name}" style="display: none;float: right;">edit</button>
+                            <button onclick="deleteMsg(${id})" class="controllersD">&#10008</button>
+                            <button onclick="editMsg(${id})" class="${name}" style="display: none;float: right;">&#9998</button>
                             </section>`)
         showEdit(name);
         showDelete();

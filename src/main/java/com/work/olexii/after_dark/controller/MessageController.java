@@ -77,7 +77,7 @@ public class MessageController {
 
     @PostMapping("/send_request")
     public Message sendRequest(@RequestBody Message message) {
-        return messageService.sendRequest(message);
+        return messageService.sendRequestToRecruiting(message);
     }
 
     @PostMapping("/send_request_to_support")

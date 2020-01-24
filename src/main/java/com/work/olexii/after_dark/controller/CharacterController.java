@@ -28,7 +28,7 @@ public class CharacterController {
     @GetMapping("/chars")
     public Iterable<Character> getUserCharacters(@AuthenticationPrincipal User user){
         System.out.println(user);
-        return characterService.getYourCharacters(user);
+        return characterService.getUserCharacters(user);
     }
 
     @PostMapping("/chartouser")

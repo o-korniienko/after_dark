@@ -3,7 +3,7 @@ function vk() {
 }
 
 function discord() {
-    window.open("https://discord.gg/WTGY8K4");
+    window.open("https://discord.gg/dPmnBNN");
 }
 
 function goToSupport() {
