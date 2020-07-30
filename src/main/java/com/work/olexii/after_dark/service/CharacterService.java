@@ -11,8 +11,13 @@ import com.work.olexii.after_dark.repos.TokenRepo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -32,11 +37,16 @@ public class CharacterService {
     private TokenRepo tokenRepo;
     public static Comparator<Character> BY_LEVEL;
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String BNET_ID = "9125eaa751bf43f5aee173f0d8d50efd";
-    private static final String BNET_SECRET = "AHfMwyqoBADo244amT1jRfTg1Ll0JrMw";
+    @Value("${spring.battle_net_id}")
+    private String BNET_ID;
+    @Value("${spring.battle_net_secret}")
+    private String BNET_SECRET;
 
     static {
         BY_LEVEL = (o1, o2) -> (o2.getLevel() - o1.getLevel());
+    }
+
+    public CharacterService() {
     }
 
     public List<Character> addAllCharactersToDB() {
@@ -76,45 +86,87 @@ public class CharacterService {
 
     private List<Character> getGuildDataFromBlizzardDB() {
         List<Character> characterList = new ArrayList<>();
+        Character character;
         RestTemplate restTemplate = new RestTemplate();
         String token = getToken(BNET_ID, BNET_SECRET);
         System.out.println(token);
         if (token != null) {
-            String url = "https://eu.api.blizzard.com/wow/guild/borean-tundra/" +
-                    "После Тьмы?fields=members&locale=ru_RU&access_token=" + token;
+            String url = "https://eu.api.blizzard.com/data/wow/guild/borean-tundra/после-тьмы/roster?namespace=profile-eu&locale=ru_RU&access_token=" + token;
             String stringPosts = restTemplate.getForObject(url, String.class);
-            String[] charactersStrings = stringPosts.split("character");
+            String[] charactersStrings = stringPosts.split("\"character\"");
             for (int r = 1; r < charactersStrings.length; r++) {
-                String characterStr = charactersStrings[r];
-                if (r == charactersStrings.length - 1) {
-                    characterStr = characterStr.split("\"emblem\":")[0];
-                    characterStr = characterStr.substring(3, characterStr.length() - 3);
-                } else {
-                    characterStr = characterStr.substring(3, characterStr.length() - 4);
+                String characterLink = charactersStrings[r];
+                characterLink = characterLink.substring(17);
+                String[] characterLinkArray = characterLink.split("\"}");
+                String[] characterRankArray = characterLink.split("\"rank\"");
+                String characterRank = characterRankArray[1];
+                characterRank = characterRank.substring(1, 2);
+                characterLink = characterLinkArray[0];
+
+                character = getCharacterDataFromBlizzardAPI(characterLink, Integer.parseInt(characterRank));
+
+                if (character != null) {
+                    characterList.add(character);
                 }
-                Character character = new Character();
-                String[] characterFields = characterStr.split(",");
-                for (int i = 0; i < characterFields.length; i++) {
-                    String[] characterFields2 = characterFields[i].split(":");
-                    characterFields2[0] = characterFields2[0].substring(1, characterFields2[0].length() - 1);
-                    if (characterFields2[0].equals("name")) {
-                        character.setName(characterFields2[1].substring(1, characterFields2[1].length() - 1));
-                    }
-                    if (characterFields2[0].equals("level")) {
-                        character.setLevel(Integer.parseInt(characterFields2[1]));
-                    }
-                    if (characterFields2[0].equals("class")) {
-                        character.setClassEnByInt(Integer.parseInt(characterFields2[1]));
-                        character.setClassRuByInt(Integer.parseInt(characterFields2[1]));
-                    }
-                    if (characterFields2[0].equals("rank")) {
-                        character.setRankByInt(Integer.parseInt(characterFields2[1]));
-                    }
-                }
-                characterList.add(character);
             }
         }
+        System.out.println("Done");
         return characterList;
+    }
+
+    private Character getCharacterDataFromBlizzardAPI(String url, int rank) {
+        Character character = null;
+        RestTemplate restTemplate = new RestTemplate();
+        String token = getToken(BNET_ID, BNET_SECRET);
+        String response = null;
+        if (token != null) {
+
+            HttpURLConnection con;
+            try {
+
+                URL url1 = new URL(url + "&locale=ru_RU&access_token=" + token);
+                con = (HttpURLConnection) url1.openConnection();
+                con.setRequestMethod("GET");
+                int responseCode = con.getResponseCode();
+                if (responseCode != 200) {
+                    System.out.println(con.getResponseMessage() + " " + con.getResponseCode());
+                    System.out.println(url);
+                    System.out.println(url1);
+                }
+                if (responseCode == 200) {
+                    String name;
+                    int lvl;
+                    String classRu;
+                    response = IOUtils.toString(con.getInputStream(), "UTF-8");
+
+                    String[] characterArray = response.split("\"name\"");
+
+                    name = characterArray[1].split(",")[0].substring(2).replace("\"", "");
+                    classRu = characterArray[5].split(",")[1].substring(5).replace("}", "");
+                    lvl = Integer.parseInt(response.split("\"level\":")[1].split(",")[0]);
+
+
+                    character = new Character();
+                    character.setName(name);
+                    character.setClassEnByInt(Integer.parseInt(classRu));
+                    character.setClassRuByInt(Integer.parseInt(classRu));
+                    character.setRankByInt(rank);
+                    character.setLevel(lvl);
+
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                System.out.println(response);
+                e.printStackTrace();
+            }
+        }
+        return character;
     }
 
     private String getToken(String id, String secret) {
@@ -126,21 +178,21 @@ public class CharacterService {
             if (!isTokenExpired(tokenFromDB)) {
                 token = tokenFromDB.getAccess_token();
                 return token;
-            }else{
-                Token newToken = getTokenFromBlizzard(id,secret);
+            } else {
+                Token newToken = getTokenFromBlizzard(id, secret);
                 token = newToken.getAccess_token();
                 BeanUtils.copyProperties(newToken, tokenFromDB, "id");
                 return token;
             }
-        }else {
-            Token newToken = getTokenFromBlizzard(id,secret);
+        } else {
+            Token newToken = getTokenFromBlizzard(id, secret);
             token = newToken.getAccess_token();
             tokenRepo.save(newToken);
         }
         return token;
     }
 
-    private Token getTokenFromBlizzard(String id, String secret ){
+    private Token getTokenFromBlizzard(String id, String secret) {
         HttpURLConnection con;
         Token tokenToSave = new Token();
         try {
@@ -154,6 +206,7 @@ public class CharacterService {
             con.setDoOutput(true);
             con.getOutputStream().write("grant_type=client_credentials".getBytes("UTF-8"));
             int responseCode = con.getResponseCode();
+            System.out.println("response code: " + responseCode + " response message: " + con.getResponseMessage());
             if (responseCode == 200) {
                 String response = IOUtils.toString(con.getInputStream(), "UTF-8");
                 TokenResponse tokenResponse = gson.fromJson(response, TokenResponse.class);

@@ -140,7 +140,7 @@ function sendMessage() {
      $.post("http://localhost:8080/msg", jsonText).done(function (data) {
          $("#newMessage").val("");
          getAllMessages();
-     })
+     });
 
 
 }

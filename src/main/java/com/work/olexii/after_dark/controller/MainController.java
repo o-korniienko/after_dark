@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 ;
@@ -48,7 +49,7 @@ public class MainController {
 
 
     @GetMapping("/add_update_characters")
-    public String test() {
+    public String charactersAdminPage() {
         return "/add_update_characters";
     }
 
@@ -68,6 +69,13 @@ public class MainController {
     public String goToListOfRecipients(Model model) {
         model.addAttribute("tags", RecipientTag.values());
         return "/list_of_recipients";
+    }
+
+    @GetMapping("/info/{inf}")
+    public String test(@PathVariable("inf") String inf,Model model) {
+
+        model.addAttribute("ind", inf);
+        return "/info";
     }
 
 }

@@ -38,19 +38,32 @@ $(document).ready(function () {
 
 
 function addCharactersInDB() {
+
+var informWindow = window.open("/info/adding", "Adding Characters","width=400,height=150");
+
+
     $.post("http://localhost:8080/characters", function (resp) {
         console.log(resp);
+        informWindow.close();
+        window.alert("added!!!");
     })
 }
 
 function delAllCharactersFromDB() {
-    $.delete("http://localhost:8080/chars", function () {
-        console.log("done");
+
+var informWindow = window.open("/info/deleting", "Adding Characters","width=400,height=150");
+    $.delete("http://localhost:8080/chars", function (resp) {
+        console.log("deleted by: " + resp.username);
+        informWindow.close();
+        window.alert("deleted!!!");
     })
 }
 
 function updateCharactersInDB() {
+var informWindow = window.open("/info/updating", "Adding Characters","width=400,height=150");
     $.put("http://localhost:8080/characters", function (resp) {
-        console.log(resp);
+        console.log("updated by: " + resp.username);
+        informWindow.close();
+        window.alert("updated!!!");
     })
 }

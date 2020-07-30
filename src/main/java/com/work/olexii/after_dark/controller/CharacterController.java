@@ -51,13 +51,16 @@ public class CharacterController {
     }
 
     @DeleteMapping("/chars")
-    public void deleteAllCharacters(){
+    public User deleteAllCharacters(@AuthenticationPrincipal User user){
      characterService.deleteAllCharacters();
+
+     return user;
     }
 
     @PutMapping("/characters")
-    public List<Character> updateCharacters(){
-        return characterService.updateCharacters();
+    public User updateCharacters(@AuthenticationPrincipal User user){
+         characterService.updateCharacters();
+         return user;
     }
 
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script th:inline="javascript">
+        var inf = [[${inf}]];
+
+
+
+    </script>
+
+    <style>
+    body{
+         background-color: teal;
+         }
+
+
+    </style>
+</head>
+<body>
+
+<div>
+    <label class="info"></label>
+</div>
+
+
+<script>
+$(document).ready(function () {
+$(".info").text("Data is " + inf +"!!! Please don`t move to other pages, before it`s done!!!! Once "+ inf +" is done" +
+"you will be informed!!!");
+
+});
+
+
+
+
+
+</script>
+</body>
+</html>
