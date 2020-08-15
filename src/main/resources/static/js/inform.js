@@ -169,7 +169,7 @@ function showCharacters(resp) {
         var text;
         for (var i = 0; i < characters.length; i++) {
             var row = document.createElement("tr");
-            for (var j = 0; j < 5; j++) {
+            for (var j = 0; j < 6; j++) {
                 if (j === 0) {
                     text = characters[i].name;
                     cellText = document.createTextNode(text);
@@ -186,7 +186,12 @@ function showCharacters(resp) {
                     text = characters[i].rank;
                     cellText = document.createTextNode(text);
                 }
-                if (j === 4) {
+
+                if  (j==4){
+                    text = characters[i].race;
+                    cellText = document.createTextNode(text);
+                }
+                if (j === 5) {
                     var name = characters[i].name;
                     var sect = document.createElement("section");
                     sect.className = name;

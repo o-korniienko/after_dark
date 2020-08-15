@@ -16,6 +16,7 @@ public class Character {
     private ClassRu classRu;
     private int level;
     private Rank rank;
+    private String race;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -74,6 +75,14 @@ public class Character {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
     }
 
     public void setClassEnByInt(int classInt) {

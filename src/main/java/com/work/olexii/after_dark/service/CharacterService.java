@@ -97,13 +97,15 @@ public class CharacterService {
             for (int r = 1; r < charactersStrings.length; r++) {
                 String characterLink = charactersStrings[r];
                 characterLink = characterLink.substring(17);
+                String[] characterNameArray = characterLink.split("\"name\":\"");
                 String[] characterLinkArray = characterLink.split("\"}");
                 String[] characterRankArray = characterLink.split("\"rank\"");
                 String characterRank = characterRankArray[1];
                 characterRank = characterRank.substring(1, 2);
                 characterLink = characterLinkArray[0];
+                String characterName = characterNameArray[1].split("\"")[0];
 
-                character = getCharacterDataFromBlizzardAPI(characterLink, Integer.parseInt(characterRank));
+                character = getCharacterDataFromBlizzardAPI(characterLink, Integer.parseInt(characterRank), characterName);
 
                 if (character != null) {
                     characterList.add(character);
@@ -114,7 +116,7 @@ public class CharacterService {
         return characterList;
     }
 
-    private Character getCharacterDataFromBlizzardAPI(String url, int rank) {
+    private Character getCharacterDataFromBlizzardAPI(String url, int rank, String characterName) {
         Character character = null;
         RestTemplate restTemplate = new RestTemplate();
         String token = getToken(BNET_ID, BNET_SECRET);
@@ -132,26 +134,29 @@ public class CharacterService {
                     System.out.println(con.getResponseMessage() + " " + con.getResponseCode());
                     System.out.println(url);
                     System.out.println(url1);
+                    System.out.println("name: " + characterName);
                 }
                 if (responseCode == 200) {
                     String name;
                     int lvl;
-                    String classRu;
+                    String classRuID;
+                    String race;
                     response = IOUtils.toString(con.getInputStream(), "UTF-8");
+                    race = response.split("race")[2].split("\"name\":\"")[1].split("\",\"id\":")[0];
 
                     String[] characterArray = response.split("\"name\"");
 
                     name = characterArray[1].split(",")[0].substring(2).replace("\"", "");
-                    classRu = characterArray[5].split(",")[1].substring(5).replace("}", "");
+                    classRuID = characterArray[5].split(",")[1].substring(5).replace("}", "");
                     lvl = Integer.parseInt(response.split("\"level\":")[1].split(",")[0]);
-
 
                     character = new Character();
                     character.setName(name);
-                    character.setClassEnByInt(Integer.parseInt(classRu));
-                    character.setClassRuByInt(Integer.parseInt(classRu));
+                    character.setClassEnByInt(Integer.parseInt(classRuID));
+                    character.setClassRuByInt(Integer.parseInt(classRuID));
                     character.setRankByInt(rank);
                     character.setLevel(lvl);
+                    character.setRace(race);
 
                 }
 
