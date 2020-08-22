@@ -21,11 +21,39 @@
     float: right;
 }
 
-.message_time{
+.main_usr_time{
+    position: absolute;
+    right: 10%;
+    color: rgb(66, 204, 239);
+    font-family: 'Comic Sans MS';
+    font-size: small;
+}
+
+.main_usr_name{
+    color: indigo;
+    line-height: 25px;
+}
+
+.main_usr_message{
+   color: rgb(66, 204, 239);
+   line-height: 25px;
+}
+
+.usr_name{
+    color:  red;
+    line-height: 25px;
+}
+
+.usr_time{
     position: absolute;
     right: 10%;
     color: orangered;
     font-family: 'Comic Sans MS';
     font-size: small;
+}
+
+.usr_message{
+   color: orangered;
+   line-height: 25px;
 }
 

@@ -39,7 +39,7 @@ function save() {
 function saveUser(username, roles) {
     var userId = user.id;
 
-    var url = "http://localhost:8080/users?userId=" + userId + "&form=" + roles + "&username=" + username;
+    var url = "/users?userId=" + userId + "&form=" + roles + "&username=" + username;
 
     $.post(url).done(function () {
         document.location = "/users";

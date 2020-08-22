@@ -40,7 +40,7 @@ $(document).ready(function () {
 function checkingUser() {
     var identification = $("#usr_identification").val();
     console.log(identification);
-    $.post("http://localhost:8080/recovery?identification=" + identification).done(function (resp) {
+    $.post("/recovery?identification=" + identification).done(function (resp) {
         $("#error_identification").text(resp[0]);
     });
 }

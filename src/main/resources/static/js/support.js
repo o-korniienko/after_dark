@@ -38,7 +38,7 @@ $(document).ready(function () {
 });
 
 function isActiveUser() {
-    $.get("http://localhost:8080/active", function (resp) {
+    $.get("/active", function (resp) {
         user = resp;
         if (resp === "") {
             $(".cabinet").css("display", "none");
@@ -71,7 +71,7 @@ function sendRequestToSupport() {
         text: text
     }
     var jsonText = JSON.stringify(objectText);
-    $.post("http://localhost:8080/send_request_to_support", jsonText, function (resp) {
+    $.post("/send_request_to_support", jsonText, function (resp) {
         console.log(resp);
     })
 }

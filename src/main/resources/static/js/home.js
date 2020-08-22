@@ -17,7 +17,7 @@ $(document).ready(function () {
 });
 
 function isActiveUser() {
-    $.get("http://localhost:8080/active", function (resp) {
+    $.get("/active", function (resp) {
         user = resp;
         if (resp === "") {
             $(".cabinet").css("display", "none");

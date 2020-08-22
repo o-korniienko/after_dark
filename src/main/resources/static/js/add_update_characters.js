@@ -42,7 +42,7 @@ function addCharactersInDB() {
 var informWindow = window.open("/info/adding", "Adding Characters","width=400,height=150");
 
 
-    $.post("http://localhost:8080/characters", function (resp) {
+    $.post("/characters", function (resp) {
         console.log(resp);
         informWindow.close();
         window.alert("added!!!");
@@ -52,7 +52,7 @@ var informWindow = window.open("/info/adding", "Adding Characters","width=400,he
 function delAllCharactersFromDB() {
 
 var informWindow = window.open("/info/deleting", "Deleting Characters","width=400,height=150");
-    $.delete("http://localhost:8080/chars", function (resp) {
+    $.delete("/chars", function (resp) {
         console.log("deleted by: " + resp.username);
         informWindow.close();
         window.alert("deleted!!!");
@@ -61,7 +61,7 @@ var informWindow = window.open("/info/deleting", "Deleting Characters","width=40
 
 function updateCharactersInDB() {
 var informWindow = window.open("/info/updating", "Updating Characters","width=400,height=150");
-    $.put("http://localhost:8080/characters", function (resp) {
+    $.put("/characters", function (resp) {
         console.log("updated by: " + resp.username);
         informWindow.close();
         window.alert("updated!!!");

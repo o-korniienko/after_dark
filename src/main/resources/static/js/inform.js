@@ -116,7 +116,7 @@ $(document).ready(function () {
 });
 
 function isActiveUser() {
-    $.get("http://localhost:8080/active", function (resp) {
+    $.get("/active", function (resp) {
         user = resp;
         if (user === "") {
             $(".cabinet").css("display", "none");
@@ -149,7 +149,7 @@ function isAdmin(roles) {
 }
 
 function getAllCharacters() {
-    $.get("http://localhost:8080/characters", function (resp) {
+    $.get("/characters", function (resp) {
         showCharacters(resp);
     });
 }
@@ -247,7 +247,7 @@ function goToWP() {
 }
 
 function getChart() {
-    $.get("http://localhost:8080/charter", function (resp) {
+    $.get("/charter", function (resp) {
         var text = resp.text;
         var id = resp.id;
         $("#chartText").text(text);
@@ -261,7 +261,7 @@ function changeChart() {
         text: text
     }
     var jsonText = JSON.stringify(objectText);
-    $.put("http://localhost:8080/charter", jsonText).done(function (data) {
+    $.put("/charter", jsonText).done(function (data) {
         document.getElementById("chart").style.display = "block";
         document.getElementById("chartEditing").style.display = "none";
         getChart();
@@ -276,7 +276,7 @@ function updateChart() {
 }
 
 function getRecruitingText() {
-    $.get("http://localhost:8080/recruiting", function (resp) {
+    $.get("/recruiting", function (resp) {
         var text = resp.text;
         var id = resp.id;
         $("#recruitingText").text(text);
@@ -297,7 +297,7 @@ function changeRecruitingText() {
         text: text
     }
     var jsonText = JSON.stringify(objectText);
-    $.put("http://localhost:8080/recruiting", jsonText).done(function (data) {
+    $.put("/recruiting", jsonText).done(function (data) {
         document.getElementById("recruiting").style.display = "block";
         document.getElementById("recruitingEditing").style.display = "none";
         getRecruitingText();
@@ -320,7 +320,7 @@ function sendRequest() {
         text: text
     }
     var jsonText = JSON.stringify(objectText);
-    $.post("http://localhost:8080/send_request", jsonText, function (resp) {
+    $.post("/send_request", jsonText, function (resp) {
         console.log(resp);
     })
 }
@@ -331,14 +331,14 @@ function createAnnouncement() {
         text: text
     }
     var jsonText = JSON.stringify(objectText);
-    $.post("http://localhost:8080/announcements", jsonText).done(function (data) {
+    $.post("/announcements", jsonText).done(function (data) {
         getAllAnnouncements();
         $("#new_announcement").val("");
     })
 }
 
 function getAllAnnouncements() {
-    $.get("http://localhost:8080/announcements", function (resp) {
+    $.get("/announcements", function (resp) {
         $(".messages").empty();
         fillAnnouncements(resp);
     });
@@ -399,7 +399,7 @@ function editAnnouncement(id) {
 }
 
 function deleteAnnouncement(id) {
-    $.delete("http://localhost:8080/msg?id=" + id, function (resp) {
+    $.delete("/msg?id=" + id, function (resp) {
         getAllAnnouncements();
     })
 }
@@ -411,7 +411,7 @@ function changeAnnouncement() {
     }
     var msgJson = JSON.stringify(msgObject);
 
-    $.put("http://localhost:8080/announcements?id=" + global_id, msgJson).done(function (resp) {
+    $.put("/announcements?id=" + global_id, msgJson).done(function (resp) {
         getAllAnnouncements();
         $("#new_announcement").val("");
         $("#sendAnnouncement").css("display", "block");

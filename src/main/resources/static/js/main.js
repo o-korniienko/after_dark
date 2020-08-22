@@ -18,16 +18,21 @@ $(document).ready(function () {
 });
 
 function isActiveUser() {
-    $.get("http://localhost:8080/active", function (resp) {
+    $.get("/active", function (resp) {
         user = resp;
         if (resp === "") {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
             $(".chat_room").css("display", "none");
+            $(".login").css("display", "block");
+            $(".registration").css("display", "block");
         } else {
             $(".cabinet").text(user.username);
             $(".login").css("display", "none");
             $(".registration").css("display", "none");
+            $(".cabinet").css("display", "block");
+            $(".logout").css("display", "block");
+            $(".chat_room").css("display", "block");
         }
     });
 }
@@ -35,7 +40,7 @@ function isActiveUser() {
 
 function addCharToUser() {
     var charName = $("#new_char").val();
-    $.post("http://localhost:8080/chartouser?charName=" + charName, function (data) {
+    $.post("/chartouser?charName=" + charName, function (data) {
         if (data[0] != null) {
             alert(data[0]);
         }
@@ -45,7 +50,7 @@ function addCharToUser() {
 }
 
 function getYourCharacters() {
-    $.get("http://localhost:8080/chars", function (resp) {
+    $.get("/chars", function (resp) {
         showCharacters(resp);
     });
 }

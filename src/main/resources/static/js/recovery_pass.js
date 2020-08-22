@@ -52,7 +52,7 @@ function changePassword() {
     var pass2 = $(".user_password2").val();
     console.log(id);
 
-    var url = "http://localhost:8080/recover/request?password=" + pass1 + "&password2=" + pass2 + "&id=" + (+id);
+    var url = "/recover/request?password=" + pass1 + "&password2=" + pass2 + "&id=" + (+id);
     location = url;
 }
 

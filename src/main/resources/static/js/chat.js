@@ -51,7 +51,7 @@ function isAdmin(roles) {
 }
 
 function isActiveUser() {
-    $.get("http://localhost:8080/active", function (resp) {
+    $.get("/active", function (resp) {
         if (resp === "") {
             $(".cabinet").css("display", "none");
             $(".logout").css("display", "none");
@@ -65,7 +65,7 @@ function isActiveUser() {
 }
 
 function getAllMessages() {
-    $.get("http://localhost:8080/messages", function (resp) {
+    $.get("/messages", function (resp) {
         $(".messages").empty();
         fillMessages(resp);
     });
@@ -74,7 +74,7 @@ function getAllMessages() {
 
 function isChatChanged() {
     var messagesJson = JSON.stringify(global_messages);
-    $.put("http://localhost:8080/messages", messagesJson).done(function (resp) {
+    $.put("/messages", messagesJson).done(function (resp) {
         if (resp.length > 0) {
             normalizationMessages(resp);
             $(".messages").empty();
@@ -115,7 +115,7 @@ function changeMessage() {
     }
     var msgJson = JSON.stringify(msgObject);
 
-    $.put("http://localhost:8080/msg?id=" + global_id, msgJson).done(function (resp) {
+    $.put("/msg?id=" + global_id, msgJson).done(function (resp) {
         getAllMessages();
         $("#newMessage").val("");
         $("#sendMessage").css("display", "block");
@@ -125,7 +125,7 @@ function changeMessage() {
 }
 
 function deleteMsg(id) {
-    $.delete("http://localhost:8080/msg?id=" + id, function (resp) {
+    $.delete("/msg?id=" + id, function (resp) {
         getAllMessages();
     })
 }
@@ -137,7 +137,7 @@ function sendMessage() {
      }
 
      var jsonText = JSON.stringify(objectText);
-     $.post("http://localhost:8080/msg", jsonText).done(function (data) {
+     $.post("/msg", jsonText).done(function (data) {
          $("#newMessage").val("");
          getAllMessages();
      });
@@ -163,14 +163,26 @@ function fillMessages(messages) {
         var minutes = date.getMinutes();
         minutes = minutes < 10 ? "0" + minutes : minutes;
         var correctDate = day + "." + month + "." + year + " " + hours + ":" + minutes;
-        $(".messages").append(`<section  class="msg" style="color: indigo; line-height: 25px;">${usrname} &nbsp;
-                            <a style="color: orangered; font-family: 'Comic Sans MS'" id="${id}">${text}</a>
-                            <a class="message_time">${correctDate}</a> 
+        if(user.username===messages[i].user.username){
+            $(".messages").append(`<section  class="main_usr_name">${usrname} &nbsp;
+                            <a class="main_usr_message" id="${id}">${text}</a>
+                            <a class="main_usr_time">${correctDate}</a>
                             <button onclick="deleteMsg(${id})" class="controllersD">&#10008</button>
                             <button onclick="editMsg(${id})" class="${name}" style="display: none;float: right;">&#9998</button>
                             </section>`)
-        showEdit(name);
-        showDelete();
+            showEdit(name);
+            showDelete();
+
+        }else{
+            $(".messages").append(`<section  class="usr_name" >${usrname} &nbsp;
+                            <a class="usr_message"  id="${id}">${text}</a>
+                            <a class="usr_time">${correctDate}</a>
+                            <button onclick="deleteMsg(${id})" class="controllersD">&#10008</button>
+                            <button onclick="editMsg(${id})" class="${name}" style="display: none;float: right;">&#9998</button>
+                            </section>`)
+            showEdit(name);
+            showDelete();
+        }
     }
 }
 

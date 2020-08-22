@@ -40,7 +40,7 @@ $(document).ready(function () {
 function updateProfile() {
     var password = $("#password").val();
     var email = $("#email").val();
-    var url = "http://localhost:8080/users/profile_update?password=" + password + "&email=" + email;
+    var url = "/users/profile_update?password=" + password + "&email=" + email;
     $.get(url, function (resp) {
             $("#email_msg").text(resp);
 

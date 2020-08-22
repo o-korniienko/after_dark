@@ -41,7 +41,7 @@ $(document).ready(function () {
 
 function getAllRecipients() {
     var recipients = [];
-    $.get("http://localhost:8080/recipient", function (result) {
+    $.get("/recipient", function (result) {
         recipients = result;
         console.log(recipients);
 
@@ -84,7 +84,7 @@ function getAllRecipients() {
                                     index++;
                                 }
                             }
-                            $.put("http://localhost:8080/recipient?recipient_id=" + id + "&tags=" + tgs, function (result) {
+                            $.put("/recipient?recipient_id=" + id + "&tags=" + tgs, function (result) {
 
                             })
                         }
@@ -95,7 +95,7 @@ function getAllRecipients() {
                         bt.id = recipients[i].id;
                         bt.onclick = function () {
                             var id = this.id;
-                            $.delete("http://localhost:8080/recipient/" + id, function (resp) {
+                            $.delete("/recipient/" + id, function (resp) {
                                 document.location.reload();
                             });
                         }
@@ -124,7 +124,7 @@ function getAllRecipients() {
 
 function addRecipient() {
     var email = $("#new_recipient").val();
-    $.post("http://localhost:8080/recipient?email=" + email, function (resp) {
+    $.post("/recipient?email=" + email, function (resp) {
         getAllRecipients();
     })
 }

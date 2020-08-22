@@ -29,7 +29,7 @@ function registration() {
     var captchaConfirm = grecaptcha.getResponse();
 
 
-    var url = "http://localhost:8080/registration/request?username=" + username + "&g-recaptcha-response=" +
+    var url = "/registration/request?username=" + username + "&g-recaptcha-response=" +
         captchaConfirm + "&password=" + password + "&password2=" + password2 + "&email=" + email;
     location = url;
 
