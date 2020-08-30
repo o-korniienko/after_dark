@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -29,12 +26,20 @@ public class MessageService {
     private RecipientRepo recipientRepo;
 
     public static Comparator<Message> BY_ID;
+    private static Comparator<Message> BY_CREATE_TIME;
 
     static {
         BY_ID = new Comparator<Message>() {
             @Override
             public int compare(Message o1, Message o2) {
                 return (int) (o1.getId() - o2.getId());
+            }
+        };
+
+        BY_CREATE_TIME = new Comparator<Message>() {
+            @Override
+            public int compare(Message o1, Message o2) {
+                return (int) (o1.getEpochSecond() - o2.getEpochSecond());
             }
         };
     }
@@ -65,7 +70,10 @@ public class MessageService {
 
     public Message createMessage(User user, Message message) {
         message.setUser(user);
+        String normalizedMessageText = normalizeMessageText(message.getText());
+        message.setText(normalizedMessageText);
         message.setTag("chat_message");
+        System.out.println(message.getText());
         message.setCreateTime(LocalDateTime.now());
         LocalDateTime dateTimeUTC = LocalDateTime.now(ZoneOffset.UTC);
         long seconds = dateTimeUTC.toEpochSecond(ZoneOffset.UTC);
@@ -73,6 +81,78 @@ public class MessageService {
         messageRepo.save(message);
         return message;
     }
+
+    private String normalizeMessageText(String text) {
+        String result = "";
+        String[] textArray = text.split("\n");
+        for (String textA : textArray) {
+            if (textA.length() <= 50) {
+                result = result.concat(textA);
+            } else {
+                String result2 = "";
+                char[] litterArray = textA.toCharArray();
+                int count = litterArray.length / 50;
+                System.out.println(count);
+                int[] moves = new int[count];
+                int ind = 0;
+
+                List<Integer> gapIndexes = new ArrayList<>();
+
+                for (int i = 0; i < litterArray.length; i++) {
+                    if (litterArray[i] == ' ') {
+                        gapIndexes.add(i);
+                    }
+                }
+
+                System.out.println("gap indexes: " + gapIndexes);
+                for (int i = 0; i < count; i++) {
+                    List<Integer> temporaryIndexes = new ArrayList<>();
+                    for (Integer gapIndex : gapIndexes) {
+                        if (gapIndex < (50 * (ind + 1)) && gapIndex > (50 * ind)) {
+                            temporaryIndexes.add(gapIndex);
+                        }
+
+                    }
+                    System.out.println("temporary indexes: " + temporaryIndexes.size() + " " + temporaryIndexes);
+                    if (temporaryIndexes.size() <= 0) {
+                        moves[i] = 50 * (ind + 1);
+                    } else {
+                        moves[i] = getMaxIndex(temporaryIndexes);
+                    }
+                    System.out.println("ind: " + ind);
+                    ind++;
+                }
+
+                System.out.println(Arrays.toString(moves));
+
+                ind = 0;
+                for (int i = 0; i < litterArray.length; i++) {
+                    if (ind < moves.length && i == moves[ind]) {
+                        System.out.println("here");
+                        result2 = result2 + "\n";
+                        ind++;
+                    } else {
+                        result2 = result2.concat(String.valueOf(litterArray[i]));
+                    }
+                }
+
+                result = result + result2;
+            }
+        }
+
+        return result;
+    }
+
+    private int getMaxIndex(List<Integer> temporaryIndexes) {
+        int max = 0;
+        for (Integer temporaryIndex : temporaryIndexes) {
+            if (temporaryIndex > max) {
+                max = temporaryIndex;
+            }
+        }
+        return max;
+    }
+
 
     public Message getRecruitingText() {
         List<Message> messages = messageRepo.findByTag("recruiting");
@@ -104,7 +184,7 @@ public class MessageService {
         for (Recipient recipient : recipients) {
             if (recipient.getTags().contains(RecipientTag.RECRUITING)) {
                 mailSender.send(recipient.getEmailAddress(), "Запрос на вступление в гильдию", message.getText());
-        }
+            }
         }
         return message;
     }
@@ -122,7 +202,7 @@ public class MessageService {
 
     public List<Message> getChatMessages() {
         List<Message> messages = messageRepo.findByTag("chat_message");
-        Collections.sort(messages, BY_ID);
+        Collections.sort(messages, BY_CREATE_TIME);
         return messages;
     }
 
@@ -131,8 +211,8 @@ public class MessageService {
         Message messageFromDB = messageRepo.getOne(id);
         message.setTag("chat_message");
         message.setUser(user);
-        message.setCreateTime(LocalDateTime.now());
-        message.setEpochSecond(LocalDateTime.now(ZoneOffset.UTC).toEpochSecond(ZoneOffset.UTC));
+        message.setCreateTime(messageFromDB.getCreateTime());
+        message.setEpochSecond(messageFromDB.getEpochSecond());
         BeanUtils.copyProperties(message, messageFromDB, "id");
         return message;
 
@@ -154,6 +234,7 @@ public class MessageService {
             }
         }
         Collections.sort(allChatMessages, BY_ID);
+
         if (!messages.equals(allChatMessages)) {
             return allChatMessages;
         }

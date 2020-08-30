@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-;
+;import javax.jws.soap.SOAPBinding;
 
 
 @Controller
@@ -72,10 +72,17 @@ public class MainController {
     }
 
     @GetMapping("/info/{inf}")
-    public String test(@PathVariable("inf") String inf,Model model) {
+    public String test(@PathVariable("inf") String inf, Model model) {
 
         model.addAttribute("ind", inf);
         return "/info";
     }
 
+    @GetMapping("/add_chatter_page")
+    public String addInterlocutorPage(@AuthenticationPrincipal User user, Model model) {
+
+        model.addAttribute("user", user);
+        return "/add_chatter";
+
+    }
 }

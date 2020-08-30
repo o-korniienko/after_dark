@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Interlocutor Chatting</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script th:inline="javascript">
+        var user = [[${user}]];
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="/static/js/add_chatter.js"></script>
+    <link rel="stylesheet" href="/static/css/add_chatter.css">
+
+</head>
+<body>
+
+<section class="users">
+    <div id="usr_list">
+        <table id="myTable">
+            <thead id="titles">
+            <tr>
+                <th class="head">Name</th>
+                <th class="head">+</th>
+            </tr>
+            </thead>
+            <tbody id="body">
+
+
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+</body>
+</html>

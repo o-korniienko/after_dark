@@ -2,6 +2,7 @@ package com.work.olexii.after_dark.controller;
 
 import com.work.olexii.after_dark.domain.Message;
 import com.work.olexii.after_dark.domain.User;
+import com.work.olexii.after_dark.service.FaceToFaceChatService;
 import com.work.olexii.after_dark.service.MessageService;
 import com.work.olexii.after_dark.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ public class MessageController {
 
 
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
 
     @Autowired
-    UserService  userService;
+    private UserService userService;
+
+    @Autowired
+    private FaceToFaceChatService chatService;
 
     @GetMapping("/messages")
     public List<Message> getMessages() {
@@ -27,12 +31,12 @@ public class MessageController {
     }
 
     @GetMapping("/usertest")
-    public User getOneUser(@RequestParam(value = "id") long id){
+    public User getOneUser(@RequestParam(value = "id") long id) {
         return userService.getOneUser(id);
     }
 
-    @PutMapping("/messages")
-    public List<Message> isChatChanged(@RequestBody List<Message> messages){
+    @PostMapping("/messages")
+    public List<Message> isChatChanged(@RequestBody List<Message> messages) {
         return messageService.isChatChanged(messages);
     }
 
@@ -42,14 +46,14 @@ public class MessageController {
     }
 
     @PutMapping("/msg")
-    public Message changeMessage(@AuthenticationPrincipal User user, @RequestParam(value = "id")long id,
-                                 @RequestBody Message message){
-      return   messageService.changeMessage(message,id, user);
+    public Message changeMessage(@AuthenticationPrincipal User user, @RequestParam(value = "id") long id,
+                                 @RequestBody Message message) {
+        return messageService.changeMessage(message, id, user);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/msg")
-    public List<Message> deleteMessage(@RequestParam(value = "id") long id){
+    public List<Message> deleteMessage(@RequestParam(value = "id") long id) {
         return messageService.deleteMessage(id);
     }
 
@@ -81,25 +85,27 @@ public class MessageController {
     }
 
     @PostMapping("/send_request_to_support")
-    public Message sendRequestToSupport(@RequestBody Message message){
+    public Message sendRequestToSupport(@RequestBody Message message) {
         return messageService.sendRequestToSupport(message);
     }
 
     @GetMapping("/announcements")
-    public List<Message> getAllAnnouncements(){
+    public List<Message> getAllAnnouncements() {
         return messageService.getAllAnnouncements();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/announcements")
-    public Message createAnnouncement(@AuthenticationPrincipal User user, @RequestBody Message message){
+    public Message createAnnouncement(@AuthenticationPrincipal User user, @RequestBody Message message) {
         return messageService.createAnnouncement(user, message);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/announcements")
-    public Message changeAnnouncement(@AuthenticationPrincipal User user, @RequestParam(value = "id")long id,
-                                      @RequestBody Message message){
-       return messageService.changeAnnouncement(message,id,user);
+    public Message changeAnnouncement(@AuthenticationPrincipal User user, @RequestParam(value = "id") long id,
+                                      @RequestBody Message message) {
+        return messageService.changeAnnouncement(message, id, user);
     }
+
+
 }

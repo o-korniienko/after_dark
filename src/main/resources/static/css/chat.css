@@ -1,15 +1,14 @@
 .messages{
     width: 80%;
     position: relative;
-    margin-top: 25px;
     left: 10%;
+    margin-top: 25px;
     background-color: khaki;
 }
 .sending{
-    width: 80%;
-    position: relative;
-    margin-top: 5px;
+    position:relative;
     left: 10%;
+    margin-top: 5px;
 }
 #newMessage{
     width: 50%;
@@ -55,5 +54,53 @@
 .usr_message{
    color: orangered;
    line-height: 25px;
+}
+
+#content{
+    width:80%;
+    height:100%;
+    display:block;
+    float:right;
+
+}
+
+.menu{
+    width:10%;
+    background-color:khaki;
+    height:100%;
+    display:block;
+    float:left;
+
+}
+
+.unCheckedChat{
+    background-color:#6cacc5;
+    color:orangered;
+    position:relative;
+    font-size:12px;
+}
+
+.btn-group button {
+    border: 1px solid green;
+    padding: 10px 24px; /
+    cursor: pointer;
+    width: 100%;
+    display: block;
+}
+
+.plus_chat{
+    background-color:#6cacc5;
+    color:orangered;
+    position:relative;
+    font-size:20px;
+
+}
+
+.checkedChat{
+    background-color:red;
+    color:teal;
+    position:relative;
+    font-size:16px;
+
 }
 
